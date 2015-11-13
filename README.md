@@ -17,7 +17,7 @@
 
 ### 截图
 
-<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/screenshot.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
+<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/ganhuoqun.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
 
 ### <<给Android开发者的RxJava详解>> 文章预览
 我从去年开始使用 RxJava ，到现在一年多了。今年加入了 Flipboard 后，看到 Flipboard 的 Android 项目也在使用 RxJava ，并且使用的场景越来越多 。而最近这几个月，我也发现国内越来越多的人开始提及 RxJava 。有人说『RxJava 真是太好用了』，有人说『RxJava 真是太难用了』，另外更多的人表示：我真的百度了也谷歌了，但我还是想问： RxJava 到底是什么？
