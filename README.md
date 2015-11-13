@@ -6,9 +6,10 @@
 
 ### 说明
 
-感谢扔物线写出如此认真的作品
+感谢扔物线写出如此认真的作品!
+<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/app/src/main/res/mipmap-xhdpi/rengwuxian.jpg' width="80px" style='border: #f1f1f1 solid 1px'/></div>
 
-因为接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.
+最近正好有时间,边读文章,边将文章中的例子敲成代码.因为接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.
 
 ### 截图
 
