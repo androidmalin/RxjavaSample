@@ -48,8 +48,8 @@ public class MainActivity extends Activity {
         Logger.init(TAG_FOR_LOGGER);
         setContentView(R.layout.activity_main);
         DeviceInfo.getInstance().initScreenInfo(this);
-        miZhiSuoJin();
-//        rxJavaVeryCool();
+//        miZhiSuoJin();
+        rxJavaVeryCool();
 //        show();
 //        fun0();
 //        fun1();
