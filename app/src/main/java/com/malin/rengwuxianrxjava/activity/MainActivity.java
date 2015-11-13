@@ -6,10 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.malin.rengwuxianrxjava.R;
+import com.malin.rengwuxianrxjava.constant.Constant;
 import com.malin.rengwuxianrxjava.data.Course;
 import com.malin.rengwuxianrxjava.data.DataFactory;
 import com.malin.rengwuxianrxjava.data.ImageNameFactory;
@@ -37,6 +40,7 @@ public class MainActivity extends Activity {
     private ImageView mImageView;
     private Bitmap manyBitmapSuperposition = null;
     private Canvas canvas = null;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +48,9 @@ public class MainActivity extends Activity {
         Logger.init(TAG_FOR_LOGGER);
         setContentView(R.layout.activity_main);
         DeviceInfo.getInstance().initScreenInfo(this);
-//        miZhiSuoJin();
-        rxJavaVeryCool();
+        miZhiSuoJin();
+//        rxJavaVeryCool();
+//        show();
 //        fun0();
 //        fun1();
 //        fun2();
@@ -101,6 +106,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
                         mImageView.setImageBitmap(manyBitmapSuperposition);
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
 
@@ -110,9 +116,9 @@ public class MainActivity extends Activity {
 
 
     /**
-     * 将多张图片绘制到一个画布上
+     * 就是循环在画布上画图,呈现一种整齐的线性分布:像方格
      * @param bitmap:每张图片对应的Bitamp
-     * @param counter:循环次数
+     * @param counter:一个自增的整数从0开始
      */
     private void createSingleImageFromMultipleImages(Bitmap bitmap,int counter){
         if (counter==0){
@@ -120,7 +126,96 @@ public class MainActivity extends Activity {
             canvas = new Canvas(manyBitmapSuperposition);
         }
         if (canvas!=null){
-            canvas.drawBitmap(bitmap, counter * DeviceInfo.screenWidthForPortrait/12, counter * DeviceInfo.screenWidthForPortrait/12, null);
+            int left;//距离左边的距离
+            int top;//距离顶部的距离
+            int imageWidth = Constant.imageWith;
+            int imageHeight = Constant.imageHeight;
+            int number = DeviceInfo.screenHeightForPortrait/imageWidth;//10
+            if (counter>=(counter/number)*number&&counter<(((counter/number)+1)*number)){//[0,10)
+                left = (counter/number)*imageWidth;
+                top =(counter%number)*imageHeight;
+                Log.d(TAG,""+counter+" left="+left+" top="+top);
+                canvas.drawBitmap(bitmap, left, top, null);
+            }
+        }
+    }
+
+
+    /**
+     * 用于测试除法和取余
+     */
+    private void showMath(){
+        String TAG = "Math";
+        for (int i = 0;i<100;i++){
+            int ss = i/10;
+            int ww = i%10;
+            Log.d("gggg",i+"/10 =="+ss);
+            Log.d("wwww",i+"%10 =="+ww);
+        }
+    }
+
+
+    /**
+     * 这个方法是对createSingleImageFromMultipleImages()方法的分部解释
+     * @param bitmap
+     * @param counter
+     */
+    private void createSingleImageFromMultipleImagesDetail(Bitmap bitmap,int counter){
+        if (counter==0){
+            manyBitmapSuperposition = Bitmap.createBitmap(DeviceInfo.screenWidthForPortrait, DeviceInfo.screenHeightForPortrait, bitmap.getConfig());
+            canvas = new Canvas(manyBitmapSuperposition);
+        }
+        if (canvas!=null){
+            int left = 0;
+            int top = 0;
+            int imageWidth = 192;
+            int number = DeviceInfo.screenHeightForPortrait/imageWidth;//10
+            if (counter>=0&&counter<number){//[0,10)
+                //TODO:0:
+                left = 0;
+                top = counter*imageWidth;
+
+            }else if (counter>=number&&counter<2*number){//[10,19]
+                //TODO:1:
+                left = imageWidth;
+                top = (counter-number)*imageWidth;
+
+            }else if (counter>=2*number&&counter<3*number){//[20,29]
+                //TODO:2:
+                left = 2*imageWidth;
+                top = (counter-2*number)*imageWidth;
+
+            }else if (counter>=3*number&&counter<4*number){//[30,49]
+                //TODO:3:
+                left = 3*imageWidth;
+                top = (counter-3*number)*imageWidth;
+
+            }else if (counter>=4*number&&counter<5*number){//[40,59]
+                //TODO:4:
+                left = 4*imageWidth;
+                top = (counter-4*number)*imageWidth;
+
+            }else if (counter>=5*number&&counter<6*number){//[60,69]
+                //TODO:5:
+                left = 5*imageWidth;
+                top = (counter-5*number)*imageWidth;
+
+            }else if (counter>=6*number&&counter<7*number){//[70,79]
+                //TODO:6:
+                left = 6*imageWidth;
+                top = (counter-6*number)*imageWidth;
+
+            }else if (counter>=7*number&&counter<8*number){//[80,89]
+                //TODO:7:
+                left = 7*imageWidth;
+                top = (counter-7*number)*imageWidth;
+
+            }else if (counter>=8*number&&counter<9*number){//[90,99]
+                //TODO:8:
+                left = 8*imageWidth;
+                top = (counter-8*number)*imageWidth;
+            }
+            canvas.drawBitmap(bitmap, left, top, null);
         }
     }
 
@@ -130,6 +225,73 @@ public class MainActivity extends Activity {
     /**
      * fun000():使用RxJava实现
      */
+    private void rxJavaVeryCool0(){
+        //TODO:1:被观察者:
+
+        //TODO:2:数据转换
+
+        //TODO:3:设置事件的产生发生在IO线程
+
+        //TODO:4:设置事件的消费发生在主线程
+
+        //TODO:5:观察者
+
+        //TODO:6:订阅:被观察者被观察者订阅
+
+        initView();
+        Observable.from(ImageNameFactory.getAssetImageFolderName())
+                //asset下一个文件夹的名称,asset下一个文件夹中一张图片的路径
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String folderName) {
+                        return Observable.from(ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName));
+                    }
+                })
+                        //过滤,筛选出png图片
+                .filter(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String imagePathNameAll) {
+                        return imagePathNameAll.endsWith(".jpg")||imagePathNameAll.endsWith(".png");
+                    }
+                })
+                        //将图片路径转换为对应图片的Bitmap
+                .map(new Func1<String, Bitmap>() {
+                    @Override
+                    public Bitmap call(String imagePathName) {
+                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName);
+                    }
+                })
+                .subscribeOn(Schedulers.io())//设置事件的产生发生在IO线程
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //TODO:显示进度条
+
+
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//设置事件的消费发生在主线程
+                .subscribe(new Subscriber<Bitmap>() {
+                    @Override
+                    public void onCompleted() {
+                        mImageView.setImageBitmap(manyBitmapSuperposition);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(MainActivity.this, "Error:"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Logger.d("Error:"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Bitmap bitmap) {
+                        // Logger.d("观察者:onNext(Bitmap bitmap) " + counter + ":" + bitmap.toString());
+                        createSingleImageFromMultipleImages(bitmap, counter);
+                        counter++;
+                    }
+                });
+    }
+
     private void rxJavaVeryCool(){
         //TODO:1:被观察者:
 
@@ -156,7 +318,7 @@ public class MainActivity extends Activity {
                 .filter(new Func1<String, Boolean>() {
                     @Override
                     public Boolean call(String imagePathNameAll) {
-                        return imagePathNameAll.endsWith(".jpg");
+                        return imagePathNameAll.endsWith(".jpg")||imagePathNameAll.endsWith(".png");
                     }
                 })
                 //将图片路径转换为对应图片的Bitmap
@@ -166,25 +328,37 @@ public class MainActivity extends Activity {
                         return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName);
                     }
                 })
+                .map(new Func1<Bitmap, Void>() {
+                    @Override
+                    public Void call(Bitmap bitmap) {
+                        createSingleImageFromMultipleImages(bitmap, counter);
+                        counter++;
+                        return null;
+                    }
+                })
                 .subscribeOn(Schedulers.io())//设置事件的产生发生在IO线程
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())//设置事件的消费发生在主线程
-                .subscribe(new Subscriber<Bitmap>() {
+                .subscribe(new Subscriber<Void>() {
                     @Override
                     public void onCompleted() {
                         mImageView.setImageBitmap(manyBitmapSuperposition);
+                        mProgressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(MainActivity.this, "Error:"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Logger.d("Error:"+e.getMessage());
+
                     }
 
                     @Override
-                    public void onNext(Bitmap bitmap) {
-                       // Logger.d("观察者:onNext(Bitmap bitmap) " + counter + ":" + bitmap.toString());
-                        createSingleImageFromMultipleImages(bitmap, counter);
-                        counter++;
+                    public void onNext(Void aVoid) {
+
                     }
                 });
     }
@@ -727,6 +901,7 @@ public class MainActivity extends Activity {
      */
     private void initView() {
         mImageView = (ImageView) findViewById(R.id.iv_image);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
     }
 
 
