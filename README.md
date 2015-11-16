@@ -22,7 +22,7 @@
 <div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
 
 ### [秋白万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
->代码情诗(一)
+>代码情诗(一)<br/>
 >旧金山的下着雨的星期天<br/>
 >我检出了多年前的老项目<br/>
 >看到了代码片段中的注释里<br/>
