@@ -10,6 +10,7 @@ public class ImageNameFactory {
     private static final String FOLDER_NAME_ONE = "guangtouge";
     private static final String FOLDER_NAME_TWO = "paowuxian";
     private static final String FOLDER_NAME_THREE = "rengwuxian";
+    private static final String FOLDER_NAME_FOUR = "thisisdaimajiagirlfriends";
 
     /**
      * 获取asset目录下的文件夹的名称集合
@@ -20,6 +21,7 @@ public class ImageNameFactory {
         assetsFolderNameList.add(FOLDER_NAME_ONE);
         assetsFolderNameList.add(FOLDER_NAME_TWO);
         assetsFolderNameList.add(FOLDER_NAME_THREE);
+        assetsFolderNameList.add(FOLDER_NAME_FOUR);
         return assetsFolderNameList;
     }
 }
