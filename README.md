@@ -17,7 +17,7 @@
 
 ### 截图
 
-<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/ganhuoqun.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
+<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
 
 ### APK
 [APK下载](https://raw.githubusercontent.com/androidmalin/RengwuxianRxjava/master/apk/rengwuxianrxjava.apk)<br/>
