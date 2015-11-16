@@ -15,7 +15,7 @@
 
 最近正好有时间,边读文章,边将文章中的例子敲成代码.因为接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.
 
-### 截图
+### 截图--代码家和他的男朋友
 
 <div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
 
