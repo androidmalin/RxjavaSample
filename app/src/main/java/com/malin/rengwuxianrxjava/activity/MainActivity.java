@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
                     ArrayList<String> imagePathList = ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName);
                     for (final String imagePathName : imagePathList) {
                         if (imagePathName.endsWith(".jpg")) {
-                            final Bitmap bitmap = ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName);
+                            final Bitmap bitmap = ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName,Constant.imageWith,Constant.imageHeight);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -258,7 +258,7 @@ public class MainActivity extends Activity {
                 .map(new Func1<String, Bitmap>() {
                     @Override
                     public Bitmap call(String imagePathName) {
-                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName);
+                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName,Constant.imageWith,Constant.imageHeight);
                     }
                 })
                 .subscribeOn(Schedulers.io())//设置事件的产生发生在IO线程
@@ -325,7 +325,7 @@ public class MainActivity extends Activity {
                 .map(new Func1<String, Bitmap>() {
                     @Override
                     public Bitmap call(String imagePathName) {
-                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName);
+                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName,Constant.imageWith,Constant.imageHeight);
                     }
                 })
                 .map(new Func1<Bitmap, Void>() {
