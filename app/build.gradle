@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.malin.rengwuxianrxjava"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 //add for logger
 repositories {
@@ -24,10 +27,9 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:19.0.0'
     compile 'io.reactivex:rxjava:1.0.15'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.github.orhanobut:logger:1.12'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
 }

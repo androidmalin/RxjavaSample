@@ -1,10 +1,7 @@
 package com.malin.rengwuxianrxjava.utils;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.util.DisplayMetrics;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * 手机设备的信息
