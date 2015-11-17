@@ -13,11 +13,11 @@
 [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
 
 ### 致谢
-[扔物线](https://github.com/rengwuxian)写出如此认真的作品!<br/>
-[代码家](https://github.com/daimajia)建立的伟大的干货群<br/>
-[秋百万](https://github.com/liaohuqiu)写出感情丰富的诗歌<br/>
-[大头鬼](https://github.com/lzyzsd)[著名全栈工程师,RxJava教父](http://www.zhihu.com/question/35511144/answer/68098032)<br/>
-[Ailurus](https://github.com/liangzhitao)非著名全栈工程师<br/>
+[扔物线](https://github.com/rengwuxian)<br/>
+[代码家](https://github.com/daimajia)<br/>
+[秋百万](https://github.com/liaohuqiu)<br/>
+[大头鬼](https://github.com/lzyzsd)<br/>
+[Ailurus](https://github.com/liangzhitao)<br/>
 
 <div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/app/src/main/res/mipmap-xhdpi/rengwuxian.jpg' width="80px" style='border: #f1f1f1 solid 1px'/></div>
 
