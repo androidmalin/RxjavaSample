@@ -1,8 +1,8 @@
-# 用Rxjava实现代码家和他的男女朋友-RxJavaPaoWuXianArticleSample
+# 用Rxjava实现代码家和他的男女闺蜜
 扔物线[给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)文章中的例子
 
 ###说明
-最近正好有时间,边读文章,边将文章中的例子敲成代码.因为接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.
+最近正好有时间,边读文章,边将文章中的例子敲成代码.因为接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.<br/>
 
 ### 链接
 [扔物线 给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)<br/>
@@ -10,18 +10,23 @@
 [扔物线博客](http://www.rengwuxian.com)<br/>
 [扔物线Dagger源码解析](http://a.codekk.com/detail/Android/%E6%89%94%E7%89%A9%E7%BA%BF/Dagger%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90)<br/>
 [扔物线<<埋头苦干的一年>>](https://github.com/aosp-exchange-group/fuck-2014-flirt-2015/blob/master/1/rengwuxian.md)<br/>
-[秋白万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
+[秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
 
 ### 致谢
-感谢[扔物线](https://github.com/rengwuxian)写出如此认真的作品!感谢[代码家](https://github.com/daimajia)!感谢[秋白万](https://github.com/liaohuqiu)
+[扔物线](https://github.com/rengwuxian)写出如此认真的作品!<br/>
+[代码家](https://github.com/daimajia)建立的伟大的干货群<br/>
+[秋百万](https://github.com/liaohuqiu)写出感情丰富的诗歌<br/>
+[大头鬼](https://github.com/lzyzsd)[著名全栈工程师,RxJava教父](http://www.zhihu.com/question/35511144/answer/68098032)<br/>
+[梁志涛](https://github.com/liangzhitao)活跃的开发者<br/>
+
 <div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/app/src/main/res/mipmap-xhdpi/rengwuxian.jpg' width="80px" style='border: #f1f1f1 solid 1px'/></div>
 
 
-### 截图--代码家和他的男女朋友
+### 截图--代码家和他的男女闺蜜们
 
 <div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
 
-### [秋白万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
+### [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
 >代码情诗(一)<br/>
 >旧金山的下着雨的星期天<br/>
 >我检出了多年前的老项目<br/>
