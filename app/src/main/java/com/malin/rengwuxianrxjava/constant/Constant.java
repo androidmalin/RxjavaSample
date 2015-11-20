@@ -1,7 +1,9 @@
 package com.malin.rengwuxianrxjava.constant;
 
 /**
- * Created by malin on 15-11-13.
+ * @description 全局常量
+ * @author malin.myemail@gmail.com
+ * @since 15-11-13.
  */
 public class Constant {
     public static final int imageWith = 91;//px

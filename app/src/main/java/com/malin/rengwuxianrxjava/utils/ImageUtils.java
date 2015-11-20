@@ -15,9 +15,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+
 /**
- * @author malin
- * @data 15-11-11.
+ * @description 图片处理类
+ * @author malin.myemail@gmail.com
+ * @since 15-11-11.
  */
 public class ImageUtils {
 

@@ -3,7 +3,9 @@ package com.malin.rengwuxianrxjava.data;
 import java.util.ArrayList;
 
 /**
- * Created by malin on 15-11-10.
+ * @description 获取学生集合
+ * @author malin.myemail@gmail.com
+ * @since 15-11-10.
  */
 public class DataFactory {
 

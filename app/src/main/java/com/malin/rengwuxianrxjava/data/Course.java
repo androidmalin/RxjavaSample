@@ -1,7 +1,9 @@
 package com.malin.rengwuxianrxjava.data;
 
 /**
- * Created by malin on 15-11-10.
+ * @description 课程类
+ * @author malin.myemail@gmail.com
+ * @since 15-11-13.
  */
 public class Course {
 

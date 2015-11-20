@@ -3,7 +3,9 @@ package com.malin.rengwuxianrxjava.data;
 import java.util.ArrayList;
 
 /**
- * Created by malin on 15-11-11.
+ * @description 获取图片文件夹类
+ * @author malin.myemail@gmail.com
+ * @since 15-11-10.
  */
 public class ImageNameFactory {
 

@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.util.DisplayMetrics;
 
 /**
- * 手机设备的信息
- * @author malin
- *
+ * @description 手机设备的信息
+ * @author malin.myemail@gmail.com
+ * @since 15-11-10.
  */
 public class DeviceInfo {
 
