@@ -47,6 +47,7 @@ public class MainActivity extends Activity {
     private Canvas canvas = null;
     private ProgressBar mProgressBar;
 
+    //使用com.github.orhanobut:logger 库可以查看当前日志输出所处的线程
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -524,12 +525,14 @@ public class MainActivity extends Activity {
                 subscriber.onNext(drawable);
                 subscriber.onCompleted();
             }
-        }).subscribeOn(Schedulers.io())//事件产生的线程。指定 subscribe() 发生在 IO 线程
+        })
+                .subscribeOn(Schedulers.io())//事件产生的线程。指定 subscribe() 发生在 IO 线程
                 .observeOn(AndroidSchedulers.mainThread())//指定 Subscriber 所运行在的线程。或者叫做事件消费的线程
                 .subscribe(new Subscriber<Drawable>() {   //TODO:3:订阅 //TODO:2:观察者
                     @Override
                     public void onCompleted() {
                         Logger.d("观察者 onCompleted()");
+                        mProgressBar.setVisibility(View.GONE);
                         Toast.makeText(MainActivity.this, "观察者 onCompleted()", Toast.LENGTH_SHORT).show();
                     }
 
@@ -571,7 +574,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void onCompleted() {
                         Logger.d("观察者:onCompleted()");
-
+                        mProgressBar.setVisibility(View.GONE);
                     }
 
                     @Override
