@@ -41,6 +41,7 @@ import rx.schedulers.Schedulers;
  * @description 活动主页面
  * @author malin.myemail@gmail.com
  * @since 15-11-10.
+ * @link 日志查看 推荐 https://github.com/orhanobut/logger;https://github.com/JakeWharton/pidcat;
  */
 public class MainActivity extends Activity {
     private static final String TAG = "Reng_wu_xian";
@@ -59,8 +60,8 @@ public class MainActivity extends Activity {
         Logger.init(TAG_FOR_LOGGER).logLevel(LogLevel.FULL);//Use LogLevel.NONE for the release versions.
         setContentView(R.layout.activity_main);
         DeviceInfo.getInstance().initScreenInfo(this);
-        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-//        rxJavaVeryCool();//使用RxJava解决问题
+//        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
+        rxJavaVeryCool();//使用RxJava解决问题
 //        fun0();//基本使用
 //        fun1();
 //        fun2();
@@ -176,7 +177,7 @@ public class MainActivity extends Activity {
             if (counter>=(counter/number)*number&&counter<(((counter/number)+1)*number)){//[0,number)
                 left = (counter/number)*imageWidth;
                 top =(counter%number)*imageHeight;
-                Log.d(TAG,""+counter+" left="+left+" top="+top);
+               // Log.d(TAG,""+counter+" left="+left+" top="+top);
 
                 //TODO:5:将Bitmap画到指定坐标
                 canvas.drawBitmap(bitmap, left, top, null);
