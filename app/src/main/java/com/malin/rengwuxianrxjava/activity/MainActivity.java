@@ -3,6 +3,9 @@ package com.malin.rengwuxianrxjava.activity;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +22,12 @@ import com.malin.rengwuxianrxjava.data.ImageNameFactory;
 import com.malin.rengwuxianrxjava.data.Student;
 import com.malin.rengwuxianrxjava.utils.DeviceInfo;
 import com.malin.rengwuxianrxjava.utils.ImageUtils;
+import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 
 import rx.Observable;
 import rx.Observer;
@@ -36,12 +42,13 @@ import rx.schedulers.Schedulers;
  * @description 活动主页面
  * @author malin.myemail@gmail.com
  * @since 15-11-10.
+ * @link
  */
 public class MainActivity extends Activity {
     private static final String TAG = "Reng_wu_xian";
     private static final String TAG_FOR_LOGGER = "I_LOVE_RXJAVA";
     private static final String JPG = ".jpg";
-    private int counter;
+    private int counter;//循环的计数器
     private ImageView mImageView;
     private Bitmap manyBitmapSuperposition = null;
     private Canvas canvas = null;
@@ -54,9 +61,9 @@ public class MainActivity extends Activity {
         Logger.init(TAG_FOR_LOGGER);
         setContentView(R.layout.activity_main);
         DeviceInfo.getInstance().initScreenInfo(this);
-//        miZhiSuoJin();
-          rxJavaVeryCool();
-//        fun0();
+        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
+//        rxJavaVeryCool();//使用RxJava解决问题
+//        fun0();//基本使用
 //        fun1();
 //        fun2();
 //        fun3();
@@ -75,27 +82,44 @@ public class MainActivity extends Activity {
 
     //-----------------------------------TODO:谜之缩进--嵌套循环--回调地狱 -----------------------------------------------------------
     /**
-     * 实现的功能:输出asset文件夹下所有文件夹中的png图片的信息,没有实际的用处,只是为了说明问题--- 谜之缩进--嵌套循环--回调地狱
-     * RxJava 初体验
+     * 实现的功能:获取assets文件夹下所有文件夹中的jpg图片,并且将所有的图片画到一个ImageView上,没有实际的用处,只是为了说明问题--- 谜之缩进--嵌套循环--回调地狱
      * 不使用RxJava的写法-- 谜之缩进--回调地狱
      */
+    //思路:需要以下6个步骤完成
+    //TODO:1:遍历获取assets文件夹下所有的文件夹的名称
+    //TODO:2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
+    //TODO:3:过滤掉非JPG格式的图片
+    //TODO:4:获取某个路径下图片的bitmap
+    //TODO:5:将Bitmap绘制到画布上
+    //TODO:6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
 
-    private void miZhiSuoJin() {
+
+    private void miZhiSuoJinAndNestedLoopAndCallbackHell() {
         initView();
         new Thread(new Runnable() {
             @Override
             public void run() {
+                //TODO:1:遍历获取assets文件夹下所有的文件夹的名称
                 ArrayList<String> assetsFolderNameList = ImageNameFactory.getAssetImageFolderName();
+
                 for (String folderName : assetsFolderNameList) {
+
+                    //TODO:2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
                     ArrayList<String> imagePathList = ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName);
+
                     for (final String imagePathName : imagePathList) {
+                        //TODO:3:过滤掉非JPG格式的图片
                         if (imagePathName.endsWith(JPG)) {
+
+                            //TODO:4:获取某个路径下图片的bitmap
                             final Bitmap bitmap = ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName,Constant.imageWith,Constant.imageHeight);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Logger.d(counter + ":" + bitmap.toString());
+
                                     Logger.d(counter+":"+imagePathName);
+
+                                    //TODO:5:将Bitmap绘制到画布上
                                     createSingleImageFromMultipleImages(bitmap, counter);
                                     counter++;
 
@@ -106,7 +130,7 @@ public class MainActivity extends Activity {
                 }
 
 
-                //TODO:循环结束后
+                //TODO:6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -125,21 +149,38 @@ public class MainActivity extends Activity {
      * @param bitmap:每张图片对应的Bitamp
      * @param counter:一个自增的整数从0开始
      */
+    //实现思路:
+    //TODO:1:产生和手机屏幕尺寸同样大小的Bitmap
+    //TODO:2:以Bitmap对象创建一个画布，则将内容都绘制在Bitmap上
+    //TODO:3:这里将所有图片压缩成了相同的尺寸均为正方形图(91px*91px)
+    //TODO:4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
+    //TODO:5:将Bitmap画到指定坐标
+
+
     private void createSingleImageFromMultipleImages(Bitmap bitmap,int counter){
         if (counter==0){
+            //TODO:1:产生和手机屏幕尺寸同样大小的Bitmap
             manyBitmapSuperposition = Bitmap.createBitmap(DeviceInfo.screenWidthForPortrait, DeviceInfo.screenHeightForPortrait, bitmap.getConfig());
+
+           //TODO:2:以Bitmap对象创建一个画布，则将内容都绘制在Bitmap上
             canvas = new Canvas(manyBitmapSuperposition);
         }
         if (canvas!=null){
             int left;//距离左边的距离
             int top;//距离顶部的距离
+
+            //TODO:3:这里将所有图片压缩成了相同的尺寸均为正方形图(91px*91px)
             int imageWidth = Constant.imageWith;
             int imageHeight = Constant.imageHeight;
-            int number = DeviceInfo.screenHeightForPortrait/imageWidth;//10
-            if (counter>=(counter/number)*number&&counter<(((counter/number)+1)*number)){//[0,10)
+            int number = DeviceInfo.screenHeightForPortrait/imageHeight;//手机竖屏模式下,垂直方向上绘制图片的个数
+
+            //TODO:4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
+            if (counter>=(counter/number)*number&&counter<(((counter/number)+1)*number)){//[0,number)
                 left = (counter/number)*imageWidth;
                 top =(counter%number)*imageHeight;
                 Log.d(TAG,""+counter+" left="+left+" top="+top);
+
+                //TODO:5:将Bitmap画到指定坐标
                 canvas.drawBitmap(bitmap, left, top, null);
             }
         }
@@ -179,7 +220,7 @@ public class MainActivity extends Activity {
 
         initView();
         Observable.from(ImageNameFactory.getAssetImageFolderName())
-                //asset下一个文件夹的名称,asset下一个文件夹中一张图片的路径
+                //assets下一个文件夹的名称,assets下一个文件夹中一张图片的路径
                 .flatMap(new Func1<String, Observable<String>>() {
                     @Override
                     public Observable<String> call(String folderName) {
@@ -225,7 +266,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -238,9 +279,9 @@ public class MainActivity extends Activity {
 
 //-----------------------------------------------//TODO:RxJava基础练习-----------------------------------------------------------
     //TODO:概念解释
-    //TODO:被观察者,事件源:它决定什么时候触发事件以及触发怎样的事件
-    //TODO:观察者:它决定事件触发的时候将有怎样的行为
-    //TODO:订阅
+    //TODO:1:被观察者,事件源:它决定什么时候触发事件以及触发怎样的事件
+    //TODO:2:观察者:它决定事件触发的时候将有怎样的行为
+    //TODO:3:订阅
     private void fun0() {
 
         //TODO:1:被观察者,事件源
@@ -783,6 +824,29 @@ public class MainActivity extends Activity {
      * 故意让程序出现异常,可以用来测试
      */
     private void getException() {
-        int errorCode = Integer.valueOf("故意让程序保存的");
+        int errorCode = Integer.valueOf("故意让程序出错");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Logger.d("onDestroy");
+        //回收ImageView占用的图像内存
+        RecycleBitmap.recycleImageView(mImageView);
+
+        if (manyBitmapSuperposition!=null&&!manyBitmapSuperposition.isRecycled()){
+            manyBitmapSuperposition.recycle();
+            manyBitmapSuperposition=null;
+        }
+
+        //@link http://blog.csdn.net/yanzi1225627/article/details/8236309
+        if (canvas!=null){
+            //清屏
+            Paint paint = new Paint();
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            canvas.drawPaint(paint);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
+            canvas=null;
+        }
     }
 }

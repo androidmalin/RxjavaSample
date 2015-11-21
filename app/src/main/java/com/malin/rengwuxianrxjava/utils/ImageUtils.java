@@ -162,7 +162,7 @@ public class ImageUtils {
     }
 
     /**
-     * 获取asset下某个文件夹中所有图片路径的集合
+     * 获取assets文件夹下某个文件夹中所有图片路径的集合
      *
      * 例如:assets/paowuxian 这个目录下的图片路径的集合
      * {
