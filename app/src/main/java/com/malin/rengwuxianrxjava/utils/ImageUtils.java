@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 public class ImageUtils {
 
-    private static final String TAG = "ZhuKai_I_Love_RxJava";
+    private static final String TAG = "PaoWuXian_RxJava";
     /**
      * 从assets文件夹中获取制定路径的图片的Bitmap
      * @param context:上下文
@@ -61,7 +61,7 @@ public class ImageUtils {
             return null;
         }
         opts.inSampleSize = calculateInSampleSiez(opts, reqWidth, reqHeight);
-        Log.d(TAG,""+opts.inSampleSize);
+       // Log.d(TAG,""+opts.inSampleSize);
         opts.inJustDecodeBounds = false;
         opts.inPreferredConfig = Bitmap.Config.RGB_565;
         opts.inPurgeable = true;
@@ -91,7 +91,7 @@ public class ImageUtils {
                 }
             }
         }
-        Log.d(TAG,"w:"+bitmap.getWidth()+" h:"+bitmap.getHeight());
+        //Log.d(TAG,"w:"+bitmap.getWidth()+" h:"+bitmap.getHeight());
         if (bitmap!=null){
             bitmap = Bitmap.createScaledBitmap(bitmap,reqWidth,reqHeight,true);
         }
@@ -128,38 +128,6 @@ public class ImageUtils {
         return inSampleSize;
     }
 
-
-    /**
-     * 未优化的方法
-     * @param context
-     * @param imagePathName
-     * @return
-     */
-
-    public static Bitmap getImageBitmapFromAssetsFolderThroughImagePathName(Context context, String imagePathName) {
-        Bitmap bitmap = null;
-        AssetManager assetManager = context.getResources().getAssets();
-        InputStream is = null;
-        try {
-            is = assetManager.open(imagePathName);
-            if (is!=null){
-                bitmap = BitmapFactory.decodeStream(is);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }finally {
-            try {
-                if (is!=null){
-                    is.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return bitmap.createScaledBitmap(bitmap, Constant.imageWith, Constant.imageHeight,true);
-    }
 
     /**
      * 获取assets文件夹下某个文件夹中所有图片路径的集合

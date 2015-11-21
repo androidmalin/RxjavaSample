@@ -23,11 +23,10 @@ import com.malin.rengwuxianrxjava.data.Student;
 import com.malin.rengwuxianrxjava.utils.DeviceInfo;
 import com.malin.rengwuxianrxjava.utils.ImageUtils;
 import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
+import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 
 import rx.Observable;
 import rx.Observer;
@@ -42,7 +41,6 @@ import rx.schedulers.Schedulers;
  * @description 活动主页面
  * @author malin.myemail@gmail.com
  * @since 15-11-10.
- * @link
  */
 public class MainActivity extends Activity {
     private static final String TAG = "Reng_wu_xian";
@@ -54,11 +52,11 @@ public class MainActivity extends Activity {
     private Canvas canvas = null;
     private ProgressBar mProgressBar;
 
-    //使用com.github.orhanobut:logger 库可以查看当前日志输出所处的线程
+    //@link https://github.com/orhanobut/logger 使用com.github.orhanobut:logger 库可以查看当前日志输出所处的线程
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.init(TAG_FOR_LOGGER);
+        Logger.init(TAG_FOR_LOGGER).logLevel(LogLevel.FULL);//Use LogLevel.NONE for the release versions.
         setContentView(R.layout.activity_main);
         DeviceInfo.getInstance().initScreenInfo(this);
         miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
