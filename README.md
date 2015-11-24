@@ -45,15 +45,15 @@
 
 
 ### 使用到的开源项目
-[rxjava](https://github.com/ReactiveX/RxJava)
-[rxandroid](https://github.com/ReactiveX/rxandroid)
-[logger](https://github.com/orhanobut/logger)
-[pidcat](https://github.com/JakeWharton/pidcat)
+[rxjava](https://github.com/ReactiveX/RxJava)<br/>
+[rxandroid](https://github.com/ReactiveX/rxandroid)<br/>
+[logger](https://github.com/orhanobut/logger)<br/>
+[pidcat](https://github.com/JakeWharton/pidcat)<br/>
 
 ### 参考的文章
 [扔物线 给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)<br/>
-[胡凯 高效加载大图](http://hukai.me/android-training-course-in-chinese/graphics/displaying-bitmaps/load-bitmap.html)
-[intbird Android OOM ,回收布局文件中ImageView占用的内存.Bitmap OOM回收解决.](http://blog.csdn.net/intbird/article/details/19905549)
+[胡凯 高效加载大图](http://hukai.me/android-training-course-in-chinese/graphics/displaying-bitmaps/load-bitmap.html)<br/>
+[intbird Android OOM ,回收布局文件中ImageView占用的内存.Bitmap OOM回收解决.](http://blog.csdn.net/intbird/article/details/19905549)<br/>
 
 
 
