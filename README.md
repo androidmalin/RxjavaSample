@@ -17,6 +17,8 @@
 [代码家](https://github.com/daimajia)<br/>
 [秋百万](https://github.com/liaohuqiu)<br/>
 [大头鬼](https://github.com/lzyzsd)<br/>
+[胡凯](https://github.com/kesenhoo)<br/>
+[任玉刚](https://github.com/singwhatiwanna)<br/>
 [Ailurus](https://github.com/liangzhitao)<br/>
 
 <div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/app/src/main/res/mipmap-xhdpi/rengwuxian.jpg' width="80px" style='border: #f1f1f1 solid 1px'/></div>
@@ -40,7 +42,19 @@
 ### APK
 [APK下载](https://raw.githubusercontent.com/androidmalin/RengwuxianRxjava/master/apk/rengwuxianrxjava.apk)<br/>
 
-###
+
+
+### 使用到的开源项目
+[rxjava](https://github.com/ReactiveX/RxJava)
+[rxandroid](https://github.com/ReactiveX/rxandroid)
+[logger](https://github.com/orhanobut/logger)
+[pidcat](https://github.com/JakeWharton/pidcat)
+
+### 参考的文章
+[扔物线 给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)<br/>
+[胡凯 高效加载大图](http://hukai.me/android-training-course-in-chinese/graphics/displaying-bitmaps/load-bitmap.html)
+[intbird Android OOM ,回收布局文件中ImageView占用的内存.Bitmap OOM回收解决.](http://blog.csdn.net/intbird/article/details/19905549)
+
 
 
 ###About me
