@@ -9,7 +9,7 @@
 [扔物线Github主页](https://github.com/rengwuxian)<br/>
 [扔物线博客](http://www.rengwuxian.com)<br/>
 [扔物线Dagger源码解析](http://a.codekk.com/detail/Android/%E6%89%94%E7%89%A9%E7%BA%BF/Dagger%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90)<br/>
-[扔物线<<埋头苦干的一年>>](https://github.com/aosp-exchange-group/fuck-2014-flirt-2015/blob/master/1/rengwuxian.md)<br/>
+[扔物线《埋头苦干的一年》](https://github.com/aosp-exchange-group/fuck-2014-flirt-2015/blob/master/1/rengwuxian.md)<br/>
 [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
 
 ### 致谢
