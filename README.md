@@ -28,6 +28,10 @@
 
 <div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
 
+### 视频--代码家和他的男女闺蜜们
+
+<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/video/1.mp4' width="300px" style='border: #f1f1f1 solid 1px'/></div>
+
 ### [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
 >代码情诗(一)<br/>
 >旧金山的下着雨的星期天<br/>

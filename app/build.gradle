@@ -31,6 +31,7 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
+    compile 'com.jakewharton.scalpel:scalpel:1.1.2'
     compile 'com.android.support:appcompat-v7:19.0.0'
     compile 'io.reactivex:rxjava:1.0.15'
     compile 'io.reactivex:rxandroid:1.0.1'

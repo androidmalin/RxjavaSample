@@ -9,11 +9,13 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.malin.rengwuxianrxjava.R;
 import com.malin.rengwuxianrxjava.constant.Constant;
 import com.malin.rengwuxianrxjava.data.Course;
@@ -52,13 +54,14 @@ public class MainActivity extends Activity {
     private Bitmap manyBitmapSuperposition = null;
     private Canvas canvas = null;
     private ProgressBar mProgressBar;
-
+    private ScalpelFrameLayout mScalpelFrameLayout;
     //@link https://github.com/orhanobut/logger 使用com.github.orhanobut:logger 库可以查看当前日志输出所处的线程
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Logger.init(TAG_FOR_LOGGER).logLevel(LogLevel.FULL);//Use LogLevel.NONE for the release versions.
-        setContentView(R.layout.activity_main);
+        initScalpelFrameLayout();
+        setContentView(mScalpelFrameLayout);
         DeviceInfo.getInstance().initScreenInfo(this);
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
         rxJavaVeryCool();//使用RxJava解决问题
@@ -79,6 +82,14 @@ public class MainActivity extends Activity {
 //        fun14();
     }
 
+    private void initScalpelFrameLayout(){
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_main,null);
+        mScalpelFrameLayout = new ScalpelFrameLayout(this);
+        mScalpelFrameLayout.setLayerInteractionEnabled(true);//Enable the 3D interaction
+        mScalpelFrameLayout.setDrawIds(true);//Toggle wireframe display
+        mScalpelFrameLayout.setDrawIds(true);// Toggle view ID display
+        mScalpelFrameLayout.addView(view);
+    }
     //-----------------------------------TODO:谜之缩进--嵌套循环--回调地狱 -----------------------------------------------------------
     /**
      * 实现的功能:获取assets文件夹下所有文件夹中的jpg图片,并且将所有的图片画到一个ImageView上,没有实际的用处,只是为了说明问题--- 谜之缩进--嵌套循环--回调地狱
@@ -145,12 +156,13 @@ public class MainActivity extends Activity {
 
     /**
      * 就是循环在画布上画图,呈现一种整齐的线性分布:像方格
+     * 所有绘制都绘制到了创建Canvas时传入的Bitmap上面
      * @param bitmap:每张图片对应的Bitamp
      * @param counter:一个自增的整数从0开始
      */
     //实现思路:
     //TODO:1:产生和手机屏幕尺寸同样大小的Bitmap
-    //TODO:2:以Bitmap对象创建一个画布，则将内容都绘制在Bitmap上
+    //TODO:2:以Bitmap对象创建一个画布，将内容都绘制在Bitmap上,这个Bitmap用来存储所有绘制在Canvas上的像素信息.
     //TODO:3:这里将所有图片压缩成了相同的尺寸均为正方形图(91px*91px)
     //TODO:4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
     //TODO:5:将Bitmap画到指定坐标
@@ -265,7 +277,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

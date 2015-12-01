@@ -41,6 +41,7 @@ public class ImageUtils {
 
         try {
             inputStream = assetManager.open(imagePathName);
+            inputStream.mark(Integer.MAX_VALUE);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -49,6 +50,7 @@ public class ImageUtils {
         try {
             if (inputStream != null) {
                 BitmapFactory.decodeStream(inputStream,null,opts);
+                inputStream.reset();
             } else {
                 return null;
             }
