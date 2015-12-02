@@ -28,7 +28,7 @@
 
 ### 截图--代码家和他的男女闺蜜们
 
-<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
+<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends_team.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
 
 ### 视频--代码家和他的男女闺蜜们
 
