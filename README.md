@@ -11,8 +11,9 @@
 [扔物线Dagger源码解析](http://a.codekk.com/detail/Android/%E6%89%94%E7%89%A9%E7%BA%BF/Dagger%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90)<br/>
 [扔物线《埋头苦干的一年》](https://github.com/aosp-exchange-group/fuck-2014-flirt-2015/blob/master/1/rengwuxian.md)<br/>
 [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
-
+[效果视频在线播放地址](http://video.weibo.com/show?fid=1034:a6434cc89dc75f1444dac67ff22c1153)
 ### 致谢
+[JakeWharton](https://github.com/JakeWharton)<br/>
 [扔物线](https://github.com/rengwuxian)<br/>
 [代码家](https://github.com/daimajia)<br/>
 [秋百万](https://github.com/liaohuqiu)<br/>
@@ -20,6 +21,7 @@
 [胡凯](https://github.com/kesenhoo)<br/>
 [任玉刚](https://github.com/singwhatiwanna)<br/>
 [Ailurus](https://github.com/liangzhitao)<br/>
+
 
 <div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/app/src/main/res/mipmap-xhdpi/rengwuxian.jpg' width="80px" style='border: #f1f1f1 solid 1px'/></div>
 
@@ -30,7 +32,7 @@
 
 ### 视频--代码家和他的男女闺蜜们
 
-<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/video/1.mp4' width="300px" style='border: #f1f1f1 solid 1px'/></div>
+[视频在线播放地址](http://video.weibo.com/show?fid=1034:a6434cc89dc75f1444dac67ff22c1153)
 
 ### [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
 >代码情诗(一)<br/>
@@ -53,6 +55,7 @@
 [rxandroid](https://github.com/ReactiveX/rxandroid)<br/>
 [logger](https://github.com/orhanobut/logger)<br/>
 [pidcat](https://github.com/JakeWharton/pidcat)<br/>
+[scalpel](https://github.com/JakeWharton/scalpel)<br/>
 
 ### 参考的文章
 [扔物线 给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)<br/>
