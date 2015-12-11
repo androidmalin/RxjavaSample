@@ -32,6 +32,34 @@
 [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)<br/>
 [效果视频在线播放地址](http://video.weibo.com/show?fid=1034:a6434cc89dc75f1444dac67ff22c1153)<br/>
 
+
+## 项目依赖
+
+项目名称 | 项目信息
+------- | -------
+[android.support.*](https://developer.android.com/tools/support-library/index.html) | Android Support Library
+[RxJava](https://github.com/ReactiveX/RxJava) | 一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库
+[RxAndroid](https://github.com/ReactiveX/RxAndroid) | RxAndroid 是 RxJava 的一个针对 Android 平台的扩展
+[logger](https://github.com/orhanobut/logger) | 一个简洁,优雅,功能强大的Android日志输出工具
+[scalpel](https://github.com/JakeWharton/scalpel) | JakeWharton布局层次结构的三维效果展示
+
+### 使用到的开源项目
+项目名称 | 项目信息| 参考的地方
+------- | -------| -------
+[pidcat](https://github.com/JakeWharton/pidcat)|JakeWharton项目一个简洁,优雅的,彩色日志终端查看库|在终端过滤日志信息
+[phphub-android](https://github.com/CycloneAxe/phphub-android/blob/master/README.md)| [PHPHub](https://phphub.org/) Android 客户端|参考了README.md的写法
+
+### 参考的文章
+作者 | 文章| 参考的地方
+------- | -------| -------
+[扔物线](https://github.com/rengwuxian) | [给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083) | 示例代码
+[胡凯](https://github.com/kesenhoo) | [ 高效加载大图](http://hukai.me/android-training-course-in-chinese/graphics/displaying-bitmaps/load-bitmap.html) | Bitmap压缩算法
+[intbird](http://blog.csdn.net/intbird) | [Android OOM ,回收布局文件中ImageView占用的内存.Bitmap OOM回收解决.](http://blog.csdn.net/intbird/article/details/19905549) | Bitmap回收
+[汤涛]((http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect)) | [Scalpel: Jake大神的第三把刀](http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect) | scalpel的使用
+[任玉刚](https://github.com/singwhatiwanna)|[Android开发艺术探索](https://item.jd.com/11760209.html) | BitmapFactory解析的配置
+[徐宜生](https://github.com/xuyisheng)|[Android群英传](https://item.jd.com/11758334.html)| Canvas的使用
+
+
 ### 致谢
 [JakeWharton](https://github.com/JakeWharton)<br/>
 [扔物线](https://github.com/rengwuxian)<br/>
@@ -40,9 +68,10 @@
 [大头鬼](https://github.com/lzyzsd)<br/>
 [胡凯](https://github.com/kesenhoo)<br/>
 [任玉刚](https://github.com/singwhatiwanna)<br/>
+[徐宜生](https://github.com/xuyisheng)<br/>
 [Ailurus](https://github.com/liangzhitao)<br/>
 [汤涛](http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect)<br/>
-
+[intbird](http://blog.csdn.net/intbird)<br/>
 
 ### [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
 >代码情诗(一)<br/>
@@ -52,24 +81,6 @@
 >多年前的我对你的思念<br/>
 
 [诗歌出处,链接](http://weibo.com/p/1001603907193945642719)
-
-
-
-
-
-
-### 使用到的开源项目
-[rxjava](https://github.com/ReactiveX/RxJava)<br/>
-[rxandroid](https://github.com/ReactiveX/rxandroid)<br/>
-[logger](https://github.com/orhanobut/logger)<br/>
-[pidcat](https://github.com/JakeWharton/pidcat)<br/>
-[scalpel](https://github.com/JakeWharton/scalpel)<br/>
-
-### 参考的文章
-[扔物线 给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)<br/>
-[胡凯 高效加载大图](http://hukai.me/android-training-course-in-chinese/graphics/displaying-bitmaps/load-bitmap.html)<br/>
-[intbird Android OOM ,回收布局文件中ImageView占用的内存.Bitmap OOM回收解决.](http://blog.csdn.net/intbird/article/details/19905549)<br/>
-[汤涛 Scalpel: Jake大神的第三把刀](http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect)
 
 ###About me
 
