@@ -33,7 +33,7 @@
 [效果视频在线播放地址](http://video.weibo.com/show?fid=1034:a6434cc89dc75f1444dac67ff22c1153)<br/>
 
 
-## 项目依赖
+### 项目依赖
 
 项目名称 | 项目信息
 ------- | -------
@@ -55,7 +55,7 @@
 [扔物线](https://github.com/rengwuxian) | [给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083) | 示例代码
 [胡凯](https://github.com/kesenhoo) | [ 高效加载大图](http://hukai.me/android-training-course-in-chinese/graphics/displaying-bitmaps/load-bitmap.html) | Bitmap压缩算法
 [intbird](http://blog.csdn.net/intbird) | [Android OOM ,回收布局文件中ImageView占用的内存.Bitmap OOM回收解决.](http://blog.csdn.net/intbird/article/details/19905549) | Bitmap回收
-[汤涛]((http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect)) | [Scalpel: Jake大神的第三把刀](http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect) | scalpel的使用
+[汤涛](http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect) | [Scalpel: Jake大神的第三把刀](http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect) | scalpel的使用
 [任玉刚](https://github.com/singwhatiwanna)|[Android开发艺术探索](https://item.jd.com/11760209.html) | BitmapFactory解析的配置
 [徐宜生](https://github.com/xuyisheng)|[Android群英传](https://item.jd.com/11758334.html)| Canvas的使用
 
