@@ -1,6 +1,6 @@
 # 用Rxjava实现代码家和他的男女闺蜜
 扔物线[给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)文章中的例子
-<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/app/src/main/res/mipmap-xhdpi/rengwuxian.jpg' width="80px" style='border: #f1f1f1 solid 1px'/></div>
+<!--<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/app/src/main/res/mipmap-xhdpi/rengwuxian.jpg' width="80px" style='border: #f1f1f1 solid 1px'/></div>-->
 
 ###说明
 最近正好有时间,边读文章,边将文章中的例子敲成代码.因为接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.<br/>
@@ -46,6 +46,7 @@
 ### 使用到的开源项目
 项目名称 | 项目信息| 参考的地方
 ------- | -------| -------
+[nostra13](https://github.com/nostra13/Android-Universal-Image-Loader) | Powerful and flexible library for loading, caching and displaying images on Android | singleton class
 [pidcat](https://github.com/JakeWharton/pidcat)|JakeWharton项目一个简洁,优雅的,彩色日志终端查看库|在终端过滤日志信息
 [phphub-android](https://github.com/CycloneAxe/phphub-android/blob/master/README.md)| [PHPHub](https://phphub.org/) Android 客户端|参考了README.md的写法
 
@@ -62,6 +63,7 @@
 
 ### 致谢
 [JakeWharton](https://github.com/JakeWharton)<br/>
+[nostra13](https://github.com/nostra13)<br/>
 [扔物线](https://github.com/rengwuxian)<br/>
 [代码家](https://github.com/daimajia)<br/>
 [秋百万](https://github.com/liaohuqiu)<br/>
