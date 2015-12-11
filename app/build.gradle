@@ -36,4 +36,5 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.15'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.github.orhanobut:logger:1.12'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

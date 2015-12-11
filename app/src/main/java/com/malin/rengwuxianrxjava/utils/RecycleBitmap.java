@@ -7,10 +7,15 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 /**
- * @description 回收ImageView占用的图像内存;
- * @author malin.myemail@gmail.com
- * @since 15-11-21.
- * @link http://blog.csdn.net/intbird/article/details/19905549
+ * 类描述:回收ImageView占用的图像内存
+ * 创建人:malin.myemail@gmail.com
+ * 创建时间:15-11-21.
+ * 版本:1.0.0
+ * 备注:
+ * 修改人:
+ * 修改时间:
+ * 修改备注:
+ * 参考内容:http://blog.csdn.net/intbird/article/details/19905549
  */
 
 public class RecycleBitmap {
@@ -22,13 +27,17 @@ public class RecycleBitmap {
         if (imageView == null) {
             return;
         }
+
         Drawable drawable = imageView.getDrawable();
-        if (drawable instanceof BitmapDrawable) {
-            Bitmap bitmap= ((BitmapDrawable) drawable).getBitmap();
-            if (bitmap != null && !bitmap.isRecycled()) {
-                imageView.setImageBitmap(null);
-                bitmap.recycle();
-                bitmap = null;
+        if (drawable !=null &&drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if (bitmapDrawable!=null){
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                if (bitmap != null && !bitmap.isRecycled()) {
+                    bitmap.recycle();
+                    bitmap = null;
+                    imageView.setImageBitmap(null);
+                }
             }
         }
     }

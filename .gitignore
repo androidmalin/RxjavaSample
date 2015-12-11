@@ -15,8 +15,6 @@
 
 # files for the dex VM
 *.dex
-*.iml
-
 # Java class files
 *.class
 

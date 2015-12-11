@@ -7,13 +7,14 @@
 
 
     <!--android:background="@mipmap/ic_launcher"-->
-    <ImageView
+    <com.malin.rengwuxianrxjava.view.MyImageView
         android:id="@+id/iv_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true" />
 
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/progressbar"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"

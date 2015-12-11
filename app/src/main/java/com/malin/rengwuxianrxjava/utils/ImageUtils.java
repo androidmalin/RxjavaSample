@@ -17,9 +17,15 @@ import java.util.ArrayList;
 
 
 /**
- * @description 图片处理类
- * @author malin.myemail@gmail.com
- * @since 15-11-11.
+ * 类描述:图片处理类
+ * 创建人:malin.myemail@gmail.com
+ * 创建时间:15-11-11.
+ * 版本:1.0.0
+ * 备注:
+ * 修改人:
+ * 修改时间:
+ * 修改备注:
+ * 参考项目:
  */
 public class ImageUtils {
 

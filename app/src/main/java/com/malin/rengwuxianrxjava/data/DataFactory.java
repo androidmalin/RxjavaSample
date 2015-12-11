@@ -3,9 +3,15 @@ package com.malin.rengwuxianrxjava.data;
 import java.util.ArrayList;
 
 /**
- * @description 获取学生集合
- * @author malin.myemail@gmail.com
- * @since 15-11-10.
+ * 类描述:获取学生集合
+ * 创建人:malin.myemail@gmail.com
+ * 创建时间:15-11-10.
+ * 版本:1.0.0
+ * 备注:
+ * 修改人:
+ * 修改时间:
+ * 修改备注:
+ * 参考内容:
  */
 public class DataFactory {
 

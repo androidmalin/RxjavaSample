@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -25,6 +24,7 @@ import com.malin.rengwuxianrxjava.data.Student;
 import com.malin.rengwuxianrxjava.utils.DeviceInfo;
 import com.malin.rengwuxianrxjava.utils.ImageUtils;
 import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
+import com.malin.rengwuxianrxjava.view.MyImageView;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
@@ -39,23 +39,28 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+
 /**
- * @description 活动主页面
- * @author malin.myemail@gmail.com
- * @since 15-11-10.
- * @link 日志查看 推荐 https://github.com/orhanobut/logger;https://github.com/JakeWharton/pidcat;
+ * 类描述:活动主页面
+ * 创建人:malin.myemail@gmail.com
+ * 创建时间:15-11-10.
+ * 版本:1.0.0
+ * 备注:
+ * 修改人:
+ * 修改时间:
+ * 修改备注:
+ * 参考内容:
  */
 public class MainActivity extends Activity {
     private static final String TAG = "Reng_wu_xian";
     private static final String TAG_FOR_LOGGER = "I_LOVE_RXJAVA";
     private static final String JPG = ".jpg";
     private int counter;//循环的计数器
-    private ImageView mImageView;
+    private MyImageView mImageView;
     private Bitmap manyBitmapSuperposition = null;
     private Canvas canvas = null;
     private ProgressBar mProgressBar;
     private ScalpelFrameLayout mScalpelFrameLayout;
-    //@link https://github.com/orhanobut/logger 使用com.github.orhanobut:logger 库可以查看当前日志输出所处的线程
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +69,7 @@ public class MainActivity extends Activity {
         setContentView(mScalpelFrameLayout);
         DeviceInfo.getInstance().initScreenInfo(this);
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-        rxJavaVeryCool();//使用RxJava解决问题
+          rxJavaVeryCool();//使用RxJava解决问题
 //        fun0();//基本使用
 //        fun1();
 //        fun2();
@@ -230,6 +235,7 @@ public class MainActivity extends Activity {
         //TODO:6:订阅:被观察者被观察者订阅
 
         initView();
+        isRecycleImageView = true;
         Observable.from(ImageNameFactory.getAssetImageFolderName())
                 //assets下一个文件夹的名称,assets下一个文件夹中一张图片的路径
                 .flatMap(new Func1<String, Observable<String>>() {
@@ -288,7 +294,7 @@ public class MainActivity extends Activity {
     }
 
 
-//-----------------------------------------------//TODO:RxJava基础练习-----------------------------------------------------------
+//-----------------------------------------------TODO:0:RxJava基础练习-----------------------------------------------------------
     //TODO:概念解释
     //TODO:1:被观察者,事件源:它决定什么时候触发事件以及触发怎样的事件
     //TODO:2:观察者:它决定事件触发的时候将有怎样的行为
@@ -296,7 +302,7 @@ public class MainActivity extends Activity {
     private void fun0() {
 
         //TODO:1:被观察者,事件源
-        // Observable 即被观察者，它决定什么时候触发事件以及触发怎样的事件。 RxJava 使用 create() 方法来创建一个 Observable ，并为它定义事件触发规则：
+        //概念解释:RxJava 使用 Observable.create() 方法来创建一个 Observable ，并为它定义事件触发规则
         Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -305,6 +311,7 @@ public class MainActivity extends Activity {
                 subscriber.onNext("!");
                 subscriber.onCompleted();
                 subscriber.onError(new Throwable());
+                Logger.d("被观察者-observable->call()->onCompleted()之后是否还有输出");
             }
         });
 
@@ -313,18 +320,17 @@ public class MainActivity extends Activity {
         Observer<String> observer = new Observer<String>() {
             @Override
             public void onCompleted() {
-                Log.d(TAG, "观察者-observer:onCompleted()");
+                Logger.d("观察者-observer:onCompleted()");
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "观察者-observer:onError" + e.getMessage());
+                Logger.d("观察者-observer:onError" + e.getMessage());
             }
 
             @Override
             public void onNext(String s) {
-                Log.d(TAG, "观察者-observer:onNext():" + s);
-
+                Logger.d("观察者-observer:onNext():" + s);
             }
         };
 
@@ -333,10 +339,19 @@ public class MainActivity extends Activity {
     }
 
 
+
     //---------------------------------------TODO:1:快捷创建事件队列 Observable.just(T...)--------------------------------------------------------------
+
+    //TODO:简化:观察者的创建
+
+    /**
+     * 简化:观察者的创建
+     * {@link #fun0()}
+     */
     private void fun1() {
 
 
+        //TODO:实现步骤
         //TODO:1:被观察者:
         //TODO:2:观察者:
         //TODO:3:订阅-被观察者被观察者订阅
@@ -356,18 +371,17 @@ public class MainActivity extends Activity {
         Observer<String> observer = new Observer<String>() {
             @Override
             public void onCompleted() {
-                Log.d(TAG, "观察者-observer:onCompleted()");
+                Logger.d("观察者-observer:onCompleted()");
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "观察者-observer:onError()");
+                Logger.d("观察者-observer:onError()");
             }
 
             @Override
             public void onNext(String s) {
-
-                Log.d(TAG, "观察者-observer:onNext():" + s);
+                Logger.d("观察者-observer:onNext():" + s);
             }
         };
 
@@ -375,9 +389,16 @@ public class MainActivity extends Activity {
         observable.subscribe(observer);
     }
 
+
     //---------------------------------------TODO:2:快捷创建事件队列 Observable.from(T[]) / from(Iterable<? extends T>--------------------------------------------------------------
+    /**
+     * 简化:观察者的创建
+     * {@link #fun1()}
+     */
     private void fun2() {
 
+        //{@link #fun()1}
+        //TODO:实现步骤{@link #fun()1}
         //TODO:1:被观察者
         //TODO:2:观察者
         //TODO:3:订阅-被观察者被观察者订阅
@@ -424,11 +445,13 @@ public class MainActivity extends Activity {
 
     //---------------------------------------TODO:3: subscribe()支持不完整定义的回调--------------------------------------------------------------
     /**
-     * 对fun2()的简化
+     * 对观察者的简化
+     * {@link #fun2()}
      * subscribe一个参数的不完整定义的回调
      * subscribe(final Action1<? super T> onNext)
      */
     private void fun3() {
+
         String[] array = new String[]{"Hello", "World", "!"};
         //TODO:1:被观察者
         Observable observable = Observable.from(array);
@@ -437,23 +460,21 @@ public class MainActivity extends Activity {
         Action1 onNextAction = new Action1() {
             @Override
             public void call(Object o) {
-
                 String str = (String) o;
-                Log.d(TAG, "观察者:call(Object o):" + str);
+                Logger.d("观察者:call(Object o):" + str);
             }
         };
-
 
         //TODO:3:订阅-被观察者被观察者订阅
         //subscribe(final Action1<? super T> onNext)
         //自动创建 Subscriber ，并使用 onNextAction 来定义 onNext()
         observable.subscribe(onNextAction);
-
     }
 
-
     /**
+     * 对观察者的简化
      * subscribe两个参数的不完整定义的回调
+     * {@link #fun3()}
      * subscribe(final Action1<? super T> onNext, final Action1<Throwable> onError)
      */
     private void fun4() {
@@ -465,10 +486,8 @@ public class MainActivity extends Activity {
         Action1 onNextAction = new Action1() {
             @Override
             public void call(Object o) {
-
                 String str = (String) o;
-
-                Log.d(TAG, "观察者:onNextAction:call(Object o):o:" + str);
+                Logger.d("观察者:onNextAction:call(Object o):o:" + str );
             }
         };
 
@@ -476,8 +495,7 @@ public class MainActivity extends Activity {
         Action1<Throwable> onErrorAction = new Action1<Throwable>() {
             @Override
             public void call(Throwable throwable) {
-
-                Log.d(TAG, "观察者:onErrorAction:call(Throwable throwable):" + throwable.getMessage());
+                Logger.d("观察者:onErrorAction:call(Throwable throwable):" + throwable.getMessage());
             }
         };
 
@@ -503,9 +521,8 @@ public class MainActivity extends Activity {
         Action1 onNextAction = new Action1() {
             @Override
             public void call(Object o) {
-
                 String str = (String) o;
-                Log.d(TAG, "观察者:onNextAction:call():s:" + str);
+                Logger.d("观察者:onNextAction:call():s:" + str);
             }
         };
 
@@ -513,7 +530,7 @@ public class MainActivity extends Activity {
         Action1<Throwable> onErrorAction = new Action1<Throwable>() {
             @Override
             public void call(Throwable throwable) {
-                Log.d(TAG, "观察者:onErrorAction:call(Throwable throwable):" + throwable.getMessage());
+                Logger.d("观察者:onErrorAction:call(Throwable throwable):" + throwable.getMessage());
             }
         };
 
@@ -521,7 +538,7 @@ public class MainActivity extends Activity {
         Action0 onCompletedAction = new Action0() {
             @Override
             public void call() {
-                Log.d(TAG, "观察者:onCompletedAction:call()");
+                Logger.d("观察者:onCompletedAction:call()");
             }
         };
 
@@ -534,11 +551,35 @@ public class MainActivity extends Activity {
 
     }
 
-
+    //---------------------------------------TODO:4: Action0和Action1 讲解--------------------------------------------------------------
     /**
-     * 显示图片
-     * 后台线程取数据，主线程显示
+     * 肯定有同学对Action0和Action1很困惑,就像当初我刚看到那样子;
+     * 那就听听仍物线给大家讲一下:
+     *
+     * MaLin:仍物线大哥,你能够给我们讲解一下Action0和Action1是什么,以及他们之间的区别吗?
+     *
+     * 扔物线:大家好,我简单的解释一下:
+     * Action0 是 RxJava 的一个接口，它只有一个方法 call()，这个方法是无参无返回值的；
+     * 由于 onCompleted() 方法也是无参无返回值的，因此 Action0 可以被当成一个包装对象，
+     * 将 onCompleted() 的内容打包起来将自己作为一个参数传入 subscribe() 以实现不完整定义的回调。
+     * 这样其实也可以看做将 onCompleted() 方法作为参数传进了 subscribe()，相当于其他某些语言中的『闭包』。
+     *
+     * Action1 也是一个接口，它同样只有一个方法 call(T param)，这个方法也无返回值，但有一个参数；
+     * 与 Action0 同理，由于 onNext(T obj) 和 onError(Throwable error) 也是单参数无返回值的，
+     * 因此 Action1 可以将 onNext(obj) 和 onError(error) 打包起来传入 subscribe() 以实现不完整定义的回调。
+     * 事实上，虽然 Action0 和 Action1 在 API 中使用最广泛，但 RxJava 是提供了多个 ActionX 形式的接口 (例如 Action2, Action3) 的，
+     * 它们可以被用以包装不同的无返回值的方法。
      */
+
+
+
+
+
+
+    //---------------------------------------TODO:5: 休息一下!推荐两个好用的日志查看工具-------------------------------------------------------------
+
+    //1.[logger](https://github.com/orhanobut/logger) | 一个简洁,优雅,功能强大的Android日志输出工具
+    //2.[pidcat](https://github.com/JakeWharton/pidcat)|JakeWharton项目一个简洁,优雅的,彩色日志终端查看库|在终端过滤日志信息
 
     /**
      * 使用com.github.orhanobut:logger 库可以查看当前的线程
@@ -558,16 +599,17 @@ public class MainActivity extends Activity {
      D  ╟────────────────────────────────────────────────────────────────────────────────────────
      D  ║ 观察者 onCompleted()
      D  ╚════════════════════════════════════════════════════════════════════════════════════════
-
      */
 
-    //---------------------------------------TODO:3: 线程控制-Scheduler-------------------------------------------------------------
+    //---------------------------------------TODO:6 线程控制-Scheduler-------------------------------------------------------------
     /**
+     * 显示图片
+     * 后台线程取数据，主线程显示
      * 加载图片将会发生在 IO 线程，而设置图片则被设定在了主线程。这就意味着，即使加载图片耗费了几十甚至几百毫秒的时间，也不会造成丝毫界面的卡顿。
      */
     private void fun6() {
 
-        final int drawableRes = R.mipmap.rengwuxian;
+        final int drawableRes = R.mipmap.malin;
         initView();
         Observable.create(new Observable.OnSubscribe<Drawable>() { //TODO:1:被观察者
             @Override
@@ -579,6 +621,12 @@ public class MainActivity extends Activity {
             }
         })
                 .subscribeOn(Schedulers.io())//事件产生的线程。指定 subscribe() 发生在 IO 线程
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())//指定 Subscriber 所运行在的线程。或者叫做事件消费的线程
                 .subscribe(new Subscriber<Drawable>() {   //TODO:3:订阅 //TODO:2:观察者
                     @Override
@@ -604,9 +652,9 @@ public class MainActivity extends Activity {
 
     }
 
-    //---------------------------------------TODO:4: 变换 map()-------------------------------------------------------------
+    //---------------------------------------TODO:7: 变换 map()-------------------------------------------------------------
     private void fun7() {
-        final int drawableRes = R.mipmap.rengwuxian;
+        final int drawableRes = R.mipmap.malin;
         initView();
 
         //TODO:1:被观察者
@@ -621,6 +669,12 @@ public class MainActivity extends Activity {
                 })
 
                 .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Drawable>() {  //TODO:3:订阅 //TODO:2:观察者
                     @Override
@@ -643,10 +697,13 @@ public class MainActivity extends Activity {
                 });
     }
 
-    //---------------------------------------TODO:5: 练习 中途休息一下-------------------------------------------------------------
+    //---------------------------------------TODO:8: 练习 中途休息一下-------------------------------------------------------------
+
+   //演示嵌套循环
     private void fun8() {
         ArrayList<Student> stu = DataFactory.getData();
-        for (int i = 0; i < stu.size(); i++) {
+        int size = stu.size();
+        for (int i = 0; i < size; i++) {
             Logger.d("学生:" + stu.get(i).name);
             for (int j = 0; j < stu.get(i).courses.size(); j++) {
                 Logger.d(stu.get(i).courses.get(j).name);
@@ -655,6 +712,12 @@ public class MainActivity extends Activity {
     }
 
 
+
+    /**
+     * 嵌套循环的RxJava解决方案:
+     * 输入学生的姓名
+     * {@link #fun8()}
+     */
     private void fun9() {
 
         Observable.from(DataFactory.getData())
@@ -669,6 +732,11 @@ public class MainActivity extends Activity {
     }
 
 
+    /**
+     * 嵌套循环的RxJava解决方案
+     * 输出学生的课程
+     * {@link #fun8()}
+     */
     private void fun10() {
 
         //TODO:1:被观察者
@@ -733,7 +801,7 @@ public class MainActivity extends Activity {
 
     }
 
-    //---------------------------------------TODO:6: 引入flatmap()-------------------------------------------------------------
+    //---------------------------------------TODO:9: 引入flatmap()-------------------------------------------------------------
     private void fun12() {
 
         //TODO:1:被观察者
@@ -789,7 +857,7 @@ public class MainActivity extends Activity {
                 });
     }
 
-    //---------------------------------------TODO:6: flatMap()的使用-------------------------------------------------------------
+    //---------------------------------------TODO:10: flatMap()的使用-------------------------------------------------------------
     private void fun14() {
 
         //TODO:1:被观察者
@@ -826,7 +894,7 @@ public class MainActivity extends Activity {
      * 用于显示图片的初始化
      */
     private void initView() {
-        mImageView = (ImageView) findViewById(R.id.iv_image);
+        mImageView = (MyImageView) findViewById(R.id.iv_image);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
     }
 
@@ -838,12 +906,17 @@ public class MainActivity extends Activity {
         int errorCode = Integer.valueOf("故意让程序出错");
     }
 
+    private boolean isRecycleImageView = false;
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Logger.d("onDestroy");
         //回收ImageView占用的图像内存
-        RecycleBitmap.recycleImageView(mImageView);
+        if (isRecycleImageView) {
+            Logger.d("onDestroy()-> RecycleBitmap.recycleImageView(mImageView)");
+            RecycleBitmap.recycleImageView(mImageView);
+            mImageView.setImageBitmap(null);
+        }
 
         if (manyBitmapSuperposition!=null&&!manyBitmapSuperposition.isRecycled()){
             manyBitmapSuperposition.recycle();
