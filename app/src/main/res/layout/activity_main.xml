@@ -7,7 +7,7 @@
 
 
     <!--android:background="@mipmap/ic_launcher"-->
-    <com.malin.rengwuxianrxjava.view.MyImageView
+    <com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView
         android:id="@+id/iv_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

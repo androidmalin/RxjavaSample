@@ -10,9 +10,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * 创建人:malin.myemail@gmail.com
  * 创建时间:15-11-10.下午3:26
  * 备注:
- * 修改人:
- * 修改时间:
- * 修改备注:
  * 参考项目:Android-Universal-Image-Loader
  */
 public class DeviceInfo {
@@ -23,7 +20,9 @@ public class DeviceInfo {
 
     private volatile static DeviceInfo instance;
 
-    /**Returns singleton class instance*/
+    /**
+     * Returns singleton class instance
+     */
     public static DeviceInfo getInstance() {
         if (instance == null) {
             synchronized (DeviceInfo.class) {
@@ -40,12 +39,12 @@ public class DeviceInfo {
     }
 
 
-
     /**
      * init get device information
-     * @param  activity
+     *
+     * @param activity
      */
-    public void initScreenInfo(Activity activity) {
+    public void initializeScreenInfo(Activity activity) {
         DisplayMetrics metric = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
         if (metric.heightPixels >= metric.widthPixels) {

@@ -22,16 +22,15 @@ import java.util.ArrayList;
  * 创建时间:15-11-11.
  * 版本:1.0.0
  * 备注:
- * 修改人:
- * 修改时间:
- * 修改备注:
  * 参考项目:
  */
 public class ImageUtils {
 
     private static final String TAG = "PaoWuXian_RxJava";
+
     /**
      * 从assets文件夹中获取制定路径的图片的Bitmap
+     *
      * @param context:上下文
      * @param imagePathName:图片路径的名称:例如: paowuxian/04.jpg
      * @param reqWidth:图片需要显示的宽
@@ -55,7 +54,7 @@ public class ImageUtils {
 
         try {
             if (inputStream != null) {
-                BitmapFactory.decodeStream(inputStream,null,opts);
+                BitmapFactory.decodeStream(inputStream, null, opts);
                 inputStream.reset();
             } else {
                 return null;
@@ -69,7 +68,7 @@ public class ImageUtils {
             return null;
         }
         opts.inSampleSize = calculateInSampleSiez(opts, reqWidth, reqHeight);
-       // Log.d(TAG,""+opts.inSampleSize);
+        // Log.d(TAG,""+opts.inSampleSize);
         opts.inJustDecodeBounds = false;
         opts.inPreferredConfig = Bitmap.Config.RGB_565;
         opts.inPurgeable = true;
@@ -78,7 +77,7 @@ public class ImageUtils {
         opts.inTempStorage = new byte[512 * 1024];
         try {
             if (inputStream != null) {
-                bitmap =  BitmapFactory.decodeStream(inputStream, null, opts);
+                bitmap = BitmapFactory.decodeStream(inputStream, null, opts);
             } else {
                 return null;
             }
@@ -100,8 +99,8 @@ public class ImageUtils {
             }
         }
         //Log.d(TAG,"w:"+bitmap.getWidth()+" h:"+bitmap.getHeight());
-        if (bitmap!=null){
-            bitmap = Bitmap.createScaledBitmap(bitmap,reqWidth,reqHeight,true);
+        if (bitmap != null) {
+            bitmap = Bitmap.createScaledBitmap(bitmap, reqWidth, reqHeight, true);
         }
         return bitmap;
     }
@@ -109,11 +108,11 @@ public class ImageUtils {
 
     /**
      * 获取一个合适的缩放系数(2^n)
+     *
      * @param options:Options
      * @param reqWidth:图片需要显示的宽
      * @param reqHeight:图片需要显示的高
-     * @return 缩放系数,2的次方
-     *
+     * @return 缩放系数, 2的次方
      * @Link http://hukai.me/android-training-course-in-chinese/graphics/displaying-bitmaps/load-bitmap.html
      */
     public static int calculateInSampleSiez(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -139,14 +138,14 @@ public class ImageUtils {
 
     /**
      * 获取assets文件夹下某个文件夹中所有图片路径的集合
-     *
+     * <p/>
      * 例如:assets/paowuxian 这个目录下的图片路径的集合
      * {
-     *      paowuxian/04.jpg,
-     *      paowuxian/05.jpg,
-     *      paowuxian/06.jpg,
-     *      paowuxian/07.jpg,
-     *
+     * paowuxian/04.jpg,
+     * paowuxian/05.jpg,
+     * paowuxian/06.jpg,
+     * paowuxian/07.jpg,
+     * <p/>
      * }
      *
      * @param context:上下文
@@ -159,11 +158,11 @@ public class ImageUtils {
 
         String[] imageNameArray = getAssetsImageNameArray(context, folderName);
 
-            if (imageNameArray != null && imageNameArray.length > 0 && folderName != null && !folderName.replaceAll(" ", "").trim().equals("")) {
-                for (String imageName : imageNameArray) {
-                    imagePathList.add(new StringBuffer(folderName).append(File.separator).append(imageName).toString());
-                }
+        if (imageNameArray != null && imageNameArray.length > 0 && folderName != null && !folderName.replaceAll(" ", "").trim().equals("")) {
+            for (String imageName : imageNameArray) {
+                imagePathList.add(new StringBuffer(folderName).append(File.separator).append(imageName).toString());
             }
+        }
 
         return imagePathList;
     }
@@ -173,10 +172,10 @@ public class ImageUtils {
      * 得到assets文件夹下--某个文件夹下--所有文件的文件名
      * 例如:assets/paowuxian 这个目录下的图片名称(包含后缀)集合
      * {
-     *      04.jpg,
-     *      05.jpg,
-     *      06.jpg,
-     *      07.jpg,
+     * 04.jpg,
+     * 05.jpg,
+     * 06.jpg,
+     * 07.jpg,
      * }
      *
      * @param context:上下文

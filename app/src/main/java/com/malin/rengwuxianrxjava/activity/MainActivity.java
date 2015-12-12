@@ -24,7 +24,7 @@ import com.malin.rengwuxianrxjava.data.Student;
 import com.malin.rengwuxianrxjava.utils.DeviceInfo;
 import com.malin.rengwuxianrxjava.utils.ImageUtils;
 import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
-import com.malin.rengwuxianrxjava.view.MyImageView;
+import com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
@@ -44,99 +44,121 @@ import rx.schedulers.Schedulers;
  * 类描述:活动主页面
  * 创建人:malin.myemail@gmail.com
  * 创建时间:15-11-10.
- * 版本:1.0.0
  * 备注:
- * 修改人:
- * 修改时间:
- * 修改备注:
- * 参考内容:
  */
 public class MainActivity extends Activity {
-    private static final String TAG = "Reng_wu_xian";
-    private static final String TAG_FOR_LOGGER = "I_LOVE_RXJAVA";
+    private static final String TAG = "MainActivity";
+    private static final String TAG_FOR_LOGGER = "MainActivity_I_LOVE_RXJAVA";
     private static final String JPG = ".jpg";
-    private int counter;//循环的计数器
-    private MyImageView mImageView;
-    private Bitmap manyBitmapSuperposition = null;
-    private Canvas canvas = null;
+    private int mCounter;//循环的计数器
+    private AvoidRecoveredAppearErrorImageView mImageView;
+    private Bitmap mManyBitmapSuperposition = null;
+    private Canvas mCanvas = null;
     private ProgressBar mProgressBar;
     private ScalpelFrameLayout mScalpelFrameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.init(TAG_FOR_LOGGER).logLevel(LogLevel.FULL);//Use LogLevel.NONE for the release versions.
-        initScalpelFrameLayout();
-        setContentView(mScalpelFrameLayout);
-        DeviceInfo.getInstance().initScreenInfo(this);
-//        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-          rxJavaVeryCool();//使用RxJava解决问题
-//        fun0();//基本使用
-//        fun1();
-//        fun2();
-//        fun3();
-//        fun4();
-//        fun5();
-//        fun6();
-//        fun7();
-//        fun8();
-//        fun9();
-//        fun10();
-//        fun11();
-//        fun12();
-//        fun13();
-//        fun14();
+        setContentViewLayout(false);
+        initializeLogAndDeviceInfo();
+        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
+//        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
+//        testFuncation(0);//RxJava基础概念的练习
     }
 
-    private void initScalpelFrameLayout(){
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_main,null);
-        mScalpelFrameLayout = new ScalpelFrameLayout(this);
-        mScalpelFrameLayout.setLayerInteractionEnabled(true);//Enable the 3D interaction
-        mScalpelFrameLayout.setDrawIds(true);//Toggle wireframe display
-        mScalpelFrameLayout.setDrawIds(true);// Toggle view ID display
-        mScalpelFrameLayout.addView(view);
+    /**
+     * 初始化Logger日志输出配置和获取手机尺寸信息
+     */
+    private void initializeLogAndDeviceInfo() {
+        Logger.init(TAG_FOR_LOGGER).logLevel(LogLevel.FULL);//Use LogLevel.NONE for the release versions.
+        DeviceInfo.getInstance().initializeScreenInfo(this);
     }
-    //-----------------------------------TODO:谜之缩进--嵌套循环--回调地狱 -----------------------------------------------------------
+
+    /**
+     * 给Activity设置布局
+     *
+     * @param isOpenScalpe:是否开启使用Scalpel查看三维模式的层次结构
+     */
+    private void setContentViewLayout(boolean isOpenScalpe) {
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
+        if (isOpenScalpe) {
+            mScalpelFrameLayout = new ScalpelFrameLayout(this);
+            mScalpelFrameLayout.setLayerInteractionEnabled(true);//Enable the 3D interaction
+            mScalpelFrameLayout.setDrawIds(true);//Toggle wireframe display
+            mScalpelFrameLayout.setDrawIds(true);// Toggle view ID display
+            mScalpelFrameLayout.addView(view);
+            setContentView(mScalpelFrameLayout);
+        } else {
+            setContentView(view);
+        }
+    }
+
+
+    /**
+     * 用于显示图片的初始化
+     */
+    private void initView() {
+        mImageView = (AvoidRecoveredAppearErrorImageView) findViewById(R.id.iv_image);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+    }
+
+
+    /**
+     * 故意让程序出现异常,可以用来测试
+     */
+    private void getException() {
+        int errorCode = Integer.valueOf("故意让程序出错");
+    }
+
+
+    //-----------------------------------谜之缩进--嵌套循环--回调地狱 -----------------------------------------------------------
+
     /**
      * 实现的功能:获取assets文件夹下所有文件夹中的jpg图片,并且将所有的图片画到一个ImageView上,没有实际的用处,只是为了说明问题--- 谜之缩进--嵌套循环--回调地狱
      * 不使用RxJava的写法-- 谜之缩进--回调地狱
      */
     //思路:需要以下6个步骤完成
-    //TODO:1:遍历获取assets文件夹下所有的文件夹的名称
-    //TODO:2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
-    //TODO:3:过滤掉非JPG格式的图片
-    //TODO:4:获取某个路径下图片的bitmap
-    //TODO:5:将Bitmap绘制到画布上
-    //TODO:6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
-
-
+    //1:遍历获取assets文件夹下所有的文件夹的名称
+    //2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
+    //3:过滤掉非JPG格式的图片
+    //4:获取某个路径下图片的bitmap
+    //5:将Bitmap绘制到画布上
+    //6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
     private void miZhiSuoJinAndNestedLoopAndCallbackHell() {
         initView();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //TODO:1:遍历获取assets文件夹下所有的文件夹的名称
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                });
+                //1:遍历获取assets文件夹下所有的文件夹的名称
                 ArrayList<String> assetsFolderNameList = ImageNameFactory.getAssetImageFolderName();
 
                 for (String folderName : assetsFolderNameList) {
 
-                    //TODO:2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
+                    //2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
                     ArrayList<String> imagePathList = ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName);
 
                     for (final String imagePathName : imagePathList) {
-                        //TODO:3:过滤掉非JPG格式的图片
+                        //3:过滤掉非JPG格式的图片
                         if (imagePathName.endsWith(JPG)) {
 
-                            //TODO:4:获取某个路径下图片的bitmap
-                            final Bitmap bitmap = ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName,Constant.imageWith,Constant.imageHeight);
+                            //4:获取某个路径下图片的bitmap
+                            final Bitmap bitmap = ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName, Constant.IMAGE_WITH, Constant.IMAGE_HEIGHT);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    //Logger.d(mCounter + ":" + imagePathName);
 
-                                    Logger.d(counter+":"+imagePathName);
-
-                                    //TODO:5:将Bitmap绘制到画布上
-                                    createSingleImageFromMultipleImages(bitmap, counter);
-                                    counter++;
+                                    //5:将Bitmap绘制到画布上
+                                    createSingleImageFromMultipleImages(bitmap, mCounter);
+                                    mCounter++;
 
                                 }
                             });
@@ -145,11 +167,11 @@ public class MainActivity extends Activity {
                 }
 
 
-                //TODO:6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
+                //6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mImageView.setImageBitmap(manyBitmapSuperposition);
+                        mImageView.setImageBitmap(mManyBitmapSuperposition);
                         mProgressBar.setVisibility(View.GONE);
                     }
                 });
@@ -162,42 +184,41 @@ public class MainActivity extends Activity {
     /**
      * 就是循环在画布上画图,呈现一种整齐的线性分布:像方格
      * 所有绘制都绘制到了创建Canvas时传入的Bitmap上面
+     *
      * @param bitmap:每张图片对应的Bitamp
-     * @param counter:一个自增的整数从0开始
+     * @param mCounter:一个自增的整数从0开始
      */
     //实现思路:
-    //TODO:1:产生和手机屏幕尺寸同样大小的Bitmap
-    //TODO:2:以Bitmap对象创建一个画布，将内容都绘制在Bitmap上,这个Bitmap用来存储所有绘制在Canvas上的像素信息.
-    //TODO:3:这里将所有图片压缩成了相同的尺寸均为正方形图(91px*91px)
-    //TODO:4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
-    //TODO:5:将Bitmap画到指定坐标
+    //1:产生和手机屏幕尺寸同样大小的Bitmap
+    //2:以Bitmap对象创建一个画布，将内容都绘制在Bitmap上,这个Bitmap用来存储所有绘制在Canvas上的像素信息.
+    //3:这里将所有图片压缩成了相同的尺寸均为正方形图(64px*64px)
+    //4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
+    //5:将Bitmap画到指定坐标
+    private void createSingleImageFromMultipleImages(Bitmap bitmap, int mCounter) {
+        if (mCounter == 0) {
+            //1:产生和手机屏幕尺寸同样大小的Bitmap
+            mManyBitmapSuperposition = Bitmap.createBitmap(DeviceInfo.screenWidthForPortrait, DeviceInfo.screenHeightForPortrait, bitmap.getConfig());
 
-
-    private void createSingleImageFromMultipleImages(Bitmap bitmap,int counter){
-        if (counter==0){
-            //TODO:1:产生和手机屏幕尺寸同样大小的Bitmap
-            manyBitmapSuperposition = Bitmap.createBitmap(DeviceInfo.screenWidthForPortrait, DeviceInfo.screenHeightForPortrait, bitmap.getConfig());
-
-           //TODO:2:以Bitmap对象创建一个画布，则将内容都绘制在Bitmap上
-            canvas = new Canvas(manyBitmapSuperposition);
+            //2:以Bitmap对象创建一个画布，则将内容都绘制在Bitmap上
+            mCanvas = new Canvas(mManyBitmapSuperposition);
         }
-        if (canvas!=null){
+        if (mCanvas != null) {
             int left;//距离左边的距离
             int top;//距离顶部的距离
 
-            //TODO:3:这里将所有图片压缩成了相同的尺寸均为正方形图(91px*91px)
-            int imageWidth = Constant.imageWith;
-            int imageHeight = Constant.imageHeight;
-            int number = DeviceInfo.screenHeightForPortrait/imageHeight;//手机竖屏模式下,垂直方向上绘制图片的个数
+            //3:这里将所有图片压缩成了相同的尺寸均为正方形图(64px*64px)
+            int imageWidth = Constant.IMAGE_WITH;
+            int imageHeight = Constant.IMAGE_HEIGHT;
+            int number = DeviceInfo.screenHeightForPortrait / imageHeight;//手机竖屏模式下,垂直方向上绘制图片的个数
 
-            //TODO:4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
-            if (counter>=(counter/number)*number&&counter<(((counter/number)+1)*number)){//[0,number)
-                left = (counter/number)*imageWidth;
-                top =(counter%number)*imageHeight;
-               // Log.d(TAG,""+counter+" left="+left+" top="+top);
+            //4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
+            if (mCounter >= (mCounter / number) * number && mCounter < (((mCounter / number) + 1) * number)) {//[0,number)
+                left = (mCounter / number) * imageWidth;
+                top = (mCounter % number) * imageHeight;
+                // Log.d(TAG,""+mCounter+" left="+left+" top="+top);
 
-                //TODO:5:将Bitmap画到指定坐标
-                canvas.drawBitmap(bitmap, left, top, null);
+                //5:将Bitmap画到指定坐标
+                mCanvas.drawBitmap(bitmap, left, top, null);
             }
         }
     }
@@ -206,36 +227,35 @@ public class MainActivity extends Activity {
     /**
      * 用于测试除法和取余
      */
-    private void showMath(){
+    private void showMath() {
         String TAG = "Math";
-        for (int i = 0;i<100;i++){
-            int ss = i/10;
-            int ww = i%10;
-            Log.d(TAG,i+"/10 =="+ss);
-            Log.d(TAG,i+"%10 =="+ww);
+        for (int i = 0; i < 100; i++) {
+            int ss = i / 10;
+            int ww = i % 10;
+            Log.d(TAG, i + "/10 ==" + ss);
+            Log.d(TAG, i + "%10 ==" + ww);
         }
     }
 
 
+    //-----------------------------------RxJava的实现--链式调用--十分简洁 -----------------------------------------------------------
 
-    //-----------------------------------TODO:RxJava的实现--链式调用--十分简洁 -----------------------------------------------------------
 
+    private void rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell() {
+        //1:被观察者:
 
-    private void rxJavaVeryCool(){
-        //TODO:1:被观察者:
+        //2:数据转换
 
-        //TODO:2:数据转换
+        //3:设置事件的产生发生在IO线程
 
-        //TODO:3:设置事件的产生发生在IO线程
+        //4:设置事件的消费发生在主线程
 
-        //TODO:4:设置事件的消费发生在主线程
+        //5:观察者
 
-        //TODO:5:观察者
-
-        //TODO:6:订阅:被观察者被观察者订阅
+        //6:订阅:被观察者被观察者订阅
 
         initView();
-        isRecycleImageView = true;
+        mGoToRecycleImageView = true;
         Observable.from(ImageNameFactory.getAssetImageFolderName())
                 //assets下一个文件夹的名称,assets下一个文件夹中一张图片的路径
                 .flatMap(new Func1<String, Observable<String>>() {
@@ -244,25 +264,25 @@ public class MainActivity extends Activity {
                         return Observable.from(ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName));
                     }
                 })
-                //过滤,筛选出jpg图片
+                        //过滤,筛选出jpg图片
                 .filter(new Func1<String, Boolean>() {
                     @Override
                     public Boolean call(String imagePathNameAll) {
                         return imagePathNameAll.endsWith(JPG);
                     }
                 })
-                //将图片路径转换为对应图片的Bitmap
+                        //将图片路径转换为对应图片的Bitmap
                 .map(new Func1<String, Bitmap>() {
                     @Override
                     public Bitmap call(String imagePathName) {
-                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName,Constant.imageWith,Constant.imageHeight);
+                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName, Constant.IMAGE_WITH, Constant.IMAGE_HEIGHT);
                     }
                 })
                 .map(new Func1<Bitmap, Void>() {
                     @Override
                     public Void call(Bitmap bitmap) {
-                        createSingleImageFromMultipleImages(bitmap, counter);
-                        counter++;
+                        createSingleImageFromMultipleImages(bitmap, mCounter);
+                        mCounter++;
                         return null;
                     }
                 })
@@ -277,7 +297,7 @@ public class MainActivity extends Activity {
                 .subscribe(new Subscriber<Void>() {
                     @Override
                     public void onCompleted() {
-                        mImageView.setImageBitmap(manyBitmapSuperposition);
+                        mImageView.setImageBitmap(mManyBitmapSuperposition);
                         mProgressBar.setVisibility(View.GONE);
                     }
 
@@ -294,14 +314,14 @@ public class MainActivity extends Activity {
     }
 
 
-//-----------------------------------------------TODO:0:RxJava基础练习-----------------------------------------------------------
-    //TODO:概念解释
-    //TODO:1:被观察者,事件源:它决定什么时候触发事件以及触发怎样的事件
-    //TODO:2:观察者:它决定事件触发的时候将有怎样的行为
-    //TODO:3:订阅
-    private void fun0() {
+    //-----------------------------------------------0:RxJava基础练习-----------------------------------------------------------
+    //概念解释
+    //1:被观察者,事件源:它决定什么时候触发事件以及触发怎样的事件
+    //2:观察者:它决定事件触发的时候将有怎样的行为
+    //3:订阅
+    private void method0() {
 
-        //TODO:1:被观察者,事件源
+        //1:被观察者,事件源
         //概念解释:RxJava 使用 Observable.create() 方法来创建一个 Observable ，并为它定义事件触发规则
         Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
@@ -316,7 +336,7 @@ public class MainActivity extends Activity {
         });
 
 
-        //TODO:2:观察者
+        //2:观察者
         Observer<String> observer = new Observer<String>() {
             @Override
             public void onCompleted() {
@@ -334,30 +354,29 @@ public class MainActivity extends Activity {
             }
         };
 
-        //TODO:3:订阅--被观察者被观察者订阅
+        //3:订阅--被观察者被观察者订阅
         observable.subscribe(observer);
     }
 
 
+    //---------------------------------------1:快捷创建事件队列 Observable.just(T...)--------------------------------------------------------------
 
-    //---------------------------------------TODO:1:快捷创建事件队列 Observable.just(T...)--------------------------------------------------------------
-
-    //TODO:简化:观察者的创建
+    //简化:观察者的创建
 
     /**
      * 简化:观察者的创建
-     * {@link #fun0()}
+     * {@link #method0()}
      */
-    private void fun1() {
+    private void method1() {
 
 
-        //TODO:实现步骤
-        //TODO:1:被观察者:
-        //TODO:2:观察者:
-        //TODO:3:订阅-被观察者被观察者订阅
+        //实现步骤
+        //1:被观察者:
+        //2:观察者:
+        //3:订阅-被观察者被观察者订阅
 
 
-        //TODO:1:被观察者:
+        //1:被观察者:
         //just(T...): 将传入的参数依次发送出来
         Observable<String> observable = Observable.just("Hello", "World", "!");
         // 将会依次调用：
@@ -367,7 +386,7 @@ public class MainActivity extends Activity {
         // onCompleted();
 
 
-        //TODO:2:观察者:
+        //2:观察者:
         Observer<String> observer = new Observer<String>() {
             @Override
             public void onCompleted() {
@@ -385,27 +404,28 @@ public class MainActivity extends Activity {
             }
         };
 
-        //TODO:3:订阅:被观察者被观察者订阅
+        //3:订阅:被观察者被观察者订阅
         observable.subscribe(observer);
     }
 
 
-    //---------------------------------------TODO:2:快捷创建事件队列 Observable.from(T[]) / from(Iterable<? extends T>--------------------------------------------------------------
+    //---------------------------------------2:快捷创建事件队列 Observable.from(T[]) / from(Iterable<? extends T>--------------------------------------------------------------
+
     /**
      * 简化:观察者的创建
-     * {@link #fun1()}
+     * {@link #method1()}
      */
-    private void fun2() {
+    private void method2() {
 
-        //{@link #fun()1}
-        //TODO:实现步骤{@link #fun()1}
-        //TODO:1:被观察者
-        //TODO:2:观察者
-        //TODO:3:订阅-被观察者被观察者订阅
+        //{@link #method()1}
+        //实现步骤{@link #method()1}
+        //1:被观察者
+        //2:观察者
+        //3:订阅-被观察者被观察者订阅
 
 
         String[] array = new String[]{"Hello", "World", "!"};
-        //TODO:1:被观察者:
+        //1:被观察者:
         //just(String[] array) 将传入的数组或 Iterable 拆分成具体对象后，依次发送出来。
         Observable observable = Observable.from(array);
         // 将会依次调用：
@@ -415,48 +435,45 @@ public class MainActivity extends Activity {
         // onCompleted();
 
 
-        //TODO:2:观察者
+        //2:观察者
         Observer observer = new Observer() {
             @Override
             public void onCompleted() {
-                Log.d(TAG, "观察者-observer:onCompleted()");
+                Logger.d("观察者-observer:onCompleted()");
             }
 
             @Override
             public void onError(Throwable e) {
-
-                Log.d(TAG, "观察者-observer:onError()");
+                Logger.d("观察者-observer:onError()");
             }
 
             @Override
             public void onNext(Object o) {
-//                Log.d(TAG,"观察者-observer:onNext():"+o.toString());
-
-
                 String str = (String) o;
-                Log.d(TAG, "观察者-observer:onNext():" + str);
+                Logger.d("观察者-observer:onNext():" + str);
             }
         };
 
-        //TODO:3:订阅: 被观察者被观察者订阅
+        //3:订阅: 被观察者被观察者订阅
         observable.subscribe(observer);
 
     }
 
-    //---------------------------------------TODO:3: subscribe()支持不完整定义的回调--------------------------------------------------------------
+    //---------------------------------------3: subscribe()支持不完整定义的回调--------------------------------------------------------------
+
     /**
      * 对观察者的简化
-     * {@link #fun2()}
+     * {@link #method2()}
      * subscribe一个参数的不完整定义的回调
      * subscribe(final Action1<? super T> onNext)
      */
-    private void fun3() {
+    private void method3() {
 
         String[] array = new String[]{"Hello", "World", "!"};
-        //TODO:1:被观察者
+        //1:被观察者
         Observable observable = Observable.from(array);
 
-        //TODO:2:观察者
+        //2:观察者
         Action1 onNextAction = new Action1() {
             @Override
             public void call(Object o) {
@@ -465,7 +482,7 @@ public class MainActivity extends Activity {
             }
         };
 
-        //TODO:3:订阅-被观察者被观察者订阅
+        //3:订阅-被观察者被观察者订阅
         //subscribe(final Action1<? super T> onNext)
         //自动创建 Subscriber ，并使用 onNextAction 来定义 onNext()
         observable.subscribe(onNextAction);
@@ -474,20 +491,20 @@ public class MainActivity extends Activity {
     /**
      * 对观察者的简化
      * subscribe两个参数的不完整定义的回调
-     * {@link #fun3()}
+     * {@link #method3()}
      * subscribe(final Action1<? super T> onNext, final Action1<Throwable> onError)
      */
-    private void fun4() {
+    private void method4() {
 
-        //TODO:1:被观察者
+        //1:被观察者
         Observable observable = Observable.from(new String[]{"Hello", "World", "!"});
 
-        //TODO:2:观察者
+        //2:观察者
         Action1 onNextAction = new Action1() {
             @Override
             public void call(Object o) {
                 String str = (String) o;
-                Logger.d("观察者:onNextAction:call(Object o):o:" + str );
+                Logger.d("观察者:onNextAction:call(Object o):o:" + str);
             }
         };
 
@@ -500,7 +517,7 @@ public class MainActivity extends Activity {
         };
 
 
-        //TODO:3:订阅
+        //3:订阅
         //subscribe(final Action1<? super T> onNext, final Action1<Throwable> onError)
         // 自动创建 Subscriber ，并使用 onNextAction 和 onErrorAction 来定义 onNext() 和 onError()
         observable.subscribe(onNextAction, onErrorAction);
@@ -512,12 +529,12 @@ public class MainActivity extends Activity {
      * subscribe三个参数的不完整定义的回调
      * subscribe(final Action1<? super T> onNext, final Action1<Throwable> onError, final Action0 onComplete)
      */
-    private void fun5() {
-        //TODO:1:被观察者
+    private void method5() {
+        //1:被观察者
         Observable observable = Observable.from(new String[]{"Hello", "World", "!"});
 
 
-        //TODO:2:观察者
+        //2:观察者
         Action1 onNextAction = new Action1() {
             @Override
             public void call(Object o) {
@@ -543,7 +560,7 @@ public class MainActivity extends Activity {
         };
 
 
-        //TODO:3:订阅:被观察者被观察者订阅
+        //3:订阅:被观察者被观察者订阅
 
         //subscribe(final Action1<? super T> onNext, final Action1<Throwable> onError, final Action0 onComplete)
         // 自动创建 Subscriber ，并使用 onNextAction、 onErrorAction 和 onCompletedAction 来定义 onNext()、 onError() 和 onCompleted()
@@ -551,7 +568,7 @@ public class MainActivity extends Activity {
 
     }
 
-    //---------------------------------------TODO:4: Action0和Action1 讲解--------------------------------------------------------------
+    //---------------------------------------4: Action0和Action1 讲解--------------------------------------------------------------
     /**
      * 肯定有同学对Action0和Action1很困惑,就像当初我刚看到那样子;
      * 那就听听仍物线给大家讲一下:
@@ -572,11 +589,7 @@ public class MainActivity extends Activity {
      */
 
 
-
-
-
-
-    //---------------------------------------TODO:5: 休息一下!推荐两个好用的日志查看工具-------------------------------------------------------------
+    //---------------------------------------5: 休息一下!推荐两个好用的日志查看工具-------------------------------------------------------------
 
     //1.[logger](https://github.com/orhanobut/logger) | 一个简洁,优雅,功能强大的Android日志输出工具
     //2.[pidcat](https://github.com/JakeWharton/pidcat)|JakeWharton项目一个简洁,优雅的,彩色日志终端查看库|在终端过滤日志信息
@@ -601,17 +614,18 @@ public class MainActivity extends Activity {
      D  ╚════════════════════════════════════════════════════════════════════════════════════════
      */
 
-    //---------------------------------------TODO:6 线程控制-Scheduler-------------------------------------------------------------
+    //---------------------------------------6 线程控制-Scheduler-------------------------------------------------------------
+
     /**
      * 显示图片
      * 后台线程取数据，主线程显示
      * 加载图片将会发生在 IO 线程，而设置图片则被设定在了主线程。这就意味着，即使加载图片耗费了几十甚至几百毫秒的时间，也不会造成丝毫界面的卡顿。
      */
-    private void fun6() {
+    private void method6() {
 
         final int drawableRes = R.mipmap.malin;
         initView();
-        Observable.create(new Observable.OnSubscribe<Drawable>() { //TODO:1:被观察者
+        Observable.create(new Observable.OnSubscribe<Drawable>() { //1:被观察者
             @Override
             public void call(Subscriber<? super Drawable> subscriber) {
                 Logger.d("被观察者");
@@ -628,7 +642,7 @@ public class MainActivity extends Activity {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//指定 Subscriber 所运行在的线程。或者叫做事件消费的线程
-                .subscribe(new Subscriber<Drawable>() {   //TODO:3:订阅 //TODO:2:观察者
+                .subscribe(new Subscriber<Drawable>() {   //3:订阅 //2:观察者
                     @Override
                     public void onCompleted() {
                         Logger.d("观察者 onCompleted()");
@@ -652,12 +666,12 @@ public class MainActivity extends Activity {
 
     }
 
-    //---------------------------------------TODO:7: 变换 map()-------------------------------------------------------------
-    private void fun7() {
+    //---------------------------------------7: 变换 map()-------------------------------------------------------------
+    private void method7() {
         final int drawableRes = R.mipmap.malin;
         initView();
 
-        //TODO:1:被观察者
+        //1:被观察者
         Observable.just(drawableRes)//输入类型 int
                 .map(new Func1<Integer, Drawable>() {
 
@@ -676,7 +690,7 @@ public class MainActivity extends Activity {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Drawable>() {  //TODO:3:订阅 //TODO:2:观察者
+                .subscribe(new Subscriber<Drawable>() {  //3:订阅 //2:观察者
                     @Override
                     public void onCompleted() {
                         Logger.d("观察者:onCompleted()");
@@ -697,28 +711,27 @@ public class MainActivity extends Activity {
                 });
     }
 
-    //---------------------------------------TODO:8: 练习 中途休息一下-------------------------------------------------------------
+    //---------------------------------------8: 练习 中途休息一下-------------------------------------------------------------
 
-   //演示嵌套循环
-    private void fun8() {
-        ArrayList<Student> stu = DataFactory.getData();
-        int size = stu.size();
+    //演示嵌套循环
+    private void method8() {
+        ArrayList<Student> students = DataFactory.getData();
+        int size = students.size();
         for (int i = 0; i < size; i++) {
-            Logger.d("学生:" + stu.get(i).name);
-            for (int j = 0; j < stu.get(i).courses.size(); j++) {
-                Logger.d(stu.get(i).courses.get(j).name);
+            Logger.d("学生:" + students.get(i).name);
+            for (int j = 0; j < students.get(i).courses.size(); j++) {
+                Logger.d(students.get(i).courses.get(j).name);
             }
         }
     }
 
 
-
     /**
      * 嵌套循环的RxJava解决方案:
      * 输入学生的姓名
-     * {@link #fun8()}
+     * {@link #method8()}
      */
-    private void fun9() {
+    private void method9() {
 
         Observable.from(DataFactory.getData())
                 .subscribeOn(Schedulers.io())
@@ -735,21 +748,21 @@ public class MainActivity extends Activity {
     /**
      * 嵌套循环的RxJava解决方案
      * 输出学生的课程
-     * {@link #fun8()}
+     * {@link #method8()}
      */
-    private void fun10() {
+    private void method10() {
 
-        //TODO:1:被观察者
+        //1:被观察者
 
-        //TODO:2:数据转换
+        //2:数据转换
 
-        //TODO:3:事件产生的线程。
+        //3:事件产生的线程。
 
-        //TODO:4:事件消费的线程。
+        //4:事件消费的线程。
 
-        //TODO:5:被观察者被观察者订阅
+        //5:被观察者被观察者订阅
 
-        //TODO:6:观察者
+        //6:观察者
 
         Observable.from(DataFactory.getData())
 
@@ -782,7 +795,7 @@ public class MainActivity extends Activity {
     }
 
 
-    private void fun11() {
+    private void method11() {
         Observable.from(DataFactory.getData())
                 .map(new Func1<Student, String>() {
                     @Override
@@ -801,14 +814,14 @@ public class MainActivity extends Activity {
 
     }
 
-    //---------------------------------------TODO:9: 引入flatmap()-------------------------------------------------------------
-    private void fun12() {
+    //---------------------------------------9: 引入flatmap()-------------------------------------------------------------
+    private void method12() {
 
-        //TODO:1:被观察者
+        //1:被观察者
 
-        //TODO:2:被观察者被观察者订阅
+        //2:被观察者被观察者订阅
 
-        //TODO:3:观察者
+        //3:观察者
 
         Observable.from(DataFactory.getData())
                 .subscribe(new Subscriber<Student>() {
@@ -834,7 +847,7 @@ public class MainActivity extends Activity {
     }
 
 
-    private void fun13() {
+    private void method13() {
 
         Observable.from(DataFactory.getData())
 
@@ -857,20 +870,20 @@ public class MainActivity extends Activity {
                 });
     }
 
-    //---------------------------------------TODO:10: flatMap()的使用-------------------------------------------------------------
-    private void fun14() {
+    //---------------------------------------10: flatMap()的使用-------------------------------------------------------------
+    private void method14() {
 
-        //TODO:1:被观察者
+        //1:被观察者
 
-        //TODO:2:数据转换
+        //2:数据转换
 
-        //TODO:3:事件产生的线程。
+        //3:事件产生的线程。
 
-        //TODO:4:事件消费的线程。
+        //4:事件消费的线程。
 
-        //TODO:5:被观察者被观察者订阅
+        //5:被观察者被观察者订阅
 
-        //TODO:6:观察者
+        //6:观察者
 
         Observable.from(DataFactory.getData())
                 .flatMap(new Func1<Student, Observable<Course>>() {
@@ -889,48 +902,121 @@ public class MainActivity extends Activity {
     }
 
 
-
     /**
-     * 用于显示图片的初始化
+     * 测试这些每个知识点的功能
+     * @param number
      */
-    private void initView() {
-        mImageView = (MyImageView) findViewById(R.id.iv_image);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+    private void testFuncation(int number) {
+        switch (number) {
+            case 0: {
+                method0();
+                break;
+            }
+
+            case 1: {
+                method1();
+                break;
+            }
+
+            case 2: {
+                method2();
+                break;
+            }
+
+            case 3: {
+                method3();
+                break;
+            }
+
+            case 4: {
+                method4();
+                break;
+            }
+
+            case 5: {
+                method5();
+                break;
+            }
+
+            case 6: {
+                method6();
+                break;
+            }
+
+            case 7: {
+                method7();
+                break;
+            }
+
+            case 8: {
+                method8();
+                break;
+            }
+
+            case 9: {
+                method9();
+                break;
+            }
+
+            case 10: {
+                method10();
+                break;
+            }
+
+            case 11: {
+                method11();
+                break;
+            }
+
+            case 12: {
+                method12();
+                break;
+            }
+
+            case 13: {
+                method13();
+                break;
+            }
+
+            case 14: {
+                method14();
+                break;
+            }
+
+            default: {
+
+                break;
+            }
+        }
     }
 
 
-    /**
-     * 故意让程序出现异常,可以用来测试
-     */
-    private void getException() {
-        int errorCode = Integer.valueOf("故意让程序出错");
-    }
+    private boolean mGoToRecycleImageView = false;
 
-    private boolean isRecycleImageView = false;
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Logger.d("onDestroy");
         //回收ImageView占用的图像内存
-        if (isRecycleImageView) {
+        if (mGoToRecycleImageView) {
             Logger.d("onDestroy()-> RecycleBitmap.recycleImageView(mImageView)");
             RecycleBitmap.recycleImageView(mImageView);
             mImageView.setImageBitmap(null);
         }
 
-        if (manyBitmapSuperposition!=null&&!manyBitmapSuperposition.isRecycled()){
-            manyBitmapSuperposition.recycle();
-            manyBitmapSuperposition=null;
+        if (mManyBitmapSuperposition != null && !mManyBitmapSuperposition.isRecycled()) {
+            mManyBitmapSuperposition.recycle();
+            mManyBitmapSuperposition = null;
         }
 
         //@link http://blog.csdn.net/yanzi1225627/article/details/8236309
-        if (canvas!=null){
+        if (mCanvas != null) {
             //清屏
             Paint paint = new Paint();
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            canvas.drawPaint(paint);
+            mCanvas.drawPaint(paint);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
-            canvas=null;
+            mCanvas = null;
         }
     }
 }

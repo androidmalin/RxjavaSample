@@ -5,6 +5,10 @@
 ###说明
 最近正好有时间,边读文章,边将文章中的例子敲成代码.因为接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.<br/>
 
+### 特别致谢
+[扔物线](https://github.com/rengwuxian)在百忙之中的周末给Review代码,以及对我的鼓励<br/>
+[汤涛](http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect)在百忙之中的傍晚给Review代码,提了很多代码规范上的建议,以及对我的夸奖<br/>
+[秋百万](https://github.com/liaohuqiu)对我的鼓励,使我坚持不断的修改代码<br/>
 
 ###APK下载
 

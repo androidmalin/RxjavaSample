@@ -8,9 +8,6 @@ import java.util.ArrayList;
  * 创建时间:15-11-10.
  * 版本:1.0.0
  * 备注:
- * 修改人:
- * 修改时间:
- * 修改备注:
  * 参考内容:
  */
 public class ImageNameFactory {
@@ -22,6 +19,7 @@ public class ImageNameFactory {
 
     /**
      * 获取asset目录下的文件夹的名称集合
+     *
      * @return
      */
     public static ArrayList<String> getAssetImageFolderName() {

@@ -8,9 +8,6 @@ import java.util.ArrayList;
  * 创建时间:15-11-10.
  * 版本:1.0.0
  * 备注:
- * 修改人:
- * 修改时间:
- * 修改备注:
  * 参考内容:
  */
 public class DataFactory {
@@ -34,7 +31,7 @@ public class DataFactory {
             for (int j = 0; j < 2; j++) {
                 course = new Course();
                 course.id = j;
-                course.name = student.name+"的"+"课程" + j;
+                course.name = student.name + "的" + "课程" + j;
                 courses.add(course);
             }
 
