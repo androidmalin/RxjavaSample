@@ -50,7 +50,7 @@
 ### 使用到的开源项目
 项目名称 | 项目信息| 参考的地方
 ------- | -------| -------
-[nostra13](https://github.com/nostra13/Android-Universal-Image-Loader) | Powerful and flexible library for loading, caching and displaying images on Android | singleton class
+[Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader) | Powerful and flexible library for loading, caching and displaying images on Android | singleton class
 [pidcat](https://github.com/JakeWharton/pidcat)|JakeWharton项目一个简洁,优雅的,彩色日志终端查看库|在终端过滤日志信息
 [phphub-android](https://github.com/CycloneAxe/phphub-android/blob/master/README.md)| [PHPHub](https://phphub.org/) Android 客户端|参考了README.md的写法
 

@@ -60,10 +60,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentViewLayout(false);
+        setContentViewLayout(true);
         initializeLogAndDeviceInfo();
-        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-//        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
+//        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
+        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
 //        testFuncation(0);//RxJava基础概念的练习
     }
 
@@ -255,7 +255,7 @@ public class MainActivity extends Activity {
         //6:订阅:被观察者被观察者订阅
 
         initView();
-        mGoToRecycleImageView = true;
+        mGoToRecycleImageView = false;
         Observable.from(ImageNameFactory.getAssetImageFolderName())
                 //assets下一个文件夹的名称,assets下一个文件夹中一张图片的路径
                 .flatMap(new Func1<String, Observable<String>>() {
