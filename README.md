@@ -27,14 +27,14 @@
 
 
 
-### 链接
-[扔物线 给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)<br/>
-[扔物线Github主页](https://github.com/rengwuxian)<br/>
-[扔物线博客](http://www.rengwuxian.com)<br/>
-[扔物线Dagger源码解析](http://a.codekk.com/detail/Android/%E6%89%94%E7%89%A9%E7%BA%BF/Dagger%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90)<br/>
-[扔物线《埋头苦干的一年》](https://github.com/aosp-exchange-group/fuck-2014-flirt-2015/blob/master/1/rengwuxian.md)<br/>
-[秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)<br/>
-[效果视频在线播放地址](http://video.weibo.com/show?fid=1034:a6434cc89dc75f1444dac67ff22c1153)<br/>
+<!--### 链接-->
+<!--[扔物线 给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)<br/>-->
+<!--[扔物线Github主页](https://github.com/rengwuxian)<br/>-->
+<!--[扔物线博客](http://www.rengwuxian.com)<br/>-->
+<!--[扔物线Dagger源码解析](http://a.codekk.com/detail/Android/%E6%89%94%E7%89%A9%E7%BA%BF/Dagger%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90)<br/>-->
+<!--[扔物线《埋头苦干的一年》](https://github.com/aosp-exchange-group/fuck-2014-flirt-2015/blob/master/1/rengwuxian.md)<br/>-->
+<!--[秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)<br/>-->
+<!--[效果视频在线播放地址](http://video.weibo.com/show?fid=1034:a6434cc89dc75f1444dac67ff22c1153)<br/>-->
 
 
 ### 项目依赖
@@ -79,14 +79,13 @@
 [汤涛](http://mp.weixin.qq.com/s?__biz=MzA4MjU5NTY0NA==&mid=400871360&idx=1&sn=ed438babc92bcca912f0f097f46fcf70&scene=1&srcid=1201fX7dBmzWopPQwaue5OKg&from=groupmessage&isappinstalled=0#wechat_redirect)<br/>
 [intbird](http://blog.csdn.net/intbird)<br/>
 
-### [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)
->代码情诗(一)<br/>
->旧金山的下着雨的星期天<br/>
->我检出了多年前的老项目<br/>
->看到了代码片段中的注释里<br/>
->多年前的我对你的思念<br/>
-
-[诗歌出处,链接](http://weibo.com/p/1001603907193945642719)
+<!--### [秋百万诗歌欣赏](http://weibo.com/p/1001603907193945642719)-->
+<!-->代码情诗(一)<br/>-->
+<!-->旧金山的下着雨的星期天<br/>-->
+<!-->我检出了多年前的老项目<br/>-->
+<!-->看到了代码片段中的注释里<br/>-->
+<!-->多年前的我对你的思念<br/>-->
+<!--[诗歌出处,链接](http://weibo.com/p/1001603907193945642719)-->
 
 ###About me
 
