@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -81,6 +83,7 @@ public class MainActivity extends Activity {
      * @param isOpenScalpe:是否开启使用Scalpel查看三维模式的层次结构
      */
     private void setContentViewLayout(boolean isOpenScalpe) {
+        getWindow().setBackgroundDrawable(null);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
         if (isOpenScalpe) {
             mScalpelFrameLayout = new ScalpelFrameLayout(this);
@@ -1017,6 +1020,56 @@ public class MainActivity extends Activity {
             mCanvas.drawPaint(paint);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
             mCanvas = null;
+        }
+        unBingListener(findViewById(R.id.rl_root_layout));
+        unBindDrawables(findViewById(R.id.rl_root_layout));
+    }
+
+
+    /**
+     * 做法也非常简单，在Activity onDestory时候从view的rootview开始，
+     * 递归释放所有子view涉及的图片，背景，DrawingCache，监听器等等资源，
+     * 让Activity成为一个不占资源的空壳，泄露了也不会导致图片资源被持有。
+     *
+     * @description Unbind the rootView
+     * @param view:the root view of the layout
+     * @author malin.myemail@gmail.com
+     * @link http://stackoverflow.com/questions/9461364/exception-in-unbinddrawables
+     * http://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=400656149&idx=1&sn=122b4f4965fafebf78ec0b4fce2ef62a&3rd=MzA3MDU4NTYzMw==&scene=6#rd
+     * @since 2015.12.16
+     */
+    private void unBindDrawables(View view) {
+        if (view != null) {
+            Drawable drawable = view.getBackground();
+            if (drawable != null) {
+                drawable.setCallback(null);
+            }else{
+            }
+            if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
+                ViewGroup viewGroup = (ViewGroup) view;
+                int viewGroupChildCount = viewGroup.getChildCount();
+                for (int j = 0; j < viewGroupChildCount; j++) {
+                    unBindDrawables(viewGroup.getChildAt(j));
+                }
+                viewGroup.removeAllViews();
+            }
+        }
+    }
+
+    /**
+     * 解除绑定
+     * @param view
+     */
+    private void unBingListener(View view) {
+        if (view != null) {
+            view.setOnClickListener(null);
+            if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
+                ViewGroup viewGroup = (ViewGroup) view;
+                int viewGroupChildCount = viewGroup.getChildCount();
+                for (int i = 0; i < viewGroupChildCount; i++) {
+                    unBingListener(viewGroup.getChildAt(i));
+                }
+            }
         }
     }
 }
