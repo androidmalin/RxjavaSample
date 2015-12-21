@@ -6,9 +6,7 @@ import java.util.ArrayList;
  * 类描述:获取学生集合
  * 创建人:malin.myemail@gmail.com
  * 创建时间:15-11-10.
- * 版本:1.0.0
  * 备注:
- * 参考内容:
  */
 public class DataFactory {
 

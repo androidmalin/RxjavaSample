@@ -999,10 +999,17 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Logger.d("onDestroy");
+        //rl_root_layout 这个是根布局的id
+        unBingListener(findViewById(R.id.rl_root_layout));
+        unBindDrawables(findViewById(R.id.rl_root_layout));
+        recycleImageView();
+    }
+
+
+    private void recycleImageView() {
         //回收ImageView占用的图像内存
         if (mGoToRecycleImageView) {
-            Logger.d("onDestroy()-> RecycleBitmap.recycleImageView(mImageView)");
+            Logger.d("onDestroy()> RecycleBitmap.recycleImageView(mImageView)");
             RecycleBitmap.recycleImageView(mImageView);
             mImageView.setImageBitmap(null);
         }
@@ -1021,10 +1028,8 @@ public class MainActivity extends Activity {
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
             mCanvas = null;
         }
-        unBingListener(findViewById(R.id.rl_root_layout));
-        unBindDrawables(findViewById(R.id.rl_root_layout));
-    }
 
+    }
 
     /**
      * 做法也非常简单，在Activity onDestory时候从view的rootview开始，

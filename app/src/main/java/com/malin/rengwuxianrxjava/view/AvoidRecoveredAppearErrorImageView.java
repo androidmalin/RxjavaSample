@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import com.orhanobut.logger.Logger;
 
 /**
- * 类描述:
- * 创建人:lin.ma@renren-inc.com
+ * 类描述:判断ImageView
+ * 创建人:malin.myemail@gmail.com
  * 创建时间:15-12-11 下午4:48
  * 备注:
  */

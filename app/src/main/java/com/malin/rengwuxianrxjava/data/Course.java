@@ -5,7 +5,6 @@ package com.malin.rengwuxianrxjava.data;
  * 创建人:malin.myemail@gmail.com
  * 创建时间:15-11-13.
  * 备注:
- * 参考内容:
  */
 
 public class Course {

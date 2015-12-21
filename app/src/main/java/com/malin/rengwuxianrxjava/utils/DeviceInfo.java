@@ -3,8 +3,6 @@ package com.malin.rengwuxianrxjava.utils;
 import android.app.Activity;
 import android.util.DisplayMetrics;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 /**
  * 类描述:手机设备的信息
  * 创建人:malin.myemail@gmail.com
