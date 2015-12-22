@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,9 +22,9 @@ import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.malin.rengwuxianrxjava.R;
 import com.malin.rengwuxianrxjava.constant.Constant;
 import com.malin.rengwuxianrxjava.data.Course;
-import com.malin.rengwuxianrxjava.data.DataFactory;
-import com.malin.rengwuxianrxjava.data.ImageNameFactory;
 import com.malin.rengwuxianrxjava.data.Student;
+import com.malin.rengwuxianrxjava.factory.DataFactory;
+import com.malin.rengwuxianrxjava.factory.ImageNameFactory;
 import com.malin.rengwuxianrxjava.utils.DeviceInfo;
 import com.malin.rengwuxianrxjava.utils.ImageUtils;
 import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
@@ -58,6 +60,7 @@ public class MainActivity extends Activity {
     private Canvas mCanvas = null;
     private ProgressBar mProgressBar;
     private ScalpelFrameLayout mScalpelFrameLayout;
+    private boolean mIsOpenScalpel=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +90,7 @@ public class MainActivity extends Activity {
         View view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
         if (isOpenScalpe) {
             mScalpelFrameLayout = new ScalpelFrameLayout(this);
-            mScalpelFrameLayout.setLayerInteractionEnabled(true);//Enable the 3D interaction
+            mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);//Enable the 3D interaction
             mScalpelFrameLayout.setDrawIds(true);//Toggle wireframe display
             mScalpelFrameLayout.setDrawIds(true);// Toggle view ID display
             mScalpelFrameLayout.addView(view);
@@ -1076,5 +1079,33 @@ public class MainActivity extends Activity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings_open_scalpel) {
+            mIsOpenScalpel = true;
+            mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
+            return true;
+        }else if (id == R.id.action_settings_close_scalpel){
+            mIsOpenScalpel = false;
+            mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

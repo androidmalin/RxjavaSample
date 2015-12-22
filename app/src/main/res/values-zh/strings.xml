@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RxJavaPaoWuXianArticleSample</string>
+    <string name="open_scalpel">Open Scalpel</string>
+    <string name="close_scalpel">Close Scalpel</string>
+</resources>

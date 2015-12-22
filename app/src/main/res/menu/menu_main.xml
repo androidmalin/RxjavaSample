@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.malin.rengwuxianrxjava.activity.MainActivity">
+    <item
+        android:id="@+id/action_settings_open_scalpel"
+        android:orderInCategory="100"
+        android:title="@string/open_scalpel"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings_close_scalpel"
+        android:orderInCategory="100"
+        android:title="@string/close_scalpel"
+        app:showAsAction="never" />
+</menu>
