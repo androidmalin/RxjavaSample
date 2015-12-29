@@ -69,8 +69,8 @@ public class MainActivity extends Activity {
         initializeLogAndDeviceInfo();
         initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-//        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-        testFuncation(14);//RxJava基础概念的练习
+        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
+//        testFuncation(14);//RxJava基础概念的练习
     }
 
     /**
