@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.malin.rengwuxianrxjava.R;
 import com.malin.rengwuxianrxjava.constant.Constant;
@@ -33,6 +34,7 @@ import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Observer;
@@ -50,7 +52,7 @@ import rx.schedulers.Schedulers;
  * 创建时间:15-11-10.
  * 备注:
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
     private static final String TAG = "MainActivity";
     private static final String TAG_FOR_LOGGER = "MainActivity_I_LOVE_RXJAVA";
     private static final String JPG = ".jpg";
@@ -70,7 +72,7 @@ public class MainActivity extends Activity {
         initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
         rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-//        testFuncation(14);//RxJava基础概念的练习
+        testFuncation(16);//RxJava基础概念的练习
     }
 
     /**
@@ -916,6 +918,40 @@ public class MainActivity extends Activity {
                 });
     }
 
+    /**
+     * RxBinding
+     * RxBinding 是 Jake Wharton 的一个开源库，它提供了一套在 Android 平台上的基于 RxJava 的 Binding API。
+     * 所谓 Binding，就是类似设置 OnClickListener 、设置 TextWatcher 这样的注册绑定对象的 API。
+     * 举个设置点击监听的例子。使用 RxBinding ，可以把事件监听用这样的方法来设置：
+     * throttleFirst() ，用于去抖动，也就是消除手抖导致的快速连环点击：
+     */
+     private void method15(){
+         RxView.clicks(mImageView)
+                 .throttleFirst(500, TimeUnit.MILLISECONDS)
+                 .subscribe(new Action1<Void>() {
+                     @Override
+                     public void call(Void aVoid) {
+
+                         Toast.makeText(MainActivity.this, "click", Toast.LENGTH_SHORT).show();
+                     }
+                 });
+     }
+
+    /**
+     * RxBinding
+     */
+    private void method16(){
+        RxView.longClicks(mImageView)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        mIsOpenScalpel = !mIsOpenScalpel;
+                        mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
+                        Toast.makeText(MainActivity.this, "long click", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     /**
      * 测试这些每个知识点的功能
@@ -998,6 +1034,14 @@ public class MainActivity extends Activity {
                 break;
             }
 
+            case 15: {
+                method15();
+                break;
+            }
+            case 16: {
+                method16();
+                break;
+            }
             default: {
 
                 break;
@@ -1096,6 +1140,8 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
