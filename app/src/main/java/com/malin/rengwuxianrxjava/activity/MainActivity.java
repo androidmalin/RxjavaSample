@@ -72,7 +72,7 @@ public class MainActivity extends Activity{
         initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
         rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-        testFuncation(16);//RxJava基础概念的练习
+//        testFuncation(16);//RxJava基础概念的练习
     }
 
     /**
