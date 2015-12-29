@@ -13,7 +13,30 @@ import java.util.ArrayList;
  */
 public class DataFactory {
 
-
+    /**
+     * 获取学生集合
+     *
+     * [
+     *      1:{
+     *          id:1
+     *          name:学生1
+     *          course:[课程1,课程2,课程3]
+     *        }
+     *
+     *      2:{
+     *          id:2
+     *          name:学生2
+     *          course:[课程1,课程2,课程3]
+     *        }
+     *
+     *      3:{
+     *          id:3
+     *          name:学生3
+     *          course:[课程1,课程2,课程3]
+     *        }
+     * ]
+     * @return
+     */
     public static ArrayList<Student> getData() {
 
         ArrayList<Student> students = new ArrayList<Student>();
@@ -27,12 +50,12 @@ public class DataFactory {
 
             student = new Student();
             student.id = i;
-            student.name = "学生" + i;
+            student.name = new StringBuffer("学生").append((i+1)).toString();
 
             for (int j = 0; j < 2; j++) {
                 course = new Course();
                 course.id = j;
-                course.name = student.name + "的" + "课程" + j;
+                course.name = new StringBuffer(student.name).append("的课程").append((j+1)).toString();
                 courses.add(course);
             }
 

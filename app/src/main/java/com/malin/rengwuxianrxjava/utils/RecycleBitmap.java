@@ -10,8 +10,6 @@ import android.widget.ImageView;
  * 类描述:回收ImageView占用的图像内存
  * 创建人:malin.myemail@gmail.com
  * 创建时间:15-11-21.
- * 版本:1.0.0
- * 备注:
  * 参考内容:http://blog.csdn.net/intbird/article/details/19905549
  */
 

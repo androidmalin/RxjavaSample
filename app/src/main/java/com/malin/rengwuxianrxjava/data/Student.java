@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 public class Student {
 
-    public int id;
-    public String name;
+    public int id;//学号
+    public String name;//姓名
 
-    public ArrayList<Course> courses;
+    public ArrayList<Course> courses;//学生选修的课程
 }

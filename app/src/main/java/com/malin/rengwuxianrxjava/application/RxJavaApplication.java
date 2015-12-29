@@ -5,8 +5,8 @@ import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
- * 类描述:
- * 创建人:lin.ma@renren-inc.com
+ * 类描述:Application
+ * 创建人:malin.myemail@gmail.com
  * 创建时间:15-12-16 上午11:00
  * 修改人:
  * 修改时间:

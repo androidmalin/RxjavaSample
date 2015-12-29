@@ -9,6 +9,6 @@ package com.malin.rengwuxianrxjava.data;
 
 public class Course {
 
-    public int id;
-    public String name;
+    public int id;//课程编号
+    public String name;//课程名称
 }

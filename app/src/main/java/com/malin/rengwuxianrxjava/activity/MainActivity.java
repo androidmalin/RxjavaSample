@@ -67,9 +67,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentViewLayout(true);
         initializeLogAndDeviceInfo();
+        initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-//        testFuncation(0);//RxJava基础概念的练习
+//        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
+        testFuncation(14);//RxJava基础概念的练习
     }
 
     /**
@@ -132,7 +133,6 @@ public class MainActivity extends Activity {
     //5:将Bitmap绘制到画布上
     //6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
     private void miZhiSuoJinAndNestedLoopAndCallbackHell() {
-        initView();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -260,7 +260,6 @@ public class MainActivity extends Activity {
 
         //6:订阅:被观察者被观察者订阅
 
-        initView();
         mGoToRecycleImageView = false;
         Observable.from(ImageNameFactory.getAssetImageFolderName())
                 //assets下一个文件夹的名称,assets下一个文件夹中一张图片的路径
@@ -630,7 +629,6 @@ public class MainActivity extends Activity {
     private void method6() {
 
         final int drawableRes = R.mipmap.malin;
-        initView();
         Observable.create(new Observable.OnSubscribe<Drawable>() { //1:被观察者
             @Override
             public void call(Subscriber<? super Drawable> subscriber) {
@@ -675,7 +673,6 @@ public class MainActivity extends Activity {
     //---------------------------------------7: 变换 map()-------------------------------------------------------------
     private void method7() {
         final int drawableRes = R.mipmap.malin;
-        initView();
 
         //1:被观察者
         Observable.just(drawableRes)//输入类型 int
@@ -687,7 +684,6 @@ public class MainActivity extends Activity {
                         return getResources().getDrawable(drawableRes);
                     }
                 })
-
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -724,9 +720,10 @@ public class MainActivity extends Activity {
         ArrayList<Student> students = DataFactory.getData();
         int size = students.size();
         for (int i = 0; i < size; i++) {
-            Logger.d("学生:" + students.get(i).name);
-            for (int j = 0; j < students.get(i).courses.size(); j++) {
-                Logger.d(students.get(i).courses.get(j).name);
+            Logger.d("姓名:" + students.get(i).name);
+            int sizeCourses  = students.get(i).courses.size();
+            for (int j = 0; j < sizeCourses; j++) {
+                Logger.d("课程:"+students.get(i).courses.get(j).name);
             }
         }
     }
@@ -753,8 +750,8 @@ public class MainActivity extends Activity {
 
     /**
      * 嵌套循环的RxJava解决方案
-     * 输出学生的课程
-     * {@link #method8()}
+     * 输出学生的姓名
+     * {@link #method9()}
      */
     private void method10() {
 
@@ -793,14 +790,17 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onNext(String s) {
-
                         Logger.d("观察者:onNext(String s) " + s);
                     }
                 });
 
     }
 
-
+    /**
+     * 嵌套循环的RxJava解决方案
+     * 输出学生的姓名
+     * {@link #method10()}
+     */
     private void method11() {
         Observable.from(DataFactory.getData())
                 .map(new Func1<Student, String>() {
@@ -821,6 +821,12 @@ public class MainActivity extends Activity {
     }
 
     //---------------------------------------9: 引入flatmap()-------------------------------------------------------------
+
+    /**
+     * 嵌套循环的RxJava解决方案
+     * 输出每一个学生选修的课程
+     * {@link #method11()}
+     */
     private void method12() {
 
         //1:被观察者
@@ -852,13 +858,17 @@ public class MainActivity extends Activity {
 
     }
 
-
+    /**
+     * 嵌套循环的RxJava解决方案
+     * 输出每一个学生选修的课程
+     * 对method12的简化
+     * {@link #method12()}
+     */
     private void method13() {
 
         Observable.from(DataFactory.getData())
 
                 .map(new Func1<Student, ArrayList<Course>>() {
-
                     @Override
                     public ArrayList<Course> call(Student student) {
                         return student.courses;
@@ -868,7 +878,6 @@ public class MainActivity extends Activity {
                 .subscribe(new Action1<ArrayList<Course>>() {
                     @Override
                     public void call(ArrayList<Course> courses) {
-
                         for (int i = 0; i < courses.size(); i++) {
                             Logger.d("观察者:" + courses.get(i).name);
                         }

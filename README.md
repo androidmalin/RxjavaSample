@@ -26,6 +26,19 @@
 [视频在线播放地址](http://video.weibo.com/show?fid=1034:a6434cc89dc75f1444dac67ff22c1153)<br/>
 
 
+###Build
+
+To build:
+>$ git clone https://github.com/androidmalin/RengwuxianRxjava.git<br/>
+>$ cd RengwuxianRxjava/<br/>
+>$ ./gradlew clean --stacktrace (gradle clean --stacktrace)<br/>
+
+
+###Bugs and Feedback
+
+For bugs, questions and discussions please use the [Github Issues](https://github.com/androidmalin/RengwuxianRxjava/issues).
+
+
 ### 项目依赖
 
 项目名称 | 项目信息
