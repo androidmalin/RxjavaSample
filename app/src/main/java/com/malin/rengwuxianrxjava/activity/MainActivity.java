@@ -865,6 +865,8 @@ public class MainActivity extends Activity{
      * 输出每一个学生选修的课程
      * 对method12的简化
      * {@link #method12()}
+     *
+     * Student->ArrayList<Course>
      */
     private void method13() {
 
@@ -902,6 +904,7 @@ public class MainActivity extends Activity{
 
         //6:观察者
 
+        // Student->Course
         Observable.from(DataFactory.getData())
                 .flatMap(new Func1<Student, Observable<Course>>() {
                     @Override
