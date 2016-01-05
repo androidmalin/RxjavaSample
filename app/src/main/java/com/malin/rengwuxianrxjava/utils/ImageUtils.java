@@ -43,6 +43,10 @@ public class ImageUtils {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            System.gc();
+            return null;
         }
 
         try {
