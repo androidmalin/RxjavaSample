@@ -26,6 +26,7 @@ gen/
 .gradle/
 .idea/
 RengwuxianRxjava.iml
+gradle.properties
 gen-external-apklibs/
 
 # Eclipse project files
