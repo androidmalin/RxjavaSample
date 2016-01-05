@@ -683,7 +683,7 @@ public class MainActivity extends Activity{
                     @Override
                     public Drawable call(Integer integer) {// 参数类型 String
                         Logger.d("integer:" + integer);
-                        return getResources().getDrawable(drawableRes);
+                        return getResources().getDrawable(integer);
                     }
                 })
                 .subscribeOn(Schedulers.io())
