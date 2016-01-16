@@ -14,6 +14,8 @@ public class DeviceInfo {
 
     public static int screenWidthForPortrait;   // 屏幕宽度
     public static int screenHeightForPortrait;  // 屏幕高度
+    public static float mDensity;
+    public static int mDensityDpi;
 
 
     private volatile static DeviceInfo instance;
@@ -45,6 +47,8 @@ public class DeviceInfo {
     public void initializeScreenInfo(Activity activity) {
         DisplayMetrics metric = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        mDensity = metric.density;
+        mDensityDpi = metric.densityDpi;
         if (metric.heightPixels >= metric.widthPixels) {
             screenWidthForPortrait = metric.widthPixels;
             screenHeightForPortrait = metric.heightPixels;

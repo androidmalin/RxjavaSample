@@ -1,9 +1,12 @@
 package com.malin.rengwuxianrxjava.utils;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 
 import java.io.File;
 import java.io.IOException;
@@ -187,5 +190,51 @@ public class ImageUtils {
             e.printStackTrace();
         }
         return imageNameArray;
+    }
+
+
+    /**
+     * 将本地ResFolder图片转换为Bitmap
+     */
+
+    /**
+     * inDensity 就是原始资源的 density
+     *
+     * inTargetDensity 就是屏幕的 density。
+     */
+
+    public static Bitmap getLocalBitmapFromResFolder(Context context, int resId) {
+        return BitmapFactory.decodeResource(context.getResources(), resId);
+    }
+
+    /**
+     * 获取Bitmap大小
+     * @param bitmap
+     * @return
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+    public static int getBitmapSize2(Bitmap bitmap) {
+        if (bitmap==null) return 0;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR1) {
+            return bitmap.getRowBytes() * bitmap.getHeight();
+        } else {
+            return bitmap.getByteCount();
+        }
+    }
+
+    /**
+     * 获取Bitmap大小
+     * @param bitmap
+     * @return
+     */
+    @SuppressLint("NewApi")
+    public static int getBitmapSize(Bitmap bitmap) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // API 19
+            return bitmap.getAllocationByteCount();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {// API 12
+            return bitmap.getByteCount();
+        }
+        return bitmap.getRowBytes() * bitmap.getHeight(); // earlier version
     }
 }

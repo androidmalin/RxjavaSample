@@ -33,7 +33,10 @@ import com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -52,7 +55,7 @@ import rx.schedulers.Schedulers;
  * 创建时间:15-11-10.
  * 备注:
  */
-public class MainActivity extends Activity{
+public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
     private static final String TAG_FOR_LOGGER = "MainActivity_I_LOVE_RXJAVA";
     private static final String JPG = ".jpg";
@@ -62,7 +65,7 @@ public class MainActivity extends Activity{
     private Canvas mCanvas = null;
     private ProgressBar mProgressBar;
     private ScalpelFrameLayout mScalpelFrameLayout;
-    private boolean mIsOpenScalpel=false;
+    private boolean mIsOpenScalpel = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,7 @@ public class MainActivity extends Activity{
         initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
         rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-//        testFuncation(16);//RxJava基础概念的练习
+//        testFuncation(1);//RxJava基础概念的练习
     }
 
     /**
@@ -81,6 +84,11 @@ public class MainActivity extends Activity{
     private void initializeLogAndDeviceInfo() {
         Logger.init(TAG_FOR_LOGGER).logLevel(LogLevel.FULL);//Use LogLevel.NONE for the release versions.
         DeviceInfo.getInstance().initializeScreenInfo(this);
+        int bitmapSize = ImageUtils.getBitmapSize(ImageUtils.getLocalBitmapFromResFolder(getApplicationContext(),R.mipmap.ic_launcher));
+        Logger.d("size:"+bitmapSize);
+        Logger.d(""+DeviceInfo.screenWidthForPortrait+"x"+DeviceInfo.screenHeightForPortrait);
+        Logger.d("mDensity--> " + DeviceInfo.mDensity);
+        Logger.d("mDensityDpi--> " + DeviceInfo.mDensityDpi);
     }
 
     /**
@@ -110,6 +118,8 @@ public class MainActivity extends Activity{
     private void initView() {
         mImageView = (AvoidRecoveredAppearErrorImageView) findViewById(R.id.iv_image);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+        method16();
     }
 
 
@@ -723,9 +733,9 @@ public class MainActivity extends Activity{
         int size = students.size();
         for (int i = 0; i < size; i++) {
             Logger.d("姓名:" + students.get(i).name);
-            int sizeCourses  = students.get(i).courses.size();
+            int sizeCourses = students.get(i).courses.size();
             for (int j = 0; j < sizeCourses; j++) {
-                Logger.d("课程:"+students.get(i).courses.get(j).name);
+                Logger.d("课程:" + students.get(i).courses.get(j).name);
             }
         }
     }
@@ -865,7 +875,7 @@ public class MainActivity extends Activity{
      * 输出每一个学生选修的课程
      * 对method12的简化
      * {@link #method12()}
-     *
+     * <p>
      * Student->ArrayList<Course>
      */
     private void method13() {
@@ -928,22 +938,21 @@ public class MainActivity extends Activity{
      * 举个设置点击监听的例子。使用 RxBinding ，可以把事件监听用这样的方法来设置：
      * throttleFirst() ，用于去抖动，也就是消除手抖导致的快速连环点击：
      */
-     private void method15(){
-         RxView.clicks(mImageView)
-                 .throttleFirst(500, TimeUnit.MILLISECONDS)
-                 .subscribe(new Action1<Void>() {
-                     @Override
-                     public void call(Void aVoid) {
-
-                         Toast.makeText(MainActivity.this, "click", Toast.LENGTH_SHORT).show();
-                     }
-                 });
-     }
+    private void method15() {
+        RxView.clicks(mImageView)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        Toast.makeText(MainActivity.this, "click", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     /**
      * RxBinding
      */
-    private void method16(){
+    private void method16() {
         RxView.longClicks(mImageView)
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribe(new Action1<Void>() {
@@ -957,7 +966,93 @@ public class MainActivity extends Activity{
     }
 
     /**
+     * 三、Defer、Just
+     */
+    //操作符号 Range操作符根据出入的初始值n和数目m发射一系列大于等于n的m个值
+    //例如:实现:输出1,2,3,4,5
+    // 其使用也非常方便，仅仅制定初始值和数目就可以了，不用自己去实现对Subscriber的调用
+
+    private void method17() {
+        Observable.range(1, 5)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        Logger.d(integer.toString() + "");
+                    }
+                });
+    }
+
+
+    private static final int COUNT= 10;
+    private static final int TIME_ALL=5000;
+    private ArrayList<Long> timeList = new ArrayList<Long>();
+    private void method18() {
+
+        int COUNT= 5;
+        int TIME_ALL=3000;
+        ArrayList<Long> timeList = new ArrayList<Long>();
+        ArrayList<Long> allList = new ArrayList<Long>();
+
+        RxView.clicks(findViewById(R.id.iv_image))
+                .map(new Func1<Void, Long>() {
+                    @Override
+                    public Long call(Void aVoid) {
+                        return System.currentTimeMillis();
+                    }
+                })
+                .map(new Func1<Long, Boolean>() {
+                    @Override
+                    public Boolean call(Long nowTime) {
+                        allList.add(nowTime);
+                        timeList.add(nowTime);
+
+                        boolean isOver = false;
+                        Log.d(TAG, "timeList.size():" + timeList.size());
+                        if (timeList.size() >= COUNT) {
+
+                            if (nowTime - timeList.get(0) < TIME_ALL) {
+                                isOver = true;
+                            } else {
+                                isOver = false;
+                            }
+                            timeList.clear();
+                        }
+                        return isOver;
+                    }
+                }).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean aBoolean) {
+                if (aBoolean) {
+                    Toast.makeText(MainActivity.this, "3秒内点击超过了" + allList.size(), Toast.LENGTH_SHORT).show();
+                    allList.clear();
+                } else {
+                    // Toast.makeText(MainActivity.this, "ok "+timeList.size(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public static String timeLongToString(long data) {
+        Date date = new Date(data);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return formatter.format(date);
+    }
+
+
+    private void log(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, str);
+            }
+        });
+    }
+
+    /**
      * 测试这些每个知识点的功能
+     *
      * @param number
      */
     private void testFuncation(int number) {
@@ -1045,6 +1140,17 @@ public class MainActivity extends Activity{
                 method16();
                 break;
             }
+
+            case 17: {
+                method17();
+                break;
+            }
+
+            case 18: {
+                method18();
+                break;
+            }
+
             default: {
 
                 break;
@@ -1154,16 +1260,28 @@ public class MainActivity extends Activity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings_open_scalpel) {
-            mIsOpenScalpel = true;
-            mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
-            return true;
-        }else if (id == R.id.action_settings_close_scalpel){
-            mIsOpenScalpel = false;
-            mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
-            return true;
+        if (id==R.id.action_settings_open_scalpel||id == R.id.action_settings_close_scalpel){
+            clickEvent(id);
         }
-
         return super.onOptionsItemSelected(item);
+    }
+    private boolean clickEvent(int id) {
+        boolean is = false;
+        switch (id) {
+            case R.id.action_settings_open_scalpel: {
+                mIsOpenScalpel = true;
+                mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
+                is = true;
+                break;
+            }
+            case R.id.action_settings_close_scalpel: {
+                mIsOpenScalpel = false;
+                mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
+                is = true;
+                break;
+            }
+        }
+        return is;
+
     }
 }
