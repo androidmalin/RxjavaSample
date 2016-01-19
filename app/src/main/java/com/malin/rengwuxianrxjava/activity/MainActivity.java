@@ -985,15 +985,16 @@ public class MainActivity extends Activity {
     }
 
 
-    private static final int COUNT= 10;
-    private static final int TIME_ALL=5000;
+    private static final int COUNT = 10;
+    private static final int TIME_ALL = 5000;
     private ArrayList<Long> timeList = new ArrayList<Long>();
+
     private void method18() {
 
-        int COUNT= 5;
-        int TIME_ALL=3000;
-        ArrayList<Long> timeList = new ArrayList<Long>();
-        ArrayList<Long> allList = new ArrayList<Long>();
+        final int COUNT = 5;
+        final int TIME_ALL = 3000;
+        final ArrayList<Long> timeList = new ArrayList<Long>();
+        final ArrayList<Long> allList = new ArrayList<Long>();
 
         RxView.clicks(findViewById(R.id.iv_image))
                 .map(new Func1<Void, Long>() {
