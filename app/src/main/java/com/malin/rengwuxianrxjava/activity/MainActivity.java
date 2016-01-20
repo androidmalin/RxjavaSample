@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,10 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.malin.rengwuxianrxjava.R;
 import com.malin.rengwuxianrxjava.constant.Constant;
@@ -26,9 +30,11 @@ import com.malin.rengwuxianrxjava.data.Course;
 import com.malin.rengwuxianrxjava.data.Student;
 import com.malin.rengwuxianrxjava.factory.DataFactory;
 import com.malin.rengwuxianrxjava.factory.ImageNameFactory;
+import com.malin.rengwuxianrxjava.utils.ClickUtils;
 import com.malin.rengwuxianrxjava.utils.DeviceInfo;
 import com.malin.rengwuxianrxjava.utils.ImageUtils;
 import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
+import com.malin.rengwuxianrxjava.utils.ToastUtil;
 import com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
@@ -58,6 +64,7 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
     private static final String TAG_FOR_LOGGER = "MainActivity_I_LOVE_RXJAVA";
+    private static final String ERROR = "故意让程序出错";
     private static final String JPG = ".jpg";
     private int mCounter;//循环的计数器
     private AvoidRecoveredAppearErrorImageView mImageView;
@@ -66,6 +73,7 @@ public class MainActivity extends Activity {
     private ProgressBar mProgressBar;
     private ScalpelFrameLayout mScalpelFrameLayout;
     private boolean mIsOpenScalpel = false;
+    private EditText mSearchEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +82,8 @@ public class MainActivity extends Activity {
         initializeLogAndDeviceInfo();
         initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-//        testFuncation(1);//RxJava基础概念的练习
+//        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
+        testFuncation(18);//RxJava基础概念的练习
     }
 
     /**
@@ -84,11 +92,11 @@ public class MainActivity extends Activity {
     private void initializeLogAndDeviceInfo() {
         Logger.init(TAG_FOR_LOGGER).logLevel(LogLevel.FULL);//Use LogLevel.NONE for the release versions.
         DeviceInfo.getInstance().initializeScreenInfo(this);
-        int bitmapSize = ImageUtils.getBitmapSize(ImageUtils.getLocalBitmapFromResFolder(getApplicationContext(),R.mipmap.ic_launcher));
-        Logger.d("size:"+bitmapSize);
-        Logger.d(""+DeviceInfo.screenWidthForPortrait+"x"+DeviceInfo.screenHeightForPortrait);
-        Logger.d("mDensity--> " + DeviceInfo.mDensity);
-        Logger.d("mDensityDpi--> " + DeviceInfo.mDensityDpi);
+//        int bitmapSize = ImageUtils.getBitmapSize(ImageUtils.getLocalBitmapFromResFolder(getApplicationContext(),R.mipmap.ic_launcher));
+//        Logger.d("size:"+bitmapSize);
+//        Logger.d(""+DeviceInfo.screenWidthForPortrait+"x"+DeviceInfo.screenHeightForPortrait);
+//        Logger.d("mDensity--> " + DeviceInfo.mDensity);
+//        Logger.d("mDensityDpi--> " + DeviceInfo.mDensityDpi);
     }
 
     /**
@@ -117,9 +125,10 @@ public class MainActivity extends Activity {
      */
     private void initView() {
         mImageView = (AvoidRecoveredAppearErrorImageView) findViewById(R.id.iv_image);
+        mSearchEditText = (EditText) findViewById(R.id.ed_search);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-        method16();
+//        method16();
     }
 
 
@@ -127,7 +136,7 @@ public class MainActivity extends Activity {
      * 故意让程序出现异常,可以用来测试
      */
     private void getException() {
-        int errorCode = Integer.valueOf("故意让程序出错");
+        int errorCode = Integer.valueOf(ERROR);
     }
 
 
@@ -352,7 +361,13 @@ public class MainActivity extends Activity {
             }
         });
 
-
+        /**
+         * 可以看到，这里传入了一个 OnSubscribe 对象作为参数。
+         * OnSubscribe 会被存储在返回的 Observable 对象中，它的作用相当于一个计划表，
+         * 当Observable 被订阅的时候，OnSubscribe 的 call() 方法会自动被调用，事件序列就会依照设定依次触发
+         * （对于上面的代码，就是观察者subscriber 将会被调用三次 onNext() 和一次 onCompleted()）。
+         * 这样，由被观察者调用了观察者的回调方法，就实现了由被观察者向观察者的事件传递，即观察者模式。
+         */
         //2:观察者
         Observer<String> observer = new Observer<String>() {
             @Override
@@ -368,6 +383,7 @@ public class MainActivity extends Activity {
             @Override
             public void onNext(String s) {
                 Logger.d("观察者-observer:onNext():" + s);
+                // getException();//故意让程序出现异常,用于测试onError()方法的执行....
             }
         };
 
@@ -378,7 +394,10 @@ public class MainActivity extends Activity {
 
     //---------------------------------------1:快捷创建事件队列 Observable.just(T...)--------------------------------------------------------------
 
-    //简化:观察者的创建
+    // create() 方法是 RxJava 最基本的创造事件序列的方法。基于这个方法， RxJava 还提供了一些方法用来快捷创建事件队列，
+    // 例如just(T...): 将传入的参数依次发送出来.
+
+    //简化:观察者的创建,RxJava快捷创建事件队列的方法:just(T...):
 
     /**
      * 简化:观察者的创建
@@ -418,6 +437,7 @@ public class MainActivity extends Activity {
             @Override
             public void onNext(String s) {
                 Logger.d("观察者-observer:onNext():" + s);
+                // getException();//故意让程序出现异常,用于测试onError()方法的执行....
             }
         };
 
@@ -429,13 +449,12 @@ public class MainActivity extends Activity {
     //---------------------------------------2:快捷创建事件队列 Observable.from(T[]) / from(Iterable<? extends T>--------------------------------------------------------------
 
     /**
-     * 简化:观察者的创建
+     * 简化:观察者的创建: RxJava快捷创建事件队列的方法:just(String[] array) 将传入的数组或 Iterable 拆分成具体对象后，依次发送出来
      * {@link #method1()}
      */
     private void method2() {
 
-        //{@link #method()1}
-        //实现步骤{@link #method()1}
+        //实现步骤
         //1:被观察者
         //2:观察者
         //3:订阅-被观察者被观察者订阅
@@ -468,6 +487,7 @@ public class MainActivity extends Activity {
             public void onNext(Object o) {
                 String str = (String) o;
                 Logger.d("观察者-observer:onNext():" + str);
+               // getException();//故意让程序出现异常,用于测试onError()方法的执行....
             }
         };
 
@@ -588,9 +608,9 @@ public class MainActivity extends Activity {
     //---------------------------------------4: Action0和Action1 讲解--------------------------------------------------------------
     /**
      * 肯定有同学对Action0和Action1很困惑,就像当初我刚看到那样子;
-     * 那就听听仍物线给大家讲一下:
+     * 那就听听扔物线给大家讲一下:
      *
-     * MaLin:仍物线大哥,你能够给我们讲解一下Action0和Action1是什么,以及他们之间的区别吗?
+     * MaLin:扔物线大哥,你能够给我们讲解一下Action0和Action1是什么,以及他们之间的区别吗?
      *
      * 扔物线:大家好,我简单的解释一下:
      * Action0 是 RxJava 的一个接口，它只有一个方法 call()，这个方法是无参无返回值的；
@@ -651,25 +671,34 @@ public class MainActivity extends Activity {
             }
         })
                 .subscribeOn(Schedulers.io())//事件产生的线程。指定 subscribe() 发生在 IO 线程
+                // doOnSubscribe() 之后有 subscribeOn() 的话，它将执行在离它最近的 subscribeOn() 所指定的线程。这里将执行在主线程中
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        mProgressBar.setVisibility(View.VISIBLE);
+                        if (mProgressBar != null) {
+                            mProgressBar.setVisibility(View.VISIBLE);//显示一个等待的ProgressBar--需要在主线程中执行
+                        }
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//指定 Subscriber 所运行在的线程。或者叫做事件消费的线程
                 .subscribe(new Subscriber<Drawable>() {   //3:订阅 //2:观察者
                     @Override
                     public void onCompleted() {
+                        if (mProgressBar!=null){
+                            mProgressBar.setVisibility(View.GONE);
+                        }
                         Logger.d("观察者 onCompleted()");
-                        mProgressBar.setVisibility(View.GONE);
                         Toast.makeText(MainActivity.this, "观察者 onCompleted()", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        if (mProgressBar!=null){
+                            mProgressBar.setVisibility(View.GONE);
+                        }
                         Logger.d("观察者 onError()");
                         Toast.makeText(MainActivity.this, "观察者 onError() " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
@@ -696,31 +725,39 @@ public class MainActivity extends Activity {
                         return getResources().getDrawable(integer);
                     }
                 })
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())//事件产生的线程。指定 subscribe() 发生在 IO 线程
+                //doOnSubscribe() 之后有 subscribeOn() 的话，它将执行在离它最近的 subscribeOn() 所指定的线程。这里将执行在主线程中
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        mProgressBar.setVisibility(View.VISIBLE);
+                        if (mProgressBar != null) {
+                            mProgressBar.setVisibility(View.VISIBLE);//显示一个等待的ProgressBar--需要在主线程中执行
+                        }
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())//指定 Subscriber 所运行在的线程。或者叫做事件消费的线程
                 .subscribe(new Subscriber<Drawable>() {  //3:订阅 //2:观察者
                     @Override
                     public void onCompleted() {
+                        if (mProgressBar != null) {
+                            mProgressBar.setVisibility(View.GONE);
+                        }
                         Logger.d("观察者:onCompleted()");
-                        mProgressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        if (mProgressBar != null) {
+                            mProgressBar.setVisibility(View.GONE);
+                        }
                         Toast.makeText(MainActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         Logger.d("观察者:onError(Throwable e):" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(Drawable drawable) {
-                        Logger.d("观察者:onNext(Drawable drawable):" + drawable.toString());
                         mImageView.setImageDrawable(drawable);
+                        Logger.d("观察者:onNext(Drawable drawable):" + drawable.toString());
                     }
                 });
     }
@@ -742,12 +779,12 @@ public class MainActivity extends Activity {
 
 
     /**
-     * 嵌套循环的RxJava解决方案:
-     * 输入学生的姓名
+     * 需要:依次输入学生的姓名:将每个学生(实体对象)依次发射出去
+     * RxJava解决方案:
      * {@link #method8()}
      */
     private void method9() {
-
+       //just(T...): 将传入的参数依次发送出来,实现遍历的目的
         Observable.from(DataFactory.getData())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -761,8 +798,8 @@ public class MainActivity extends Activity {
 
 
     /**
-     * 嵌套循环的RxJava解决方案
-     * 输出学生的姓名
+     *  需要:输出学生的姓名:将每个学生的(姓名)依次发射出去
+     * RxJava解决方案
      * {@link #method9()}
      */
     private void method10() {
@@ -809,7 +846,8 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 嵌套循环的RxJava解决方案
+     * 需要:输出学生的姓名:将每个学生的(姓名)依次发射出去,对method9()的简化
+     * RxJava解决方案
      * 输出学生的姓名
      * {@link #method10()}
      */
@@ -835,6 +873,7 @@ public class MainActivity extends Activity {
     //---------------------------------------9: 引入flatmap()-------------------------------------------------------------
 
     /**
+     * 需要:输出每一个学生所有选修的课程
      * 嵌套循环的RxJava解决方案
      * 输出每一个学生选修的课程
      * {@link #method11()}
@@ -863,7 +902,7 @@ public class MainActivity extends Activity {
                     public void onNext(Student student) {
                         ArrayList<Course> courses = student.courses;
                         for (Course course : courses) {
-                            Logger.d("观察者:" + course.name);
+                            Logger.d("观察者:" +course.name);
                         }
                     }
                 });
@@ -871,11 +910,9 @@ public class MainActivity extends Activity {
     }
 
     /**
+     * 需要:输出每一个学生选修的课程,对method12的简化
      * 嵌套循环的RxJava解决方案
-     * 输出每一个学生选修的课程
-     * 对method12的简化
      * {@link #method12()}
-     * <p>
      * Student->ArrayList<Course>
      */
     private void method13() {
@@ -900,6 +937,12 @@ public class MainActivity extends Activity {
     }
 
     //---------------------------------------10: flatMap()的使用-------------------------------------------------------------
+    /**
+     * 需要:输出每一个学生选修的课程,对method13的简化
+     * 嵌套循环的RxJava解决方案
+     * {@link #method13()}
+     * Student -> ArrayList<Course> -> Observable<Course> ->
+     */
     private void method14() {
 
         //1:被观察者
@@ -931,6 +974,36 @@ public class MainActivity extends Activity {
                 });
     }
 
+
+     //---------------------------------------10: RxBinding的引入-------------------------------------------------------------
+
+
+    /**
+     * 需要防止快速连续点击,短时间内连续点击.
+     *
+     */
+    private void method15(){
+
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (ClickUtils.isFastDoubleClick()){
+                            ToastUtil.getInstance().showToast(MainActivity.this, "点击过快啦");
+                            return;
+                        }
+                        ToastUtil.getInstance().showToast(MainActivity.this, "匿名内部类实现click");
+                    }
+                });
+            }
+        });
+
+
+
+    }
     /**
      * RxBinding
      * RxBinding 是 Jake Wharton 的一个开源库，它提供了一套在 Android 平台上的基于 RxJava 的 Binding API。
@@ -938,9 +1011,11 @@ public class MainActivity extends Activity {
      * 举个设置点击监听的例子。使用 RxBinding ，可以把事件监听用这样的方法来设置：
      * throttleFirst() ，用于去抖动，也就是消除手抖导致的快速连环点击：
      */
-    private void method15() {
+    private void method16() {
         RxView.clicks(mImageView)
-                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)//500ms,第一次点击后,500ms内点击无效,500ms后点击才会响应
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
@@ -952,7 +1027,7 @@ public class MainActivity extends Activity {
     /**
      * RxBinding
      */
-    private void method16() {
+    private void method17() {
         RxView.longClicks(mImageView)
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribe(new Action1<Void>() {
@@ -966,13 +1041,41 @@ public class MainActivity extends Activity {
     }
 
     /**
+     * EditText,每隔500ms,去响应变化
+     */
+    private void method18(){
+        mSearchEditText.setVisibility(View.VISIBLE);
+        RxTextView.textChangeEvents(mSearchEditText)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<TextViewTextChangeEvent>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
+                        String changedMessage = textViewTextChangeEvent.text().toString();
+                        Logger.d(TAG, changedMessage);
+                        if (!TextUtils.isEmpty(changedMessage)){
+                            ToastUtil.getInstance().showToast(MainActivity.this,changedMessage);
+                        }
+                    }
+                });
+    }
+
+    /**
      * 三、Defer、Just
      */
     //操作符号 Range操作符根据出入的初始值n和数目m发射一系列大于等于n的m个值
     //例如:实现:输出1,2,3,4,5
     // 其使用也非常方便，仅仅制定初始值和数目就可以了，不用自己去实现对Subscriber的调用
 
-    private void method17() {
+    private void method19() {
         Observable.range(1, 5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -989,7 +1092,7 @@ public class MainActivity extends Activity {
     private static final int TIME_ALL = 5000;
     private ArrayList<Long> timeList = new ArrayList<Long>();
 
-    private void method18() {
+    private void method20() {
 
         final int COUNT = 5;
         final int TIME_ALL = 3000;
@@ -1152,6 +1255,16 @@ public class MainActivity extends Activity {
                 break;
             }
 
+
+            case 19:{
+                method19();
+                break;
+            }
+
+            case 20:{
+                method20();
+                break;
+            }
             default: {
 
                 break;
@@ -1284,5 +1397,21 @@ public class MainActivity extends Activity {
         }
         return is;
 
+    }
+
+    private void method40() {
+        Observable.just(1, 2, 3)
+                .doOnNext(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        Log.i("RxThread", "doOnNext:" + integer + ", run In :" + Thread.currentThread().getName());
+                    }
+                })
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        Log.i("RxThread", "subscribe get result:" + integer + ", run In :" + Thread.currentThread().getName());
+                    }
+                });
     }
 }

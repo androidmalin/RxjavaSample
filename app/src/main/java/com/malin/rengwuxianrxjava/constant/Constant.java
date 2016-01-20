@@ -10,4 +10,7 @@ package com.malin.rengwuxianrxjava.constant;
 public class Constant {
     public static final int IMAGE_WITH = 64;//px
     public static final int IMAGE_HEIGHT = 64;//px
+
+    public static final String BLANK_LOG = "\t";
+    public static final boolean isDebug = true;
 }

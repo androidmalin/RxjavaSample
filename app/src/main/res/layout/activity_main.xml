@@ -8,6 +8,20 @@
     tools:context=".MainActivity">
 
 
+    <EditText
+        android:id="@+id/ed_search"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:textColor="@android:color/white"
+        android:hint="Please input String"
+        android:textSize="15sp"
+        android:textColorHighlight="@android:color/holo_red_dark"
+        android:textColorHint="@android:color/holo_red_dark"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" />
+    <requestFocus/>
+
     <!--android:background="@mipmap/ic_launcher"-->
     <com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView
         android:id="@+id/iv_image"

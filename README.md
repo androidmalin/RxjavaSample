@@ -13,13 +13,14 @@
 ###APK下载
 
 二维码下载
-<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/qrcode/dowload_qrcode.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
-
+<!--<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/qrcode/dowload_qrcode.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>-->
+![Block detail](qrcode/dowload_qrcode.png "detail")
 [APK备用下载地址](http://fir.im/rengwuxianrxjava)
 
 ### 截图--代码家和他的男女闺蜜们
 
-<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends_team.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
+<!--<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends_team.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>-->
+![Block detail](screenshots/daimajia_girl_friends_team.png "detail")
 
 ### 视频演示
 
@@ -48,6 +49,8 @@ For bugs, questions and discussions please use the [Github Issues](https://githu
 [RxAndroid](https://github.com/ReactiveX/RxAndroid) | RxAndroid 是 RxJava 的一个针对 Android 平台的扩展
 [logger](https://github.com/orhanobut/logger) | 一个简洁,优雅,功能强大的Android日志输出工具
 [scalpel](https://github.com/JakeWharton/scalpel) | JakeWharton布局层次结构的三维效果展示
+[RxBinding](https://github.com/JakeWharton/RxBinding) | JakeWharton Android函数式相应编程(FRP)框架
+
 
 ### 使用到的开源项目
 项目名称 | 项目信息| 参考的地方
