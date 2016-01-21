@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -72,18 +74,21 @@ public class MainActivity extends Activity {
     private Canvas mCanvas = null;
     private ProgressBar mProgressBar;
     private ScalpelFrameLayout mScalpelFrameLayout;
-    private boolean mIsOpenScalpel = false;
+    private boolean mIsOpenScalpel = true;
     private EditText mSearchEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);//硬件加速
         setContentViewLayout(true);
         initializeLogAndDeviceInfo();
         initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-//        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-        testFuncation(18);//RxJava基础概念的练习
+        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
+//        testFuncation(1);//RxJava基础概念的练习
     }
 
     /**
@@ -127,8 +132,7 @@ public class MainActivity extends Activity {
         mImageView = (AvoidRecoveredAppearErrorImageView) findViewById(R.id.iv_image);
         mSearchEditText = (EditText) findViewById(R.id.ed_search);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
-
-//        method16();
+        method17();
     }
 
 
@@ -280,7 +284,6 @@ public class MainActivity extends Activity {
         //5:观察者
 
         //6:订阅:被观察者被观察者订阅
-
         mGoToRecycleImageView = false;
         Observable.from(ImageNameFactory.getAssetImageFolderName())
                 //assets下一个文件夹的名称,assets下一个文件夹中一张图片的路径

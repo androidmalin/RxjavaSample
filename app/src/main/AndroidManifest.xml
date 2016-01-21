@@ -2,15 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.malin.rengwuxianrxjava">
 
+    <!--android:theme="@style/AppTheme"-->
     <application
         android:name=".application.RxJavaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/malin"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        >
         <activity
             android:name=".activity.MainActivity"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
             android:screenOrientation="portrait"
             >
             <intent-filter>

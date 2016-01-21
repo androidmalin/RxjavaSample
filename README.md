@@ -1,9 +1,9 @@
-# 用Rxjava实现代码家和他的男女闺蜜
-扔物线[给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)文章中的例子
+## RxJava实现代码家和他的男女闺蜜
+RxJava之扔物线[给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)文章中的例子
 <!--<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/app/src/main/res/mipmap-xhdpi/rengwuxian.jpg' width="80px" style='border: #f1f1f1 solid 1px'/></div>-->
 
 ###说明
-最近正好有时间,边读文章,边将文章中的例子敲成代码.因为接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.<br/>
+最近正好有时间,边读文章,边将文章中的例子敲成代码.因为RxJava接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.<br/>
 
 ### 特别致谢
 [扔物线](https://github.com/rengwuxian)在百忙之中的周末给Review代码,以及对我的鼓励<br/>
@@ -13,14 +13,14 @@
 ###APK下载
 
 二维码下载
-<!--<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/qrcode/dowload_qrcode.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>-->
-![Block detail](qrcode/dowload_qrcode.png "detail")
+<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/qrcode/dowload_qrcode.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
+<!--![Block detail](qrcode/dowload_qrcode.png "detail")<br/>-->
 [APK备用下载地址](http://fir.im/rengwuxianrxjava)
 
 ### 截图--代码家和他的男女闺蜜们
 
-<!--<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends_team.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>-->
-![Block detail](screenshots/daimajia_girl_friends_team.png "detail")
+<div><img src='https://github.com/androidmalin/RengwuxianRxjava/blob/master/screenshots/daimajia_girl_friends_team.png' width="300px" style='border: #f1f1f1 solid 1px'/></div>
+<!--![Block detail](screenshots/daimajia_girl_friends_team.png "detail")-->
 
 ### 视频演示
 
