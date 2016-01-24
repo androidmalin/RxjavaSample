@@ -23,41 +23,25 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.utils;
-
-
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
+package com.malin.rengwuxianrxjava.model;
 
 /**
- * 类描述:回收ImageView占用的图像内存
+ * 类描述:课程类
  * 创建人:malin.myemail@gmail.com
- * 创建时间:15-11-21.
- * 参考内容:http://blog.csdn.net/intbird/article/details/19905549
+ * 创建时间:15-11-13.
+ * 备注:
  */
 
-public class RecycleBitmap {
-    /**
-     * 回收ImageView占用的图像内存;
-     *
-     * @param imageView
-     */
-    public static void recycleImageView(ImageView imageView) {
-        if (imageView == null) {
-            return;
-        }
+public class Course {
 
-        Drawable drawable = imageView.getDrawable();
-        if (drawable != null && drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-            if (bitmap != null && !bitmap.isRecycled()) {
-                bitmap.recycle();
-                bitmap = null;
-                imageView.setImageBitmap(null);
-            }
-        }
+    public int id;//课程编号
+    public String name;//课程名称
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

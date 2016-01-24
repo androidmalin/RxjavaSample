@@ -1,3 +1,28 @@
+
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 malin
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.malin.rengwuxianrxjava.activity;
 
 import android.app.Activity;
@@ -18,8 +43,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
@@ -28,25 +56,38 @@ import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.malin.rengwuxianrxjava.R;
 import com.malin.rengwuxianrxjava.constant.Constant;
-import com.malin.rengwuxianrxjava.data.Course;
-import com.malin.rengwuxianrxjava.data.Student;
 import com.malin.rengwuxianrxjava.factory.DataFactory;
 import com.malin.rengwuxianrxjava.factory.ImageNameFactory;
+import com.malin.rengwuxianrxjava.githubapi.GitHubApi;
+import com.malin.rengwuxianrxjava.model.Contributor;
+import com.malin.rengwuxianrxjava.model.Course;
+import com.malin.rengwuxianrxjava.model.User;
+import com.malin.rengwuxianrxjava.model.Student;
+import com.malin.rengwuxianrxjava.service.RetrofitService;
 import com.malin.rengwuxianrxjava.utils.ClickUtils;
 import com.malin.rengwuxianrxjava.utils.DeviceInfo;
 import com.malin.rengwuxianrxjava.utils.ImageUtils;
 import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
+import com.malin.rengwuxianrxjava.utils.RxUtils;
 import com.malin.rengwuxianrxjava.utils.ToastUtil;
 import com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.squareup.okhttp.ResponseBody;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import hugo.weaving.DebugLog;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -55,6 +96,7 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 /**
@@ -74,8 +116,9 @@ public class MainActivity extends Activity {
     private Canvas mCanvas = null;
     private ProgressBar mProgressBar;
     private ScalpelFrameLayout mScalpelFrameLayout;
-    private boolean mIsOpenScalpel = true;
+    private boolean mIsOpenScalpel = false;
     private EditText mSearchEditText;
+    private TextView mResultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +133,8 @@ public class MainActivity extends Activity {
         rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
 //        testFuncation(1);//RxJava基础概念的练习
     }
+
+
 
     /**
      * 初始化Logger日志输出配置和获取手机尺寸信息
@@ -130,6 +175,7 @@ public class MainActivity extends Activity {
      */
     private void initView() {
         mImageView = (AvoidRecoveredAppearErrorImageView) findViewById(R.id.iv_image);
+        mResultTextView = (TextView) findViewById(R.id.tv_result);
         mSearchEditText = (EditText) findViewById(R.id.ed_search);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
         method17();
@@ -272,6 +318,7 @@ public class MainActivity extends Activity {
     //-----------------------------------RxJava的实现--链式调用--十分简洁 -----------------------------------------------------------
 
 
+    @DebugLog
     private void rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell() {
         //1:被观察者:
 
@@ -994,7 +1041,7 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (ClickUtils.isFastDoubleClick()){
+                        if (ClickUtils.isFastDoubleClick()) {
                             ToastUtil.getInstance().showToast(MainActivity.this, "点击过快啦");
                             return;
                         }
@@ -1089,6 +1136,166 @@ public class MainActivity extends Activity {
                     }
                 });
     }
+
+    /**
+     * 使用Retrofit网络库,获取androidmalin的GitHub个人信息
+     */
+    private void method21() {
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        mImageView.setVisibility(View.GONE);
+        mResultTextView.setVisibility(View.VISIBLE);
+        mResultTextView.setText("");
+        Call call = RetrofitService.getInstance().getUser("androidmalin");
+
+        //asynchronous
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response response, Retrofit retrofit) {
+                User user = (User) response.body();
+
+                if (user == null) {
+                    //404 or the response cannot be converted to User.
+                    ResponseBody responseBody = response.errorBody();
+                    if (responseBody != null) {
+                        try {
+                            Logger.d("responseBody = " + responseBody.string());
+                            mResultTextView.setText("responseBody = " + responseBody.string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Logger.d("responseBody = null");
+                        mResultTextView.setText("responseBody = null");
+                    }
+                } else {
+                    //200
+                    String message = "Github Name :" + user.name + "\nWebsite :" + user.blog + "\nCompany Name :" + user.company;
+                    ToastUtil.getInstance().showToast(MainActivity.this, message);
+                    Logger.d(message);
+                    mResultTextView.setText(message);
+                }
+                mProgressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Logger.d("t = " + t.getMessage());
+                mProgressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    /**
+     * 使用Retrofit网络库,同时使用RxJava 获取androidmalin的GitHub个人信息
+     */
+    private void method22(){
+        //TODO:1:被观察者,数据源
+        //TODO:2:观察者
+        //TODO:3:订阅,被观察者 被 观察者订阅
+
+        Observable<User> observable = RetrofitService.getInstance().getUserObservable("androidmalin");
+        observable
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                        mResultTextView.setText("");
+                        mImageView.setVisibility(View.GONE);
+                        mResultTextView.setVisibility(View.VISIBLE);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.d("onCompleted()");
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(MainActivity.this, "onCompleted", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d("onError()");
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        Logger.d( "onNext()");
+                        String message = "Github Name :" + user.name + "\nWebsite :" + user.blog + "\nCompany Name :" + user.company;
+                        Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
+                        Logger.d(message);
+                        mResultTextView.setText(user.toString());
+                    }
+                });
+    }
+
+
+
+    private GitHubApi mGitHubApi;
+    private ArrayAdapter<String> mAdapter;
+    private CompositeSubscription mSubscription = new CompositeSubscription();
+    private ListView mResultListView;
+
+
+    /**
+     * 使用Retrofit网络库,同时使用RxJava 获取square的公司的retrofit项目的贡献者
+     */
+    private void method23() {
+
+        mImageView.setVisibility(View.GONE);
+        mResultTextView.setVisibility(View.GONE);
+        mImageView.setVisibility(View.GONE);
+
+        mGitHubApi = RetrofitService.getInstance();
+        mResultListView = (ListView) findViewById(R.id.lv_list);
+        mAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.item_log, R.id.item_log, new ArrayList<String>());
+        mResultListView.setAdapter(mAdapter);
+
+        mSubscription.add(mGitHubApi.getContributorsObservable("square", "retrofit")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                })
+                .subscribe(new Observer<List<Contributor>>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.d("Retrofit call 1 completed");
+                        mProgressBar.setVisibility(View.GONE);
+                        mResultListView.setVisibility(View.VISIBLE);
+                        ToastUtil.getInstance().showToast(MainActivity.this,"onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mProgressBar.setVisibility(View.GONE);
+                        Logger.e(e.getMessage() + " woops we got an error while getting the list of contributors");
+                        ToastUtil.getInstance().showToast(MainActivity.this, "onError");
+                    }
+
+                    @Override
+                    public void onNext(List<Contributor> contributors) {
+                        ToastUtil.getInstance().showToast(MainActivity.this,"onNext");
+                        for (Contributor c : contributors) {
+                            mAdapter.add(String.format("%s has made %d contributions to %s",
+                                    c.login,
+                                    c.contributions,
+                                    "retrofit"));
+
+                            Logger.d(String.format("%s has made %d contributions to %s",
+                                    c.login,
+                                    c.contributions,
+                                    "retrofit"));
+                        }
+                    }
+                }));
+    }
+
 
 
     private static final int COUNT = 10;
@@ -1268,6 +1475,22 @@ public class MainActivity extends Activity {
                 method20();
                 break;
             }
+
+            case 21:{
+                method21();
+                break;
+            }
+
+
+            case 22:{
+                method22();
+                break;
+            }
+
+            case 23:{
+                method23();
+                break;
+            }
             default: {
 
                 break;
@@ -1275,6 +1498,19 @@ public class MainActivity extends Activity {
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSubscription = RxUtils.getNewCompositeSubIfUnsubscribed(mSubscription);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        RxUtils.unsubscribeIfNotNull(mSubscription);
+    }
 
     private boolean mGoToRecycleImageView = false;
 
@@ -1327,36 +1563,52 @@ public class MainActivity extends Activity {
      */
     private void unBindDrawables(View view) {
         if (view != null) {
-            Drawable drawable = view.getBackground();
-            if (drawable != null) {
-                drawable.setCallback(null);
-            }else{
-            }
-            if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-                ViewGroup viewGroup = (ViewGroup) view;
-                int viewGroupChildCount = viewGroup.getChildCount();
-                for (int j = 0; j < viewGroupChildCount; j++) {
-                    unBindDrawables(viewGroup.getChildAt(j));
+            try {
+                Drawable drawable = view.getBackground();
+                if (drawable != null) {
+                    drawable.setCallback(null);
+                } else {
                 }
-                viewGroup.removeAllViews();
+                if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
+                    ViewGroup viewGroup = (ViewGroup) view;
+                    int viewGroupChildCount = viewGroup.getChildCount();
+                    for (int j = 0; j < viewGroupChildCount; j++) {
+                        unBindDrawables(viewGroup.getChildAt(j));
+                    }
+                    viewGroup.removeAllViews();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         }
     }
 
     /**
-     * 解除绑定
+     * Remove an onclick listener
+     *
      * @param view
+     * @author malin.myemail@gmail.com
+     * @website https://github.com/androidmalin
+     * @data 2016/01/22
      */
     private void unBingListener(View view) {
         if (view != null) {
-            view.setOnClickListener(null);
-            if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-                ViewGroup viewGroup = (ViewGroup) view;
-                int viewGroupChildCount = viewGroup.getChildCount();
-                for (int i = 0; i < viewGroupChildCount; i++) {
-                    unBingListener(viewGroup.getChildAt(i));
+            try {
+                if (view.hasOnClickListeners()) {
+                    view.setOnClickListener(null);
                 }
+                if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
+                    ViewGroup viewGroup = (ViewGroup) view;
+                    int viewGroupChildCount = viewGroup.getChildCount();
+                    for (int i = 0; i < viewGroupChildCount; i++) {
+                        unBingListener(viewGroup.getChildAt(i));
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         }
     }
 
@@ -1400,21 +1652,5 @@ public class MainActivity extends Activity {
         }
         return is;
 
-    }
-
-    private void method40() {
-        Observable.just(1, 2, 3)
-                .doOnNext(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        Log.i("RxThread", "doOnNext:" + integer + ", run In :" + Thread.currentThread().getName());
-                    }
-                })
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        Log.i("RxThread", "subscribe get result:" + integer + ", run In :" + Thread.currentThread().getName());
-                    }
-                });
     }
 }

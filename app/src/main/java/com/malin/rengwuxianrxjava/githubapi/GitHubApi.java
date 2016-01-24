@@ -23,41 +23,44 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.utils;
+package com.malin.rengwuxianrxjava.githubapi;
 
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
+import com.malin.rengwuxianrxjava.model.Contributor;
+import com.malin.rengwuxianrxjava.model.User;
+
+import java.util.List;
+
+import retrofit.Call;
+import retrofit.http.GET;
+import retrofit.http.Path;
+import rx.Observable;
 
 /**
- * 类描述:回收ImageView占用的图像内存
+ * 类描述:GitHubApi
  * 创建人:malin.myemail@gmail.com
- * 创建时间:15-11-21.
- * 参考内容:http://blog.csdn.net/intbird/article/details/19905549
+ * 创建时间:16-1-24
+ * 备注:https://github.com/basil2style
  */
+public interface GitHubApi {
 
-public class RecycleBitmap {
     /**
-     * 回收ImageView占用的图像内存;
-     *
-     * @param imageView
+     * See https://developer.github.com/v3/users/
      */
-    public static void recycleImageView(ImageView imageView) {
-        if (imageView == null) {
-            return;
-        }
 
-        Drawable drawable = imageView.getDrawable();
-        if (drawable != null && drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-            if (bitmap != null && !bitmap.isRecycled()) {
-                bitmap.recycle();
-                bitmap = null;
-                imageView.setImageBitmap(null);
-            }
-        }
-    }
+    @GET("/users/{username}")
+    Call<User> getUser(@Path("username") String user);
+
+    @GET("/users/{username}")
+    Observable<User> getUserObservable(@Path("username") String username);
+
+
+    /**
+     * See https://developer.github.com/v3/repos/#list-contributors
+     */
+    @GET("/repos/{owner}/{repo}/contributors")
+    Observable<List<Contributor>> getContributorsObservable(@Path("owner") String owner, @Path("repo") String repo);
+
+    @GET("/repos/{owner}/{repo}/contributors")
+    List<Contributor> getContributors(@Path("owner") String owner, @Path("repo") String repo);
 }
