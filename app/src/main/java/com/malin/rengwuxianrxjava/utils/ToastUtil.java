@@ -66,9 +66,14 @@ public class ToastUtil {
 
     public void showToast(Context context, String message) {
         if (mToast == null) {
-            mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-            mToast.show();
-            mFirstTime = System.currentTimeMillis();
+            synchronized (ToastUtil.class) {
+                if (mToast == null) {
+                    mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+                    mToast.show();
+                    mFirstTime = System.currentTimeMillis();
+                }
+            }
+
         } else {
             mSecondTime = System.currentTimeMillis();
             if (message.equals(mOldMessage)) {

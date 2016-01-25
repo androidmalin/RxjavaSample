@@ -43,16 +43,17 @@ import retrofit.RxJavaCallAdapterFactory;
  */
 public class RetrofitService {
     private static final String API = "https://api.github.com";
+
     protected RetrofitService() {
     }
 
-    private volatile static GitHubApi instance = null;
+    private volatile static RetrofitService instance = null;
 
-    public static GitHubApi getInstance() {
+    public static RetrofitService getInstance() {
         if (instance == null) {
             synchronized (RetrofitService.class) {
                 if (instance == null) {
-                    instance = createGithubApi();
+                    instance = new RetrofitService();
                 }
             }
         }
@@ -60,11 +61,20 @@ public class RetrofitService {
     }
 
 
-    private static GitHubApi createGithubApi() {
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(API)
-                .addConverterFactory(GsonConverterFactory.create())//Gson Convert
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create());//RxJava
-        return builder.build().create(GitHubApi.class);
+    private volatile static GitHubApi gitHubApi = null;
+
+    public static GitHubApi createGitHubApi() {
+        if (gitHubApi == null) {
+            synchronized (RetrofitService.class) {
+                if (gitHubApi == null) {
+                    gitHubApi = new Retrofit.Builder()
+                            .baseUrl(API)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                            .build().create(GitHubApi.class);
+                }
+            }
+        }
+        return gitHubApi;
     }
 }

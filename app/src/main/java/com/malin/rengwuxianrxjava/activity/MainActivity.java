@@ -1146,7 +1146,7 @@ public class MainActivity extends Activity {
         mImageView.setVisibility(View.GONE);
         mResultTextView.setVisibility(View.VISIBLE);
         mResultTextView.setText("");
-        Call call = RetrofitService.getInstance().getUser("androidmalin");
+        Call call = RetrofitService.getInstance().createGitHubApi().getUser("androidmalin");
 
         //asynchronous
         call.enqueue(new Callback<User>() {
@@ -1194,7 +1194,7 @@ public class MainActivity extends Activity {
         //TODO:2:观察者
         //TODO:3:订阅,被观察者 被 观察者订阅
 
-        Observable<User> observable = RetrofitService.getInstance().getUserObservable("androidmalin");
+        Observable<User> observable = RetrofitService.getInstance().createGitHubApi().getUserObservable("androidmalin");
         observable
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
@@ -1248,7 +1248,7 @@ public class MainActivity extends Activity {
         mResultTextView.setVisibility(View.GONE);
         mImageView.setVisibility(View.GONE);
 
-        mGitHubApi = RetrofitService.getInstance();
+        mGitHubApi = RetrofitService.getInstance().createGitHubApi();
         mResultListView = (ListView) findViewById(R.id.lv_list);
         mAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.item_log, R.id.item_log, new ArrayList<String>());
         mResultListView.setAdapter(mAdapter);
