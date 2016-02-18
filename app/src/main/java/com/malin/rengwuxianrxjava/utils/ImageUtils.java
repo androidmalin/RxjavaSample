@@ -33,6 +33,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -123,9 +125,16 @@ public class ImageUtils {
                 }
             }
         }
-        //Log.d(TAG,"w:"+bitmap.getWidth()+" h:"+bitmap.getHeight());
+//        Log.d(TAG,"w:"+bitmap.getWidth()+" h:"+bitmap.getHeight());
         if (bitmap != null) {
-            bitmap = Bitmap.createScaledBitmap(bitmap, reqWidth, reqHeight, true);
+            try {
+                bitmap = Bitmap.createScaledBitmap(bitmap, reqWidth, reqHeight, true);
+            }catch (OutOfMemoryError outOfMemoryError){
+                outOfMemoryError.printStackTrace();
+                System.gc();
+                return null;
+            }
+
         }
         return bitmap;
     }

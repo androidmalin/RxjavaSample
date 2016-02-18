@@ -9,8 +9,8 @@ android {
         applicationId "com.malin.rengwuxianrxjava"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 11
-        versionName "1.11"
+        versionCode 16
+        versionName "1.16"
     }
     buildTypes {
         release {
@@ -41,7 +41,6 @@ dependencies {
 
 
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile 'com.android.support:support-annotations:23.1.1'
     compile 'com.jakewharton.scalpel:scalpel:1.1.2'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.github.orhanobut:logger:1.12'
