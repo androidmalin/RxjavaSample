@@ -127,12 +127,12 @@ public class MainActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);//硬件加速
 
-        setContentViewLayout(true);
+        setContentViewLayout(false);
         initializeLogAndDeviceInfo();
         initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-//        testFuncation(1);//RxJava基础概念的练习
+//        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
+        testFuncation(22);//RxJava基础概念的练习
     }
 
 
@@ -179,7 +179,7 @@ public class MainActivity extends Activity {
         mResultTextView = (TextView) findViewById(R.id.tv_result);
         mSearchEditText = (EditText) findViewById(R.id.ed_search);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
-        method17();
+//        method17();
     }
 
 
@@ -1147,7 +1147,7 @@ public class MainActivity extends Activity {
         mImageView.setVisibility(View.GONE);
         mResultTextView.setVisibility(View.VISIBLE);
         mResultTextView.setText("");
-        Call call = RetrofitService.getInstance().createGitHubApi().getUser("androidmalin");
+        Call call = RetrofitService.getInstance().createService(GitHubApi.class).getUser("androidmalin");
 
         //asynchronous
         call.enqueue(new Callback<User>() {
@@ -1195,7 +1195,7 @@ public class MainActivity extends Activity {
         //TODO:2:观察者
         //TODO:3:订阅,被观察者 被 观察者订阅
 
-        Observable<User> observable = RetrofitService.getInstance().createGitHubApi().getUserObservable("androidmalin");
+        Observable<User> observable = RetrofitService.getInstance().createService(GitHubApi.class).getUserObservable("androidmalin");
         observable
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
@@ -1218,7 +1218,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.d("onError()");
+                        Logger.d("onError()=>" + e.getMessage());
                     }
 
                     @Override
@@ -1234,7 +1234,6 @@ public class MainActivity extends Activity {
 
 
 
-    private GitHubApi mGitHubApi;
     private ArrayAdapter<String> mAdapter;
     private CompositeSubscription mSubscription = new CompositeSubscription();
     private ListView mResultListView;
@@ -1249,12 +1248,11 @@ public class MainActivity extends Activity {
         mResultTextView.setVisibility(View.GONE);
         mImageView.setVisibility(View.GONE);
 
-        mGitHubApi = RetrofitService.getInstance().createGitHubApi();
         mResultListView = (ListView) findViewById(R.id.lv_list);
         mAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.item_log, R.id.item_log, new ArrayList<String>());
         mResultListView.setAdapter(mAdapter);
 
-        mSubscription.add(mGitHubApi.getContributorsObservable("square", "retrofit")
+        mSubscription.add(RetrofitService.getInstance().createService(GitHubApi.class).getContributorsObservable("square", "retrofit")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -1269,7 +1267,7 @@ public class MainActivity extends Activity {
                         Logger.d("Retrofit call 1 completed");
                         mProgressBar.setVisibility(View.GONE);
                         mResultListView.setVisibility(View.VISIBLE);
-                        ToastUtil.getInstance().showToast(MainActivity.this,"onCompleted");
+                        ToastUtil.getInstance().showToast(MainActivity.this, "onCompleted");
                     }
 
                     @Override
@@ -1281,7 +1279,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onNext(List<Contributor> contributors) {
-                        ToastUtil.getInstance().showToast(MainActivity.this,"onNext");
+                        ToastUtil.getInstance().showToast(MainActivity.this, "onNext");
                         for (Contributor c : contributors) {
                             mAdapter.add(String.format("%s has made %d contributions to %s",
                                     c.login,
