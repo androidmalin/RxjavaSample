@@ -51,6 +51,9 @@ public class ImageUtils {
 
     private static final String TAG = "PaoWuXian_RxJava";
 
+    private ImageUtils() {
+    }
+
     /**
      * 从assets文件夹中获取制定路径的图片的Bitmap
      *

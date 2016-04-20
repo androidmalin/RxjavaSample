@@ -30,6 +30,9 @@ import rx.subscriptions.CompositeSubscription;
 
 public class RxUtils {
 
+    private RxUtils() {
+    }
+
     public static void unsubscribeIfNotNull(Subscription subscription) {
         if (subscription != null) {
             subscription.unsubscribe();

@@ -38,6 +38,9 @@ import java.util.ArrayList;
  */
 public class DataFactory {
 
+    private DataFactory() {
+    }
+
     /**
      * 获取学生集合
      *

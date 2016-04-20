@@ -40,6 +40,10 @@ public class ClickUtils {
     private static long lastClickTime = 0L;
     private static final boolean isDebug = true;
     private static final String BLANK_LOG = "\t";
+
+    private ClickUtils() {
+    }
+
     /**
      * 用于处理频繁点击问题, 如果两次点击小于500毫秒则不予以响应
      *

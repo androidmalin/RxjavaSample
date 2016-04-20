@@ -39,6 +39,9 @@ import android.widget.ImageView;
  */
 
 public class RecycleBitmap {
+    private RecycleBitmap() {
+    }
+
     /**
      * 回收ImageView占用的图像内存;
      *
