@@ -64,14 +64,14 @@ public class DataFactory {
      */
     public static ArrayList<Student> getData() {
 
-        ArrayList<Student> students = new ArrayList<Student>();
+        ArrayList<Student> students = new ArrayList<>();
 
         ArrayList<Course> courses = null;
         Student student = null;
         Course course = null;
         for (int i = 0; i < 3; i++) {
 
-            courses = new ArrayList<Course>();
+            courses = new ArrayList<>();
 
             student = new Student();
             student.id = i;
