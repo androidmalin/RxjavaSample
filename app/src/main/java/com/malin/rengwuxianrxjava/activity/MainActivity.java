@@ -106,10 +106,15 @@ import rx.subscriptions.CompositeSubscription;
  * 备注:
  */
 public class MainActivity extends Activity {
+    public static final String HELLO = "Hello";
     private static final String TAG = "MainActivity";
     private static final String TAG_FOR_LOGGER = "MainActivity_I_LOVE_RXJAVA";
     private static final String ERROR = "故意让程序出错";
     private static final String JPG = ".jpg";
+    public static final String WORLD = "World";
+    public static final String 观察者_OBSERVER_ON_COMPLETED = "观察者-observer:onCompleted()";
+    public static final String 观察者_OBSERVER_ON_NEXT = "观察者-observer:onNext():";
+    public static final String RETROFIT = "retrofit";
     private int mCounter;//循环的计数器
     private AvoidRecoveredAppearErrorImageView mImageView;
     private Bitmap mManyBitmapSuperposition = null;
@@ -403,8 +408,8 @@ public class MainActivity extends Activity {
         Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext("Hello");
-                subscriber.onNext("World");
+                subscriber.onNext(HELLO);
+                subscriber.onNext(WORLD);
                 subscriber.onNext("!");
                 subscriber.onCompleted();
                 subscriber.onError(new Throwable());
@@ -423,7 +428,7 @@ public class MainActivity extends Activity {
         Observer<String> observer = new Observer<String>() {
             @Override
             public void onCompleted() {
-                Logger.d("观察者-observer:onCompleted()");
+                Logger.d(观察者_OBSERVER_ON_COMPLETED);
             }
 
             @Override
@@ -433,7 +438,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onNext(String s) {
-                Logger.d("观察者-observer:onNext():" + s);
+                Logger.d(观察者_OBSERVER_ON_NEXT + s);
                 // getException();//故意让程序出现异常,用于测试onError()方法的执行....
             }
         };
@@ -465,7 +470,7 @@ public class MainActivity extends Activity {
 
         //1:被观察者:
         //just(T...): 将传入的参数依次发送出来
-        Observable<String> observable = Observable.just("Hello", "World", "!");
+        Observable<String> observable = Observable.just(HELLO, WORLD, "!");
         // 将会依次调用：
         // onNext("Hello");
         // onNext("World");
@@ -477,7 +482,7 @@ public class MainActivity extends Activity {
         Observer<String> observer = new Observer<String>() {
             @Override
             public void onCompleted() {
-                Logger.d("观察者-observer:onCompleted()");
+                Logger.d(观察者_OBSERVER_ON_COMPLETED);
             }
 
             @Override
@@ -487,7 +492,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onNext(String s) {
-                Logger.d("观察者-observer:onNext():" + s);
+                Logger.d(观察者_OBSERVER_ON_NEXT + s);
                 // getException();//故意让程序出现异常,用于测试onError()方法的执行....
             }
         };
@@ -511,7 +516,7 @@ public class MainActivity extends Activity {
         //3:订阅-被观察者被观察者订阅
 
 
-        String[] array = new String[]{"Hello", "World", "!"};
+        String[] array = new String[]{HELLO, WORLD, "!"};
         //1:被观察者:
         //just(String[] array) 将传入的数组或 Iterable 拆分成具体对象后，依次发送出来。
         Observable observable = Observable.from(array);
@@ -526,7 +531,7 @@ public class MainActivity extends Activity {
         Observer observer = new Observer() {
             @Override
             public void onCompleted() {
-                Logger.d("观察者-observer:onCompleted()");
+                Logger.d(观察者_OBSERVER_ON_COMPLETED);
             }
 
             @Override
@@ -537,7 +542,7 @@ public class MainActivity extends Activity {
             @Override
             public void onNext(Object o) {
                 String str = (String) o;
-                Logger.d("观察者-observer:onNext():" + str);
+                Logger.d(观察者_OBSERVER_ON_NEXT + str);
                // getException();//故意让程序出现异常,用于测试onError()方法的执行....
             }
         };
@@ -557,7 +562,7 @@ public class MainActivity extends Activity {
      */
     private void method3() {
 
-        String[] array = new String[]{"Hello", "World", "!"};
+        String[] array = new String[]{HELLO, WORLD, "!"};
         //1:被观察者
         Observable observable = Observable.from(array);
 
@@ -585,7 +590,7 @@ public class MainActivity extends Activity {
     private void method4() {
 
         //1:被观察者
-        Observable observable = Observable.from(new String[]{"Hello", "World", "!"});
+        Observable observable = Observable.from(new String[]{HELLO, WORLD, "!"});
 
         //2:观察者
         Action1 onNextAction = new Action1() {
@@ -619,7 +624,7 @@ public class MainActivity extends Activity {
      */
     private void method5() {
         //1:被观察者
-        Observable observable = Observable.from(new String[]{"Hello", "World", "!"});
+        Observable observable = Observable.from(new String[]{HELLO, WORLD, "!"});
 
 
         //2:观察者
@@ -1254,7 +1259,7 @@ public class MainActivity extends Activity {
         mAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.item_log, R.id.item_log, new ArrayList<String>());
         mResultListView.setAdapter(mAdapter);
 
-        mSubscription.add(mGitHubApi.getContributorsObservable("square", "retrofit")
+        mSubscription.add(mGitHubApi.getContributorsObservable("square", RETROFIT)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -1286,12 +1291,12 @@ public class MainActivity extends Activity {
                             mAdapter.add(String.format("%s has made %d contributions to %s",
                                     c.login,
                                     c.contributions,
-                                    "retrofit"));
+                                    RETROFIT));
 
                             Logger.d(String.format("%s has made %d contributions to %s",
                                     c.login,
                                     c.contributions,
-                                    "retrofit"));
+                                    RETROFIT));
                         }
                     }
                 }));
