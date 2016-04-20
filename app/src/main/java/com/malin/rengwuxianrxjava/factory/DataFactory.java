@@ -66,9 +66,9 @@ public class DataFactory {
 
         ArrayList<Student> students = new ArrayList<Student>();
 
-        ArrayList<Course> courses = null;
-        Student student = null;
-        Course course = null;
+        ArrayList<Course> courses;
+        Student student;
+        Course course;
         for (int i = 0; i < 3; i++) {
 
             courses = new ArrayList<Course>();
