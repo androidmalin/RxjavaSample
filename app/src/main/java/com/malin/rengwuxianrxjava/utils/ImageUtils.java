@@ -68,7 +68,7 @@ public class ImageUtils {
         opts.inJustDecodeBounds = true;
         Bitmap bitmap = null;
         AssetManager assetManager = context.getResources().getAssets();
-        InputStream inputStream = null;
+        InputStream inputStream;
 
         try {
             inputStream = assetManager.open(imagePathName);
