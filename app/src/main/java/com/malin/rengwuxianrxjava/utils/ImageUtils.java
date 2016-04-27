@@ -188,7 +188,7 @@ public class ImageUtils {
      */
     public static ArrayList<String> getAssetsImageNamePathList(Context context, String folderName) {
 
-        ArrayList<String> imagePathList = new ArrayList<String>();
+        ArrayList<String> imagePathList = new ArrayList<>();
 
         String[] imageNameArray = getAssetsImageNameArray(context, folderName);
 

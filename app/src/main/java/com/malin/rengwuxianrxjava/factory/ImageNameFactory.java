@@ -46,7 +46,7 @@ public class ImageNameFactory {
      * @return
      */
     public static ArrayList<String> getAssetImageFolderName() {
-        ArrayList<String> assetsFolderNameList = new ArrayList<String>();
+        ArrayList<String> assetsFolderNameList = new ArrayList<>();
         assetsFolderNameList.add(FOLDER_NAME_ONE);
         assetsFolderNameList.add(FOLDER_NAME_TWO);
         assetsFolderNameList.add(FOLDER_NAME_THREE);
