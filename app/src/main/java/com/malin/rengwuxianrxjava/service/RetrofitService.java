@@ -45,9 +45,16 @@ public class RetrofitService {
     private static final String API = "https://api.github.com";
 
     protected RetrofitService() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(API)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 
     private volatile static RetrofitService instance = null;
+
+    private Retrofit retrofit;
 
     public static RetrofitService getInstance() {
         if (instance == null) {
@@ -60,21 +67,8 @@ public class RetrofitService {
         return instance;
     }
 
-
-    private volatile static GitHubApi gitHubApi = null;
-
-    public static GitHubApi createGitHubApi() {
-        if (gitHubApi == null) {
-            synchronized (RetrofitService.class) {
-                if (gitHubApi == null) {
-                    gitHubApi = new Retrofit.Builder()
-                            .baseUrl(API)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                            .build().create(GitHubApi.class);
-                }
-            }
-        }
-        return gitHubApi;
+    public <T> T createService(Class<T> clz){
+        return retrofit.create(clz);
     }
+
 }
