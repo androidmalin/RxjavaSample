@@ -73,7 +73,6 @@ import com.malin.rengwuxianrxjava.utils.ToastUtil;
 import com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
-import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -84,10 +83,10 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import hugo.weaving.DebugLog;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -1152,7 +1151,7 @@ public class MainActivity extends Activity {
         //asynchronous
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Response response, Retrofit retrofit) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User) response.body();
 
                 if (user == null) {
@@ -1180,7 +1179,7 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Logger.d("t = " + t.getMessage());
                 mProgressBar.setVisibility(View.GONE);
             }
