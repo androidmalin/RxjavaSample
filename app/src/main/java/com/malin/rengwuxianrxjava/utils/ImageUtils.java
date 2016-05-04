@@ -33,8 +33,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
-import com.orhanobut.logger.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

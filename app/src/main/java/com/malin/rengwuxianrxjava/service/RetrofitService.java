@@ -26,8 +26,6 @@
 package com.malin.rengwuxianrxjava.service;
 
 
-import com.malin.rengwuxianrxjava.githubapi.GitHubApi;
-
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;

@@ -23,7 +23,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.MainTabActivity"/>
     </application>
 
 </manifest>

@@ -59,7 +59,7 @@ public class ToastUtil {
         return instance;
     }
 
-    protected ToastUtil() {
+    private ToastUtil() {
 
     }
 

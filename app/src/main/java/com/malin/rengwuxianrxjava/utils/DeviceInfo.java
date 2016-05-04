@@ -59,7 +59,7 @@ public class DeviceInfo {
         return instance;
     }
 
-    protected DeviceInfo() {
+    private DeviceInfo() {
 
     }
 

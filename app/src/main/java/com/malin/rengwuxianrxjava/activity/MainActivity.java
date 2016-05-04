@@ -61,8 +61,8 @@ import com.malin.rengwuxianrxjava.factory.ImageNameFactory;
 import com.malin.rengwuxianrxjava.githubapi.GitHubApi;
 import com.malin.rengwuxianrxjava.model.Contributor;
 import com.malin.rengwuxianrxjava.model.Course;
-import com.malin.rengwuxianrxjava.model.User;
 import com.malin.rengwuxianrxjava.model.Student;
+import com.malin.rengwuxianrxjava.model.User;
 import com.malin.rengwuxianrxjava.service.RetrofitService;
 import com.malin.rengwuxianrxjava.utils.ClickUtils;
 import com.malin.rengwuxianrxjava.utils.DeviceInfo;
@@ -127,12 +127,12 @@ public class MainActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);//硬件加速
 
-        setContentViewLayout(false);
+        setContentViewLayout(true);
         initializeLogAndDeviceInfo();
         initView();
 //        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-//        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-        testFuncation(22);//RxJava基础概念的练习
+        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
+//        testFuncation(22);//RxJava基础概念的练习
     }
 
 
