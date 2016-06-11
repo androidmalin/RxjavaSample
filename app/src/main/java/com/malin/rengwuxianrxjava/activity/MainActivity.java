@@ -45,6 +45,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -70,7 +71,6 @@ import com.malin.rengwuxianrxjava.utils.ImageUtils;
 import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
 import com.malin.rengwuxianrxjava.utils.RxUtils;
 import com.malin.rengwuxianrxjava.utils.ToastUtil;
-import com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
     private static final String ERROR = "故意让程序出错";
     private static final String JPG = ".jpg";
     private int mCounter;//循环的计数器
-    private AvoidRecoveredAppearErrorImageView mImageView;
+    private ImageView mImageView;
     private Bitmap mManyBitmapSuperposition = null;
     private Canvas mCanvas = null;
     private ProgressBar mProgressBar;
@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
      * 用于显示图片的初始化
      */
     private void initView() {
-        mImageView = (AvoidRecoveredAppearErrorImageView) findViewById(R.id.iv_image);
+        mImageView = (ImageView) findViewById(R.id.iv_image);
         mResultTextView = (TextView) findViewById(R.id.tv_result);
         mSearchEditText = (EditText) findViewById(R.id.ed_search);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);

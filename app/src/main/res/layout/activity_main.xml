@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".MainActivity">
+    tools:context="com.malin.rengwuxianrxjava.activity.MainActivity">
 
 
     <EditText
@@ -23,7 +23,7 @@
     <requestFocus/>
 
     <!--android:background="@mipmap/ic_launcher"-->
-    <com.malin.rengwuxianrxjava.view.AvoidRecoveredAppearErrorImageView
+    <ImageView
         android:id="@+id/iv_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,10 +55,5 @@
         android:textColor="@android:color/holo_red_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-
-
-
-
 
 </RelativeLayout>
