@@ -23,44 +23,29 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.githubapi;
+package com.malin.rxjava.model;
 
-
-import com.malin.rengwuxianrxjava.model.Contributor;
-import com.malin.rengwuxianrxjava.model.User;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import rx.Observable;
+import java.util.ArrayList;
 
 /**
- * 类描述:GitHubApi
+ * 类描述:学生类
  * 创建人:malin.myemail@gmail.com
- * 创建时间:16-1-24
- * 备注:https://github.com/basil2style
+ * 创建时间:15-11-10.
+ * 备注:
  */
-public interface GitHubApi {
+public class Student {
 
-    /**
-     * See https://developer.github.com/v3/users/
-     */
+    public int id;//学号
+    public String name;//姓名
 
-    @GET("/users/{username}")
-    Call<User> getUser(@Path("username") String user);
+    public ArrayList<Course> courses;//学生选修的课程
 
-    @GET("/users/{username}")
-    Observable<User> getUserObservable(@Path("username") String username);
-
-
-    /**
-     * See https://developer.github.com/v3/repos/#list-contributors
-     */
-    @GET("/repos/{owner}/{repo}/contributors")
-    Observable<List<Contributor>> getContributorsObservable(@Path("owner") String owner, @Path("repo") String repo);
-
-    @GET("/repos/{owner}/{repo}/contributors")
-    List<Contributor> getContributors(@Path("owner") String owner, @Path("repo") String repo);
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", courses=" + courses +
+                '}';
+    }
 }

@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.utils;
+package com.malin.rxjava.utils;
 
 import android.os.SystemClock;
 import android.util.Log;

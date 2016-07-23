@@ -23,10 +23,10 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.factory;
+package com.malin.rxjava.factory;
 
-import com.malin.rengwuxianrxjava.model.Course;
-import com.malin.rengwuxianrxjava.model.Student;
+import com.malin.rxjava.model.Course;
+import com.malin.rxjava.model.Student;
 
 import java.util.ArrayList;
 

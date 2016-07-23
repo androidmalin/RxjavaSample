@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.activity;
+package com.malin.rxjava.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -49,22 +49,22 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
-import com.malin.rengwuxianrxjava.R;
-import com.malin.rengwuxianrxjava.constant.Constant;
-import com.malin.rengwuxianrxjava.factory.DataFactory;
-import com.malin.rengwuxianrxjava.factory.ImageNameFactory;
-import com.malin.rengwuxianrxjava.githubapi.GitHubApi;
-import com.malin.rengwuxianrxjava.model.Contributor;
-import com.malin.rengwuxianrxjava.model.Course;
-import com.malin.rengwuxianrxjava.model.Student;
-import com.malin.rengwuxianrxjava.model.User;
-import com.malin.rengwuxianrxjava.service.RetrofitService;
-import com.malin.rengwuxianrxjava.utils.ClickUtils;
-import com.malin.rengwuxianrxjava.utils.DeviceInfo;
-import com.malin.rengwuxianrxjava.utils.ImageUtils;
-import com.malin.rengwuxianrxjava.utils.RecycleBitmap;
-import com.malin.rengwuxianrxjava.utils.RxUtils;
-import com.malin.rengwuxianrxjava.utils.ToastUtil;
+import com.malin.rxjava.R;
+import com.malin.rxjava.constant.Constant;
+import com.malin.rxjava.factory.DataFactory;
+import com.malin.rxjava.factory.ImageNameFactory;
+import com.malin.rxjava.githubapi.GitHubApi;
+import com.malin.rxjava.model.Contributor;
+import com.malin.rxjava.model.Course;
+import com.malin.rxjava.model.Student;
+import com.malin.rxjava.model.User;
+import com.malin.rxjava.service.RetrofitService;
+import com.malin.rxjava.utils.ClickUtils;
+import com.malin.rxjava.utils.DeviceInfo;
+import com.malin.rxjava.utils.ImageUtils;
+import com.malin.rxjava.utils.RecycleBitmap;
+import com.malin.rxjava.utils.RxUtils;
+import com.malin.rxjava.utils.ToastUtil;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
@@ -76,7 +76,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import hugo.weaving.DebugLog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initializeLogAndDeviceInfo();
         initView();
-        testFuncation(1);//RxJava基础概念的练习
+        testFuncation(0);//RxJava基础概念的练习
     }
 
 
@@ -1494,7 +1493,6 @@ public class MainActivity extends AppCompatActivity {
     //-----------------------------------RxJava的实现--链式调用--十分简洁 -----------------------------------------------------------
 
 
-    @DebugLog
     private void rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell() {
         //1:被观察者:
 

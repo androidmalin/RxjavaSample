@@ -23,25 +23,44 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.application;
+package com.malin.rxjava.githubapi;
 
-import android.app.Application;
 
-import com.squareup.leakcanary.LeakCanary;
+import com.malin.rxjava.model.Contributor;
+import com.malin.rxjava.model.User;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import rx.Observable;
 
 /**
- * 类描述:Application
+ * 类描述:GitHubApi
  * 创建人:malin.myemail@gmail.com
- * 创建时间:15-12-16 上午11:00
- * 修改人:
- * 修改时间:
- * 修改备注:
+ * 创建时间:16-1-24
+ * 备注:https://github.com/basil2style
  */
-public class RxJavaApplication extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        LeakCanary.install(this);
-    }
+public interface GitHubApi {
 
+    /**
+     * See https://developer.github.com/v3/users/
+     */
+
+    @GET("/users/{username}")
+    Call<User> getUser(@Path("username") String user);
+
+    @GET("/users/{username}")
+    Observable<User> getUserObservable(@Path("username") String username);
+
+
+    /**
+     * See https://developer.github.com/v3/repos/#list-contributors
+     */
+    @GET("/repos/{owner}/{repo}/contributors")
+    Observable<List<Contributor>> getContributorsObservable(@Path("owner") String owner, @Path("repo") String repo);
+
+    @GET("/repos/{owner}/{repo}/contributors")
+    List<Contributor> getContributors(@Path("owner") String owner, @Path("repo") String repo);
 }

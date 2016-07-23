@@ -23,25 +23,27 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.model;
+package com.malin.rxjava.utils;
 
-/**
- * 类描述:课程类
- * 创建人:malin.myemail@gmail.com
- * 创建时间:15-11-13.
- * 备注:
- */
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
-public class Course {
+public class RxUtils {
 
-    public int id;//课程编号
-    public String name;//课程名称
+    private RxUtils() {
+    }
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public static void unsubscribeIfNotNull(Subscription subscription) {
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
+    }
+
+    public static CompositeSubscription getNewCompositeSubIfUnsubscribed(CompositeSubscription subscription) {
+        if (subscription == null || subscription.isUnsubscribed()) {
+            return new CompositeSubscription();
+        }
+
+        return subscription;
     }
 }

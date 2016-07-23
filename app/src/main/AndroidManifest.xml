@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.malin.rengwuxianrxjava">
+    package="com.malin.rxjava">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name=".application.RxJavaApplication"
+        android:name="com.malin.rxjava.application.RxJavaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/malin"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.MainActivity"
-            android:screenOrientation="portrait">
+
+        <activity android:name="com.malin.rxjava.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

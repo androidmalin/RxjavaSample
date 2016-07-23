@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.service;
+package com.malin.rxjava.service;
 
 
 import retrofit2.Retrofit;

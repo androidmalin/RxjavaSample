@@ -1,10 +1,6 @@
 ## RxJava
 RxJava之扔物线[给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)文章中的例子
 
-###说明
-最近正好有时间,边读文章,边将文章中的例子敲成代码.因为RxJava接触时间不长,代码中难免有些问题,希望大家可以给予指导和帮助.<br/>
-
-
 ###Build
 
 To build:

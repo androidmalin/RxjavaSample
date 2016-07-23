@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package com.malin.rengwuxianrxjava.model;
+package com.malin.rxjava.model;
 
 /**
  * 类描述:GitHub API 中的User
