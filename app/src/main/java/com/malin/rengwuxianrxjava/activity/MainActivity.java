@@ -25,7 +25,6 @@
 
 package com.malin.rengwuxianrxjava.activity;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -33,15 +32,11 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -54,7 +49,6 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
-import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.malin.rengwuxianrxjava.R;
 import com.malin.rengwuxianrxjava.constant.Constant;
 import com.malin.rengwuxianrxjava.factory.DataFactory;
@@ -104,7 +98,7 @@ import rx.subscriptions.CompositeSubscription;
  * 创建时间:15-11-10.
  * 备注:
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String TAG_FOR_LOGGER = "MainActivity_I_LOVE_RXJAVA";
     private static final String ERROR = "故意让程序出错";
@@ -114,24 +108,16 @@ public class MainActivity extends Activity {
     private Bitmap mManyBitmapSuperposition = null;
     private Canvas mCanvas = null;
     private ProgressBar mProgressBar;
-    private ScalpelFrameLayout mScalpelFrameLayout;
-    private boolean mIsOpenScalpel = false;
     private EditText mSearchEditText;
     private TextView mResultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);//硬件加速
-
-        setContentViewLayout(true);
+        setContentView(R.layout.activity_main);
         initializeLogAndDeviceInfo();
         initView();
-//        miZhiSuoJinAndNestedLoopAndCallbackHell();//演示谜之缩进--嵌套循环--回调地狱
-        rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell();//使用RxJava解决问题
-//        testFuncation(22);//RxJava基础概念的练习
+        testFuncation(1);//RxJava基础概念的练习
     }
 
 
@@ -142,33 +128,7 @@ public class MainActivity extends Activity {
     private void initializeLogAndDeviceInfo() {
         Logger.init(TAG_FOR_LOGGER).logLevel(LogLevel.FULL);//Use LogLevel.NONE for the release versions.
         DeviceInfo.getInstance().initializeScreenInfo(this);
-//        int bitmapSize = ImageUtils.getBitmapSize(ImageUtils.getLocalBitmapFromResFolder(getApplicationContext(),R.mipmap.ic_launcher));
-//        Logger.d("size:"+bitmapSize);
-//        Logger.d(""+DeviceInfo.screenWidthForPortrait+"x"+DeviceInfo.screenHeightForPortrait);
-//        Logger.d("mDensity--> " + DeviceInfo.mDensity);
-//        Logger.d("mDensityDpi--> " + DeviceInfo.mDensityDpi);
     }
-
-    /**
-     * 给Activity设置布局
-     *
-     * @param isOpenScalpe:是否开启使用Scalpel查看三维模式的层次结构
-     */
-    private void setContentViewLayout(boolean isOpenScalpe) {
-        getWindow().setBackgroundDrawable(null);
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
-        if (isOpenScalpe) {
-            mScalpelFrameLayout = new ScalpelFrameLayout(this);
-            mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);//Enable the 3D interaction
-            mScalpelFrameLayout.setDrawIds(true);//Toggle wireframe display
-            mScalpelFrameLayout.setDrawIds(true);// Toggle view ID display
-            mScalpelFrameLayout.addView(view);
-            setContentView(mScalpelFrameLayout);
-        } else {
-            setContentView(view);
-        }
-    }
-
 
     /**
      * 用于显示图片的初始化
@@ -178,7 +138,6 @@ public class MainActivity extends Activity {
         mResultTextView = (TextView) findViewById(R.id.tv_result);
         mSearchEditText = (EditText) findViewById(R.id.ed_search);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
-//        method17();
     }
 
 
@@ -188,207 +147,6 @@ public class MainActivity extends Activity {
     private void getException() {
         int errorCode = Integer.valueOf(ERROR);
     }
-
-
-    //-----------------------------------谜之缩进--嵌套循环--回调地狱 -----------------------------------------------------------
-
-    /**
-     * 实现的功能:获取assets文件夹下所有文件夹中的jpg图片,并且将所有的图片画到一个ImageView上,没有实际的用处,只是为了说明问题--- 谜之缩进--嵌套循环--回调地狱
-     * 不使用RxJava的写法-- 谜之缩进--回调地狱
-     */
-    //思路:需要以下6个步骤完成
-    //1:遍历获取assets文件夹下所有的文件夹的名称
-    //2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
-    //3:过滤掉非JPG格式的图片
-    //4:获取某个路径下图片的bitmap
-    //5:将Bitmap绘制到画布上
-    //6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
-    private void miZhiSuoJinAndNestedLoopAndCallbackHell() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mProgressBar.setVisibility(View.VISIBLE);
-                    }
-                });
-                //1:遍历获取assets文件夹下所有的文件夹的名称
-                ArrayList<String> assetsFolderNameList = ImageNameFactory.getAssetImageFolderName();
-
-                for (String folderName : assetsFolderNameList) {
-
-                    //2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
-                    ArrayList<String> imagePathList = ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName);
-
-                    for (final String imagePathName : imagePathList) {
-                        //3:过滤掉非JPG格式的图片
-                        if (imagePathName.endsWith(JPG)) {
-
-                            //4:获取某个路径下图片的bitmap
-                            final Bitmap bitmap = ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName, Constant.IMAGE_WITH, Constant.IMAGE_HEIGHT);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //Logger.d(mCounter + ":" + imagePathName);
-
-                                    //5:将Bitmap绘制到画布上
-                                    createSingleImageFromMultipleImages(bitmap, mCounter);
-                                    mCounter++;
-
-                                }
-                            });
-                        }
-                    }
-                }
-
-
-                //6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mImageView.setImageBitmap(mManyBitmapSuperposition);
-                        mProgressBar.setVisibility(View.GONE);
-                    }
-                });
-
-            }
-        }).start();
-    }
-
-
-    /**
-     * 就是循环在画布上画图,呈现一种整齐的线性分布:像方格
-     * 所有绘制都绘制到了创建Canvas时传入的Bitmap上面
-     *
-     * @param bitmap:每张图片对应的Bitamp
-     * @param mCounter:一个自增的整数从0开始
-     */
-    //实现思路:
-    //1:产生和手机屏幕尺寸同样大小的Bitmap
-    //2:以Bitmap对象创建一个画布，将内容都绘制在Bitmap上,这个Bitmap用来存储所有绘制在Canvas上的像素信息.
-    //3:这里将所有图片压缩成了相同的尺寸均为正方形图(64px*64px)
-    //4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
-    //5:将Bitmap画到指定坐标
-    private void createSingleImageFromMultipleImages(Bitmap bitmap, int mCounter) {
-        if (mCounter == 0) {
-            //1:产生和手机屏幕尺寸同样大小的Bitmap
-            mManyBitmapSuperposition = Bitmap.createBitmap(DeviceInfo.screenWidthForPortrait, DeviceInfo.screenHeightForPortrait, bitmap.getConfig());
-
-            //2:以Bitmap对象创建一个画布，则将内容都绘制在Bitmap上
-            mCanvas = new Canvas(mManyBitmapSuperposition);
-        }
-        if (mCanvas != null) {
-            int left;//距离左边的距离
-            int top;//距离顶部的距离
-
-            //3:这里将所有图片压缩成了相同的尺寸均为正方形图(64px*64px)
-            int imageWidth = Constant.IMAGE_WITH;
-            int imageHeight = Constant.IMAGE_HEIGHT;
-            int number = DeviceInfo.screenHeightForPortrait / imageHeight;//手机竖屏模式下,垂直方向上绘制图片的个数
-
-            //4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
-            if (mCounter >= (mCounter / number) * number && mCounter < (((mCounter / number) + 1) * number)) {//[0,number)
-                left = (mCounter / number) * imageWidth;
-                top = (mCounter % number) * imageHeight;
-                // Log.d(TAG,""+mCounter+" left="+left+" top="+top);
-
-                //5:将Bitmap画到指定坐标
-                mCanvas.drawBitmap(bitmap, left, top, null);
-            }
-        }
-    }
-
-
-    /**
-     * 用于测试除法和取余
-     */
-    private void showMath() {
-        String TAG = "Math";
-        for (int i = 0; i < 100; i++) {
-            int ss = i / 10;
-            int ww = i % 10;
-            Log.d(TAG, i + "/10 ==" + ss);
-            Log.d(TAG, i + "%10 ==" + ww);
-        }
-    }
-
-
-    //-----------------------------------RxJava的实现--链式调用--十分简洁 -----------------------------------------------------------
-
-
-    @DebugLog
-    private void rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell() {
-        //1:被观察者:
-
-        //2:数据转换
-
-        //3:设置事件的产生发生在IO线程
-
-        //4:设置事件的消费发生在主线程
-
-        //5:观察者
-
-        //6:订阅:被观察者被观察者订阅
-        mGoToRecycleImageView = false;
-        Observable.from(ImageNameFactory.getAssetImageFolderName())
-                //assets下一个文件夹的名称,assets下一个文件夹中一张图片的路径
-                .flatMap(new Func1<String, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(String folderName) {
-                        return Observable.from(ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName));
-                    }
-                })
-                        //过滤,筛选出jpg图片
-                .filter(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String imagePathNameAll) {
-                        return imagePathNameAll.endsWith(JPG);
-                    }
-                })
-                        //将图片路径转换为对应图片的Bitmap
-                .map(new Func1<String, Bitmap>() {
-                    @Override
-                    public Bitmap call(String imagePathName) {
-                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName, Constant.IMAGE_WITH, Constant.IMAGE_HEIGHT);
-                    }
-                })
-                .map(new Func1<Bitmap, Void>() {
-                    @Override
-                    public Void call(Bitmap bitmap) {
-                        createSingleImageFromMultipleImages(bitmap, mCounter);
-                        mCounter++;
-                        return null;
-                    }
-                })
-                .subscribeOn(Schedulers.io())//设置事件的产生发生在IO线程
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        mProgressBar.setVisibility(View.VISIBLE);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())//设置事件的消费发生在主线程
-                .subscribe(new Subscriber<Void>() {
-                    @Override
-                    public void onCompleted() {
-                        mImageView.setImageBitmap(mManyBitmapSuperposition);
-                        mProgressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        //Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(Void aVoid) {
-
-                    }
-                });
-    }
-
 
     //-----------------------------------------------0:RxJava基础练习-----------------------------------------------------------
     //概念解释
@@ -1083,8 +841,6 @@ public class MainActivity extends Activity {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        mIsOpenScalpel = !mIsOpenScalpel;
-                        mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
                         Toast.makeText(MainActivity.this, "long click", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -1610,45 +1366,202 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    //-----------------------------------谜之缩进--嵌套循环--回调地狱 -----------------------------------------------------------
+
+    /**
+     * 实现的功能:获取assets文件夹下所有文件夹中的jpg图片,并且将所有的图片画到一个ImageView上,没有实际的用处,只是为了说明问题--- 谜之缩进--嵌套循环--回调地狱
+     * 不使用RxJava的写法-- 谜之缩进--回调地狱
+     */
+    //思路:需要以下6个步骤完成
+    //1:遍历获取assets文件夹下所有的文件夹的名称
+    //2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
+    //3:过滤掉非JPG格式的图片
+    //4:获取某个路径下图片的bitmap
+    //5:将Bitmap绘制到画布上
+    //6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
+    private void miZhiSuoJinAndNestedLoopAndCallbackHell() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                });
+                //1:遍历获取assets文件夹下所有的文件夹的名称
+                ArrayList<String> assetsFolderNameList = ImageNameFactory.getAssetImageFolderName();
+
+                for (String folderName : assetsFolderNameList) {
+
+                    //2:遍历获取获取assets文件夹下某个文件夹中所有图片路径的集合
+                    ArrayList<String> imagePathList = ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName);
+
+                    for (final String imagePathName : imagePathList) {
+                        //3:过滤掉非JPG格式的图片
+                        if (imagePathName.endsWith(JPG)) {
+
+                            //4:获取某个路径下图片的bitmap
+                            final Bitmap bitmap = ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName, Constant.IMAGE_WITH, Constant.IMAGE_HEIGHT);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Logger.d(mCounter + ":" + imagePathName);
+
+                                    //5:将Bitmap绘制到画布上
+                                    createSingleImageFromMultipleImages(bitmap, mCounter);
+                                    mCounter++;
+
+                                }
+                            });
+                        }
+                    }
+                }
+
+
+                //6:循环结束后更新UI,给ImageView设置最后绘制完成后的Bitmap,隐藏ProgressBar
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mImageView.setImageBitmap(mManyBitmapSuperposition);
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                });
+
+            }
+        }).start();
     }
 
 
+    /**
+     * 就是循环在画布上画图,呈现一种整齐的线性分布:像方格
+     * 所有绘制都绘制到了创建Canvas时传入的Bitmap上面
+     *
+     * @param bitmap:每张图片对应的Bitamp
+     * @param mCounter:一个自增的整数从0开始
+     */
+    //实现思路:
+    //1:产生和手机屏幕尺寸同样大小的Bitmap
+    //2:以Bitmap对象创建一个画布，将内容都绘制在Bitmap上,这个Bitmap用来存储所有绘制在Canvas上的像素信息.
+    //3:这里将所有图片压缩成了相同的尺寸均为正方形图(64px*64px)
+    //4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
+    //5:将Bitmap画到指定坐标
+    private void createSingleImageFromMultipleImages(Bitmap bitmap, int mCounter) {
+        if (mCounter == 0) {
+            //1:产生和手机屏幕尺寸同样大小的Bitmap
+            mManyBitmapSuperposition = Bitmap.createBitmap(DeviceInfo.screenWidthForPortrait, DeviceInfo.screenHeightForPortrait, bitmap.getConfig());
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id==R.id.action_settings_open_scalpel||id == R.id.action_settings_close_scalpel){
-            clickEvent(id);
+            //2:以Bitmap对象创建一个画布，则将内容都绘制在Bitmap上
+            mCanvas = new Canvas(mManyBitmapSuperposition);
         }
-        return super.onOptionsItemSelected(item);
+        if (mCanvas != null) {
+            int left;//距离左边的距离
+            int top;//距离顶部的距离
+
+            //3:这里将所有图片压缩成了相同的尺寸均为正方形图(64px*64px)
+            int imageWidth = Constant.IMAGE_WITH;
+            int imageHeight = Constant.IMAGE_HEIGHT;
+            int number = DeviceInfo.screenHeightForPortrait / imageHeight;//手机竖屏模式下,垂直方向上绘制图片的个数
+
+            //4:计算获取绘制每个Bitmap的坐标,距离屏幕左边和上边的距离,距离左边的距离不断自增,距离顶部的距离循环自增
+            if (mCounter >= (mCounter / number) * number && mCounter < (((mCounter / number) + 1) * number)) {//[0,number)
+                left = (mCounter / number) * imageWidth;
+                top = (mCounter % number) * imageHeight;
+                // Log.d(TAG,""+mCounter+" left="+left+" top="+top);
+
+                //5:将Bitmap画到指定坐标
+                mCanvas.drawBitmap(bitmap, left, top, null);
+            }
+        }
     }
-    private boolean clickEvent(int id) {
-        boolean is = false;
-        switch (id) {
-            case R.id.action_settings_open_scalpel: {
-                mIsOpenScalpel = true;
-                mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
-                is = true;
-                break;
-            }
-            case R.id.action_settings_close_scalpel: {
-                mIsOpenScalpel = false;
-                mScalpelFrameLayout.setLayerInteractionEnabled(mIsOpenScalpel);
-                is = true;
-                break;
-            }
-        }
-        return is;
 
+
+    /**
+     * 用于测试除法和取余
+     */
+    private void showMath() {
+        String TAG = "Math";
+        for (int i = 0; i < 100; i++) {
+            int ss = i / 10;
+            int ww = i % 10;
+            Log.d(TAG, i + "/10 ==" + ss);
+            Log.d(TAG, i + "%10 ==" + ww);
+        }
+    }
+
+
+    //-----------------------------------RxJava的实现--链式调用--十分简洁 -----------------------------------------------------------
+
+
+    @DebugLog
+    private void rxJavaSolveMiZhiSuoJinAndNestedLoopAndCallbackHell() {
+        //1:被观察者:
+
+        //2:数据转换
+
+        //3:设置事件的产生发生在IO线程
+
+        //4:设置事件的消费发生在主线程
+
+        //5:观察者
+
+        //6:订阅:被观察者被观察者订阅
+        mGoToRecycleImageView = false;
+        Observable.from(ImageNameFactory.getAssetImageFolderName())
+                //assets下一个文件夹的名称,assets下一个文件夹中一张图片的路径
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String folderName) {
+                        return Observable.from(ImageUtils.getAssetsImageNamePathList(getApplicationContext(), folderName));
+                    }
+                })
+                //过滤,筛选出jpg图片
+                .filter(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String imagePathNameAll) {
+                        return imagePathNameAll.endsWith(JPG);
+                    }
+                })
+                //将图片路径转换为对应图片的Bitmap
+                .map(new Func1<String, Bitmap>() {
+                    @Override
+                    public Bitmap call(String imagePathName) {
+                        return ImageUtils.getImageBitmapFromAssetsFolderThroughImagePathName(getApplicationContext(), imagePathName, Constant.IMAGE_WITH, Constant.IMAGE_HEIGHT);
+                    }
+                })
+                .map(new Func1<Bitmap, Void>() {
+                    @Override
+                    public Void call(Bitmap bitmap) {
+                        createSingleImageFromMultipleImages(bitmap, mCounter);
+                        mCounter++;
+                        return null;
+                    }
+                })
+                .subscribeOn(Schedulers.io())//设置事件的产生发生在IO线程
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//设置事件的消费发生在主线程
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onCompleted() {
+                        mImageView.setImageBitmap(mManyBitmapSuperposition);
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Void aVoid) {
+
+                    }
+                });
     }
 }

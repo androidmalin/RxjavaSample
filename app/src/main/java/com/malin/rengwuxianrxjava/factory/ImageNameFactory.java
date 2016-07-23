@@ -35,10 +35,10 @@ import java.util.ArrayList;
  */
 public class ImageNameFactory {
 
-    private static final String FOLDER_NAME_ONE = "guangtouge";
-    private static final String FOLDER_NAME_TWO = "paowuxian";
-    private static final String FOLDER_NAME_THREE = "rengwuxian";
-    private static final String FOLDER_NAME_FOUR = "thisisdaimajiagirlfriends";
+    private static final String FOLDER_NAME_ONE = "one";
+    private static final String FOLDER_NAME_TWO = "two";
+    private static final String FOLDER_NAME_THREE = "three";
+    private static final String FOLDER_NAME_FOUR = "four";
 
     private ImageNameFactory() {
     }

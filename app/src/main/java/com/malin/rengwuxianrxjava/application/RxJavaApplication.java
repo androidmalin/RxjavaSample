@@ -25,14 +25,8 @@
 
 package com.malin.rengwuxianrxjava.application;
 
-import android.app.ActivityManager;
 import android.app.Application;
-import android.content.Context;
-import android.os.Build;
 
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -44,38 +38,10 @@ import com.squareup.leakcanary.LeakCanary;
  * 修改备注:
  */
 public class RxJavaApplication extends Application {
-
     @Override
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-
-        //init ImageLoder
-        initImageLoader(getApplicationContext());
     }
 
-    /**
-     * init ImageLoader
-     * @param context
-     */
-    private static void initImageLoader(Context context) {
-        int memoryCacheSize;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {//2.0
-            int memClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
-            if (memClass>16) {
-                memClass = 16;
-            }
-            memoryCacheSize = (memClass / 8) * 1024 * 1024;
-        } else {
-            memoryCacheSize = 2 * 1024 * 1024;
-        }
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-                .denyCacheImageMultipleSizesInMemory()
-                .memoryCacheExtraOptions(720, 1280) // default = device screen dimensions:设备的屏幕尺寸
-                .memoryCache(new UsingFreqLimitedMemoryCache(memoryCacheSize))//内存缓存
-                .diskCacheExtraOptions(720, 1280, null)
-                .diskCacheSize(20 * 1024 * 1024)//SDCARD缓存:20M
-                .build();
-        ImageLoader.getInstance().init(config);
-    }
 }
