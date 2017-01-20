@@ -40,7 +40,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.github.orhanobut:logger:1.12'
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
-    //retrofit+gson+rxjava
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'

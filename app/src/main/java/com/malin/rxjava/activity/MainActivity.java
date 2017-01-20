@@ -25,6 +25,7 @@
 
 package com.malin.rxjava.activity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -32,6 +33,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -50,6 +52,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.malin.rxjava.R;
+import com.malin.rxjava.application.RxJavaApplication;
 import com.malin.rxjava.constant.Constant;
 import com.malin.rxjava.factory.DataFactory;
 import com.malin.rxjava.factory.ImageNameFactory;
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private EditText mSearchEditText;
     private TextView mResultTextView;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,10 +120,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initializeLogAndDeviceInfo();
         initView();
-        testFuncation(0);//RxJava基础概念的练习
+        initData();
+        testFuncation(9);//RxJava基础概念的练习
     }
-
-
 
     /**
      * 初始化Logger日志输出配置和获取手机尺寸信息
@@ -133,12 +136,16 @@ public class MainActivity extends AppCompatActivity {
      * 用于显示图片的初始化
      */
     private void initView() {
+        mContext = this;
         mImageView = (ImageView) findViewById(R.id.iv_image);
         mResultTextView = (TextView) findViewById(R.id.tv_result);
         mSearchEditText = (EditText) findViewById(R.id.ed_search);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
     }
 
+    private void initData() {
+        mContext = this;
+    }
 
     /**
      * 故意让程序出现异常,可以用来测试
@@ -244,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNext(String s) {
                 Logger.d("观察者-observer:onNext():" + s);
-                // getException();//故意让程序出现异常,用于测试onError()方法的执行....
+                //getException();//故意让程序出现异常,用于测试onError()方法的执行....
             }
         };
 
@@ -294,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNext(Object o) {
                 String str = (String) o;
                 Logger.d("观察者-observer:onNext():" + str);
-               // getException();//故意让程序出现异常,用于测试onError()方法的执行....
+                // getException();//故意让程序出现异常,用于测试onError()方法的执行....
             }
         };
 
@@ -472,13 +479,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void call(Subscriber<? super Drawable> subscriber) {
                 Logger.d("被观察者");
-                Drawable drawable = getResources().getDrawable(drawableRes);
+                Drawable drawable = ContextCompat.getDrawable(RxJavaApplication.getApplication(), drawableRes);
                 subscriber.onNext(drawable);
                 subscriber.onCompleted();
             }
         })
                 .subscribeOn(Schedulers.io())//事件产生的线程。指定 subscribe() 发生在 IO 线程
-                // doOnSubscribe() 之后有 subscribeOn() 的话，它将执行在离它最近的 subscribeOn() 所指定的线程。这里将执行在主线程中
+                // doOnSubscribe() 之后有 observeOn() 的话，它将执行在离它最近的 observeOn() 所指定的线程。这里将执行在主线程中
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
@@ -491,7 +498,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Subscriber<Drawable>() {   //3:订阅 //2:观察者
                     @Override
                     public void onCompleted() {
-                        if (mProgressBar!=null){
+                        if (mProgressBar != null) {
                             mProgressBar.setVisibility(View.GONE);
                         }
                         Logger.d("观察者 onCompleted()");
@@ -500,7 +507,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        if (mProgressBar!=null){
+                        if (mProgressBar != null) {
                             mProgressBar.setVisibility(View.GONE);
                         }
                         Logger.d("观察者 onError()");
@@ -512,6 +519,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(Drawable drawable) {
                         Toast.makeText(MainActivity.this, "观察者 onNext()", Toast.LENGTH_SHORT).show();
                         Logger.d("观察者 onNext()");
+                        if (mImageView == null || drawable == null) return;
                         mImageView.setImageDrawable(drawable);
                     }
                 });
@@ -529,11 +537,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public Drawable call(Integer integer) {// 参数类型 String
                         Logger.d("integer:" + integer);
-                        return getResources().getDrawable(integer);
+                        return ContextCompat.getDrawable(RxJavaApplication.getApplication(), integer);
                     }
                 })
                 .subscribeOn(Schedulers.io())//事件产生的线程。指定 subscribe() 发生在 IO 线程
-                //doOnSubscribe() 之后有 subscribeOn() 的话，它将执行在离它最近的 subscribeOn() 所指定的线程。这里将执行在主线程中
+                //doOnSubscribe() 之后有 observeOn() 的话，它将执行在离它最近的 observeOn() 所指定的线程。这里将执行在主线程中
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
@@ -563,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Drawable drawable) {
+                        if (mImageView == null || drawable == null) return;
                         mImageView.setImageDrawable(drawable);
                         Logger.d("观察者:onNext(Drawable drawable):" + drawable.toString());
                     }
@@ -591,7 +600,7 @@ public class MainActivity extends AppCompatActivity {
      * {@link #method8()}
      */
     private void method9() {
-       //just(T...): 将传入的参数依次发送出来,实现遍历的目的
+        //just(T...): 将传入的参数依次发送出来,实现遍历的目的
         Observable.from(DataFactory.getData())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -605,7 +614,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     *  需要:输出学生的姓名:将每个学生的(姓名)依次发射出去
+     * 需要:输出学生的姓名:将每个学生的(姓名)依次发射出去
      * RxJava解决方案
      * {@link #method9()}
      */
@@ -709,7 +718,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(Student student) {
                         ArrayList<Course> courses = student.courses;
                         for (Course course : courses) {
-                            Logger.d("观察者:" +course.name);
+                            Logger.d("观察者:" + course.name);
                         }
                     }
                 });
@@ -744,6 +753,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //---------------------------------------10: flatMap()的使用-------------------------------------------------------------
+
     /**
      * 需要:输出每一个学生选修的课程,对method13的简化
      * 嵌套循环的RxJava解决方案
@@ -782,14 +792,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-     //---------------------------------------10: RxBinding的引入-------------------------------------------------------------
+    //---------------------------------------10: RxBinding的引入-------------------------------------------------------------
 
 
     /**
      * 需要防止快速连续点击,短时间内连续点击.
-     *
      */
-    private void method15(){
+    private void method15() {
 
 
         mImageView.setOnClickListener(new View.OnClickListener() {
@@ -809,8 +818,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
+
     /**
      * RxBinding
      * RxBinding 是 Jake Wharton 的一个开源库，它提供了一套在 Android 平台上的基于 RxJava 的 Binding API。
@@ -848,7 +857,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * EditText,每隔500ms,去响应变化
      */
-    private void method18(){
+    private void method18() {
         mSearchEditText.setVisibility(View.VISIBLE);
         RxTextView.textChangeEvents(mSearchEditText)
                 .debounce(500, TimeUnit.MILLISECONDS)
@@ -866,8 +875,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                         String changedMessage = textViewTextChangeEvent.text().toString();
                         Logger.d(TAG, changedMessage);
-                        if (!TextUtils.isEmpty(changedMessage)){
-                            ToastUtil.getInstance().showToast(MainActivity.this,changedMessage);
+                        if (!TextUtils.isEmpty(changedMessage)) {
+                            ToastUtil.getInstance().showToast(MainActivity.this, changedMessage);
                         }
                     }
                 });
@@ -879,7 +888,6 @@ public class MainActivity extends AppCompatActivity {
     //操作符号 Range操作符根据出入的初始值n和数目m发射一系列大于等于n的m个值
     //例如:实现:输出1,2,3,4,5
     // 其使用也非常方便，仅仅制定初始值和数目就可以了，不用自己去实现对Subscriber的调用
-
     private void method19() {
         Observable.range(1, 5)
                 .subscribeOn(Schedulers.io())
@@ -944,7 +952,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 使用Retrofit网络库,同时使用RxJava 获取androidmalin的GitHub个人信息
      */
-    private void method22(){
+    private void method22() {
         //TODO:1:被观察者,数据源
         //TODO:2:观察者
         //TODO:3:订阅,被观察者 被 观察者订阅
@@ -977,7 +985,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(User user) {
-                        Logger.d( "onNext()");
+                        Logger.d("onNext()");
                         String message = "Github Name :" + user.name + "\nWebsite :" + user.blog + "\nCompany Name :" + user.company;
                         Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
                         Logger.d(message);
@@ -985,7 +993,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
 
     private ArrayAdapter<String> mAdapter;
@@ -1048,7 +1055,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }));
     }
-
 
 
     private static final int COUNT = 10;
@@ -1219,28 +1225,28 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            case 19:{
+            case 19: {
                 method19();
                 break;
             }
 
-            case 20:{
+            case 20: {
                 method20();
                 break;
             }
 
-            case 21:{
+            case 21: {
                 method21();
                 break;
             }
 
 
-            case 22:{
+            case 22: {
                 method22();
                 break;
             }
 
-            case 23:{
+            case 23: {
                 method23();
                 break;
             }
@@ -1307,8 +1313,8 @@ public class MainActivity extends AppCompatActivity {
      * 递归释放所有子view涉及的图片，背景，DrawingCache，监听器等等资源，
      * 让Activity成为一个不占资源的空壳，泄露了也不会导致图片资源被持有。
      *
-     * @description Unbind the rootView
      * @param view:the root view of the layout
+     * @description Unbind the rootView
      * @author malin.myemail@gmail.com
      * @link http://stackoverflow.com/questions/9461364/exception-in-unbinddrawables
      * http://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=400656149&idx=1&sn=122b4f4965fafebf78ec0b4fce2ef62a&3rd=MzA3MDU4NTYzMw==&scene=6#rd

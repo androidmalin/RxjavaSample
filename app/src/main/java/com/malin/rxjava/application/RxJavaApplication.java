@@ -37,9 +37,15 @@ import android.app.Application;
  * 修改备注:
  */
 public class RxJavaApplication extends Application {
+
+    private static RxJavaApplication application;
     @Override
     public void onCreate() {
         super.onCreate();
+        application = this;
     }
 
+    public static RxJavaApplication getApplication(){
+        return application;
+    }
 }
