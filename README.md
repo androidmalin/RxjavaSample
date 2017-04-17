@@ -1,7 +1,7 @@
 ## RxJava
 RxJava之扔物线[给Android开发者的RxJava详解](http://gank.io/post/560e15be2dca930e00da1083)文章中的例子
 
-###Build
+### Build
 
 To build:
 >$ git clone https://github.com/androidmalin/RengwuxianRxjava.git<br/>
@@ -9,7 +9,7 @@ To build:
 >$ gradle clean --stacktrace(./gradlew clean --stacktrace )<br/>
 
 
-###Bugs and Feedback
+### Bugs and Feedback
 
 For bugs, questions and discussions please use the [Github Issues](https://github.com/androidmalin/RengwuxianRxjava/issues).
 
@@ -36,13 +36,13 @@ For bugs, questions and discussions please use the [Github Issues](https://githu
 [shwenzhang](https://github.com/shwenzhang)|[Android内存优化杂谈](http://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=400656149&idx=1&sn=122b4f4965fafebf78ec0b4fce2ef62a&3rd=MzA3MDU4NTYzMw==&scene=6#rd)| 内存优化
 
 
-###About me
+### About me
 
 [我的CSDN博客](http://blog.csdn.net/androidmalin):[http://blog.csdn.net/androidmalin](http://blog.csdn.net/androidmalin)<br/>
 [我的微博](http://weibo.com/androidmalin):[http://weibo.com/androidmalin](http://weibo.com/androidmalin)<br/>
 
 
-###License
+### License
 <pre>
 The MIT License (MIT)
 
